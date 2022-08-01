@@ -5,7 +5,7 @@ import RegisterView from '../../../views/auth/register';
 
 const RegisterPage: NextPage = () => {
   return (
-    <FadePageTransition durationInSec={0}>
+    <FadePageTransition>
       <Head>
         <title>Get Med Go | Register</title>
       </Head>

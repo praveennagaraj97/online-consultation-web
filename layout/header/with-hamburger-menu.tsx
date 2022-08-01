@@ -6,22 +6,25 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { BiLocationPlus } from 'react-icons/bi';
 import { BsFillCartPlusFill } from 'react-icons/bs';
 import { CgCloseO, CgMenuRound } from 'react-icons/cg';
-import { FaBlog, FaFilePrescription } from 'react-icons/fa';
-import { GiDoctorFace, GiMedicines } from 'react-icons/gi';
+import { FaBlog, FaFilePrescription, FaUserNurse } from 'react-icons/fa';
+import { GiMedicines } from 'react-icons/gi';
 import { RiArrowDownSFill } from 'react-icons/ri';
 import useHandleClose from '../../hooks/useHandleClose';
 import { Routes } from '../../routes';
+
 import { toggleFixedHeader } from '../../utils/helpers';
 import BrandLogo from './shared/brand-logo';
 import Searchbar from './shared/search-bar';
 import ToggleHeader from './shared/toogle-header';
 
-const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean }> = ({
+const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
   isRootPage,
+  userIP,
 }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
+
   const { events } = useRouter();
 
   useHandleClose(() => {
@@ -78,7 +81,7 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean }> = ({
       <ToggleHeader isFixed={isFixed} isRootPage={isRootPage}>
         <header className="bg-blue-zodiac pt-2 pb-4 px-1 sm:hidden  shadow-xl rounded-b-lg">
           <div className="flex justify-between items-center">
-            <div className="w-20 h-8 relative">
+            <div className="w-20 h-10 relative">
               <BrandLogo isRootPage={true} />
             </div>
             <CgMenuRound
@@ -88,14 +91,20 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean }> = ({
           </div>
           {isRootPage ? (
             <Fragment>
-              <div className="text-gray-50 text-sm mt-1 mb-2 flex items-center">
+              <div className="text-gray-50 text-sm my-2 flex items-center ">
                 <BiLocationPlus className="w-6" />
-                <span className="mr-1">Deliver to</span>
-                <span className="font-semibold">560064, Bengalore</span>
+                <small className="mr-1">Deliver to</small>
+                <small className="font-semibold">
+                  {userIP.loading
+                    ? 'Please wait'
+                    : userIP.data
+                    ? `${userIP.data?.postal}, ${userIP.data?.city}`
+                    : 'Not available'}
+                </small>
                 <RiArrowDownSFill />
               </div>
               <div className="px-2">
-                <Searchbar />
+                <Searchbar userIP={userIP} show={false} />
               </div>
             </Fragment>
           ) : (
@@ -138,7 +147,7 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean }> = ({
                   </Link>
                   <Link href={Routes.Consultation}>
                     <a role="button" className="mobile-nav-btn">
-                      <GiDoctorFace />
+                      <FaUserNurse />
                       <span className="ml-2 text-lg">Consult a Doctor</span>
                     </a>
                   </Link>

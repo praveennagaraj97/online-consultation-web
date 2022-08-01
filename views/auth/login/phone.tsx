@@ -1,5 +1,3 @@
-import type { ApplicationVerifier, ConfirmationResult } from '@firebase/auth';
-import { signInWithPhoneNumber } from '@firebase/auth';
 import Image from 'next/image';
 import { FC, useState } from 'react';
 import { ImSpinner9 } from 'react-icons/im';
@@ -7,28 +5,21 @@ import AnchorTwist from '../../../components/animations/anchor-tag-twist';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import IsNewUser from '../../../components/auth/is-new-user';
 import TermsAndConditions from '../../../components/auth/terms-and-condition';
-import VerificationCodeView from '../../../components/auth/verify-passcode';
 import useMessageStatusSetter from '../../../components/container/useStatusMessageSetter';
-import { withRecaptcha } from '../../../components/provider/firebase-recaptcha.provider';
-import PhoneInput from '../../../components/shared/phone-input';
-import { firebaseAuth } from '../../../firebase/config';
+
+import PhoneInput from '../../../components/shared/inputs/phone-input';
+
 import { Routes } from '../../../routes';
 import { firebaseError } from '../../../utils/error-parser';
 import { transformToNumberPipe } from '../../../utils/helpers';
 
-interface PhoneRequestContainerProps {
-  recaptchaVerifier?: ApplicationVerifier | null;
-}
+interface PhoneRequestContainerProps {}
 
-const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
-  recaptchaVerifier,
-}) => {
+const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
   const [enteredNumber, settEnteredNumber] = useState<number | string>('');
   const { StatusTag, setter } = useMessageStatusSetter();
   const [isSending, setIsSending] = useState<boolean>(false);
-  const [confirmResult, setConfirmResult] = useState<ConfirmationResult | null>(
-    null
-  );
+
   const [showOTPView, setShowOTPView] = useState<boolean>(false);
 
   async function sendOTP() {
@@ -37,31 +28,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
         return;
       }
 
-      if (!recaptchaVerifier) {
-        return setter('Something went wrong', 'error', 1000);
-      }
       setIsSending(true);
-
-      // const { isNewUser } = await checkUserExists({
-      //   phone_number: '+91'+enteredNumber,
-      // });
-
-      // if (isNewUser) {
-      //   setIsSending(false);
-      //   return setter(
-      //     `We couldn't find any account associated with this number, Please create a new account`,
-      //     'error',
-      //     4000
-      //   );
-      // }
-
-      await recaptchaVerifier.verify();
-
-      const confirmationResult = await signInWithPhoneNumber(
-        firebaseAuth,
-        `+91 ${enteredNumber}`,
-        recaptchaVerifier
-      );
 
       await setter(
         `A text message with verification code was sent to your number`,
@@ -70,7 +37,6 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
       );
       setShowOTPView(true);
       setIsSending(false);
-      setConfirmResult(confirmationResult);
     } catch (error: any) {
       setter(firebaseError(error), 'error');
       setIsSending(false);
@@ -84,16 +50,6 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
     }
 
     return true;
-  }
-
-  if (showOTPView) {
-    return (
-      <VerificationCodeView
-        confirmResult={confirmResult}
-        length={6}
-        otpSentNumber={enteredNumber}
-      />
-    );
   }
 
   return (
@@ -137,7 +93,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
                 settEnteredNumber(number);
               }}
               placeholder="Enter mobile number"
-              className="common-input px-3 py-2 h-12 drop-shadow-sm"
+              className="px-3 py-2 h-12 pl-14 common-input"
             />
             <AnchorTwist
               href={Routes.LoginWithEmail}
@@ -168,7 +124,4 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({
   );
 };
 
-export default withRecaptcha(LoginWithPhoneView, {
-  size: 'invisible',
-  theme: 'dark',
-});
+export default LoginWithPhoneView;

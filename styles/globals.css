@@ -54,9 +54,11 @@
     display: none;
   }
 
-  /* .hide-scrollbar {
-    scrollbar-width: none;
-  } */
+  .hide-scrollbar {
+    overflow: auto;
+    -ms-overflow-style: none; /* IE 11 */
+    scrollbar-width: none; /* Firefox 64 */
+  }
 
   button:disabled,
   button[disabled] {
@@ -65,6 +67,11 @@
 
   input:disabled,
   input[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  select:disabled,
+  select[disabled] {
     @apply opacity-50 transform transition-all pointer-events-none;
   }
 
@@ -95,12 +102,63 @@
   }
 
   .common-input {
-    @apply w-full  placeholder-blue-zodiac/60  border rounded-lg  focus:outline-none;
+    @apply placeholder-blue-zodiac/60  border border-gray-500/30 rounded-lg  focus:outline-none;
   }
 
   .zodiac-border-to-zodiac-bg {
     @apply border 
-            rounded-lg border-blue-zodiac transform transition-all duration-500
+             border-blue-zodiac transform transition-all duration-500
             hover:bg-blue-zodiac hover:text-gray-50 shadow-sm shadow-blue-zodiac/40;
+  }
+
+  .smooth-animate {
+    @apply transform transition-all duration-300;
+  }
+
+  .skeleton {
+    @apply animate-pulse opacity-80 bg-gray-300;
+  }
+
+  #map-container > div {
+    @apply h-full w-full;
+  }
+
+  .modal-open {
+    @apply overflow-hidden;
+  }
+
+  .growing-link {
+    @apply no-underline relative;
+  }
+
+  .growing-link:after {
+    border-radius: 1em;
+    border-top: 0.1em solid #e3136e;
+    content: '';
+    position: absolute;
+    right: 100%;
+    bottom: 0em;
+    left: 0;
+    transition: right 0.4s cubic-bezier(0, 1, 0, 1);
+  }
+
+  .growing-linkhover:after {
+    right: 0;
+  }
+
+  .input-focus {
+    @apply focus:outline-none 
+    focus:border-pink-500/30
+    will-change-transform transform 
+    transition-all duration-75;
+  }
+
+  .modal-backdrop {
+    @apply fixed top-0 left-0 w-full
+       h-full z-50 flex justify-center items-center backdrop-blur-sm bg-blue-zodiac/25;
+  }
+
+  .safari-overflow-fix. {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
 }

@@ -6,14 +6,22 @@ import { BsFillCartPlusFill } from 'react-icons/bs';
 import { FaFilePrescription } from 'react-icons/fa';
 import AnchorTwist from '../../components/animations/anchor-tag-twist';
 import { Routes } from '../../routes';
+
 import { toggleFixedHeader } from '../../utils/helpers';
 import BrandLogo from './shared/brand-logo';
 import Searchbar from './shared/search-bar';
 import ToggleHeader from './shared/toogle-header';
 
-const HeaderWithMenuBar: FC<{ isRootPage: boolean; isLogged: boolean }> = ({
+interface HeaderWithMenuBarProps {
+  isRootPage: boolean;
+  isLogged: boolean;
+  userIP: any;
+}
+
+const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
   isRootPage,
   isLogged,
+  userIP,
 }) => {
   const { scrollY } = useViewportScroll();
   const [isFixed, setIsFixed] = useState<boolean>(false);
@@ -49,28 +57,28 @@ const HeaderWithMenuBar: FC<{ isRootPage: boolean; isLogged: boolean }> = ({
       <ToggleHeader isFixed={isFixed} isRootPage={isRootPage}>
         <div
           className={`${isRootPage ? 'bg-blue-zodiac' : 'bg-gray-50'} 
-        pt-1.5 pb-2 lg:px-4 px-2 md:flex   justify-between  
+        pt-2 pb-3 lg:px-4 px-2 md:flex   justify-between  
         shadow-xl rounded-b-lg`}
         >
           <BrandLogo isRootPage={isRootPage} />
 
           <div className="sm:flex hidden  flex-col justify-between w-full xl:pl-32 lg:pl-24 md:pl-10 ">
             <nav
-              className={` lg:text-base text-sm sm:flex hidden justify-end items-center h-full  ${
-                isRootPage ? 'py-1 text-gray-50' : 'text-blue-zodiac py-3'
+              className={`sm:flex hidden justify-end items-center h-full  ${
+                isRootPage ? 'text-gray-50' : 'text-blue-zodiac h-9'
               }`}
             >
               <div className="relative lg:w-40 w-20 h-7 justify-start md:hidden block mr-auto">
                 <BrandLogo isRootPage={isRootPage} />
               </div>
               <AnchorTwist
-                className="mx-4 text-sm hover:text-pink-500"
+                className="mx-4  hover:text-pink-500 text-sm"
                 href={Routes.OrderMedicines}
               >
                 <span>Order Medicines</span>
               </AnchorTwist>
               <AnchorTwist
-                className="mx-4 text-sm hover:text-pink-500"
+                className="mx-4  hover:text-pink-500 text-sm"
                 href={Routes.Consultation}
               >
                 <span>Consult a Doctor</span>
@@ -78,7 +86,7 @@ const HeaderWithMenuBar: FC<{ isRootPage: boolean; isLogged: boolean }> = ({
 
               <AnchorTwist
                 href={Routes.Cart}
-                className="mx-4 flex items-center cursor-pointer text-sm hover:text-pink-500"
+                className="mx-4 flex items-center cursor-pointer  hover:text-pink-500 text-sm"
               >
                 <BsFillCartPlusFill
                   size={14}
@@ -89,7 +97,7 @@ const HeaderWithMenuBar: FC<{ isRootPage: boolean; isLogged: boolean }> = ({
 
               <AnchorTwist
                 href={isLogged ? Routes.Profile : Routes.LoginWithPhone}
-                className="mr-2 flex items-center cursor-pointer text-sm hover:text-pink-500"
+                className="mr-2 flex items-center cursor-pointer  hover:text-pink-500 text-sm"
               >
                 <AiOutlineUser
                   size={14}
@@ -99,11 +107,11 @@ const HeaderWithMenuBar: FC<{ isRootPage: boolean; isLogged: boolean }> = ({
               </AnchorTwist>
             </nav>
             {isRootPage ? (
-              <div className="lg:py-1.5 py-1 flex lg:text-base text-sm sm:ml-0 ml-2 gap-x-2">
-                <Searchbar />
+              <div className="lg:pt-2 pt-1 flex lg:text-base text-sm sm:ml-0 ml-2 gap-x-2">
+                <Searchbar userIP={userIP} />
                 <Link href={Routes.UploadPrescription}>
                   <a
-                    className="razzmatazz-to-white py-1 flex whitespace-nowrap items-center rounded-lg px-3"
+                    className="razzmatazz-to-white py-1 flex whitespace-nowrap items-center rounded-lg px-3 text-sm"
                     role="button"
                   >
                     <FaFilePrescription className="" size={14} />

@@ -5,7 +5,7 @@ import LoginWithPhoneView from '../../../views/auth/login/phone';
 
 const PhoneLoginPage: NextPage = () => {
   return (
-    <FadePageTransition durationInSec={0}>
+    <FadePageTransition>
       <Head>
         <title>Get Med Go | Login</title>
       </Head>

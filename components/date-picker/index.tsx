@@ -8,6 +8,8 @@ import {
 import { DatepickerCtx, useDatepickerCtx } from '../../context/date-context';
 import useHandleClose from '../../hooks/useHandleClose';
 import { formattedDate } from '../../utils/date-utils';
+import CommonInput from '../shared/inputs/common-input';
+
 import DatePickerLayout from './layout';
 
 export const inputStyle = {
@@ -21,20 +23,29 @@ interface DatePickerProps {
   maxDate?: Date;
   minDate?: Date;
   className?: string;
-  containerClassName?: string;
   placeholder?: string;
   iconClassName?: string;
+  validation?: {
+    error: boolean;
+    message: string;
+  };
+  disabled?: boolean;
+  btnClass?: string;
+  showDateString?: boolean;
 }
 
-export const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker: React.FC<DatePickerProps> = ({
   date,
   onChange,
   maxDate,
   minDate,
   className,
-  containerClassName,
   placeholder,
   iconClassName,
+  validation,
+  disabled,
+  btnClass = '',
+  showDateString = true,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const ctxValue = useDatepickerCtx(date, onChange, setShow, maxDate, minDate);
@@ -53,28 +64,46 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <DatepickerCtx.Provider value={ctxValue}>
-      <div
-        className={`${containerClassName} relative cursor-pointer w-full`}
-        ref={closeRef}
-      >
-        <input
-          className={className}
-          placeholder={placeholder}
-          type="text"
-          value={date ? formattedDate(date) : ''}
-          onFocus={() => setShow(true)}
-          readOnly
-        />
+      <div className={`relative cursor-pointer w-full`} ref={closeRef}>
+        {showDateString ? (
+          <CommonInput
+            value={date ? formattedDate(date) : ''}
+            placeholder={placeholder}
+            className={className}
+            validation={validation}
+            onFocus={() => setShow(true)}
+            readOnly
+          />
+        ) : (
+          ''
+        )}
         <button
-          onClick={(e) => setShow(!show)}
-          className="absolute right-0 top-0 h-full flex items-center p-2"
+          onClick={() => {
+            if (disabled) {
+              return;
+            }
+            setTimeout(() => {
+              setShow(!show);
+            }, 100);
+          }}
+          type="button"
+          className={`${btnClass} absolute  h-full flex items-center p-2`}
         >
           {date ? (
-            <BsCalendar2CheckFill size={20} className={iconClassName} />
+            <BsCalendar2CheckFill
+              size={20}
+              className={`${iconClassName} hover:scale-110 smooth-animate`}
+            />
           ) : show ? (
-            <BsCalendar2WeekFill size={20} className={iconClassName} />
+            <BsCalendar2WeekFill
+              size={20}
+              className={`${iconClassName} hover:scale-110 smooth-animate`}
+            />
           ) : (
-            <BsCalendar2PlusFill size={20} className={iconClassName} />
+            <BsCalendar2PlusFill
+              size={20}
+              className={`${iconClassName} hover:scale-110 smooth-animate`}
+            />
           )}
         </button>
         <AnimatePresence exitBeforeEnter>
@@ -88,7 +117,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="absolute left-0 z-10 bg-white"
+              className="absolute left-0 top-12 z-10 bg-white"
             >
               <DatePickerLayout />
             </motion.div>
@@ -98,3 +127,5 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     </DatepickerCtx.Provider>
   );
 };
+
+export default DatePicker;

@@ -5,7 +5,7 @@ import LoginWithEmailView from '../../../views/auth/login/email';
 
 const EmailLoginPage: NextPage = () => {
   return (
-    <FadePageTransition durationInSec={0}>
+    <FadePageTransition>
       <Head>
         <title>Get Med Go | Login</title>
       </Head>

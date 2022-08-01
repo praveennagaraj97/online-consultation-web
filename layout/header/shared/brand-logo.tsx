@@ -10,7 +10,7 @@ export default function BrandLogo({
   return (
     <Link href={Routes.Home}>
       <a>
-        <div className="relative lg:w-40 sm:w-20 w-14 h-full flex justify-start ">
+        <div className="relative lg:w-28 w-24 h-full flex justify-start ">
           {isRootPage ? (
             <Image
               src="/assets/logo.svg"
