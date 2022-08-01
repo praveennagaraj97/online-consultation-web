@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-Louis-George-Café text-blue-zodiac/80;
+  }
+}
+
+@layer utilities {
+  .cut-text-1 {
+    -webkit-box-orient: vertical;
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+  }
+  .cut-text-2 {
+    -webkit-box-orient: vertical;
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+  }
+  .cut-text-3 {
+    -webkit-box-orient: vertical;
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+  }
+  .cut-text-4 {
+    -webkit-box-orient: vertical;
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+  }
+  .cut-text-5 {
+    -webkit-box-orient: vertical;
+    display: -webkit-box !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 5;
+  }
+
+  .mobile-nav-btn {
+    @apply bg-transparent border border-opacity-50 bg-opacity-75 hover:bg-razzmatazz shadow-xl py-2 px-4 w-full 
+                rounded-lg mb-4 flex justify-start items-center;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* .hide-scrollbar {
+    scrollbar-width: none;
+  } */
+
+  button:disabled,
+  button[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  input:disabled,
+  input[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  .disabled {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  .razzmatazz-to-transparent {
+    @apply border border-razzmatazz 
+            bg-razzmatazz shadow-lg shadow-razzmatazz/40 text-gray-50
+              transform transition-colors duration-300
+              hover:bg-transparent hover:border-razzmatazz hover:text-blue-zodiac/80;
+  }
+
+  .razzmatazz-to-white {
+    @apply border border-razzmatazz 
+            bg-razzmatazz shadow-lg shadow-razzmatazz/40 text-gray-50
+              transform transition-colors duration-300
+              hover:bg-gray-50 hover:border-razzmatazz hover:text-blue-zodiac/80;
+  }
+
+  .zodiac-to-transparent {
+    @apply bg-blue-zodiac text-gray-50  
+         shadow-lg shadow-blue-zodiac/40
+                      transform transition-colors duration-300
+                  hover:bg-transparent hover:text-blue-zodiac/70 
+                  border border-blue-zodiac;
+  }
+
+  .common-input {
+    @apply w-full  placeholder-blue-zodiac/60  border rounded-lg  focus:outline-none;
+  }
+
+  .zodiac-border-to-zodiac-bg {
+    @apply border 
+            rounded-lg border-blue-zodiac transform transition-all duration-500
+            hover:bg-blue-zodiac hover:text-gray-50 shadow-sm shadow-blue-zodiac/40;
+  }
+}

@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Louis George Café';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Louis George Café'),
+    url('/fonts/LouisGeorgeCafe.woff') format('woff');
+}
+@font-face {
+  font-family: 'Louis George Café';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Louis George Café'),
+    url('/fonts/LouisGeorgeCafeItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Louis George Café';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Louis George Café'),
+    url('/fonts/LouisGeorgeCafeBold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Louis George Café';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Louis George Café'),
+    url('/fonts/LouisGeorgeCafeBoldItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Louis George Café Light';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Louis George Café Light'),
+    url('/fonts/LouisGeorgeCafeLight.woff') format('woff');
+}
+@font-face {
+  font-family: 'Louis George Café Light';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Louis George Café Light'),
+    url('/fonts/LouisGeorgeCafeLightItalic.woff') format('woff');
+}
