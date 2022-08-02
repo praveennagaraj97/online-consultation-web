@@ -10,7 +10,7 @@ import useMessageStatusSetter from '../../../components/container/useStatusMessa
 import PhoneInput from '../../../components/shared/inputs/phone-input';
 
 import { Routes } from '../../../routes';
-import { firebaseError } from '../../../utils/error-parser';
+
 import { transformToNumberPipe } from '../../../utils/helpers';
 
 interface PhoneRequestContainerProps {}
@@ -22,26 +22,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
 
   const [showOTPView, setShowOTPView] = useState<boolean>(false);
 
-  async function sendOTP() {
-    try {
-      if (!validator()) {
-        return;
-      }
-
-      setIsSending(true);
-
-      await setter(
-        `A text message with verification code was sent to your number`,
-        'success',
-        1000
-      );
-      setShowOTPView(true);
-      setIsSending(false);
-    } catch (error: any) {
-      setter(firebaseError(error), 'error');
-      setIsSending(false);
-    }
-  }
+  async function sendOTP() {}
 
   function validator() {
     if (!enteredNumber.toString().length) {

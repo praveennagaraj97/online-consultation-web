@@ -1,0 +1,1 @@
+export { RegisterUserFormErrors } from './index';

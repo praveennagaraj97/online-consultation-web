@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+import useNProgress from '../hooks/userNProgress';
 import Footer from './footer';
 import Header from './header';
 
@@ -7,6 +8,7 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
+  useNProgress();
   return (
     <div className="flex flex-col place-content-between min-h-screen">
       <Header />

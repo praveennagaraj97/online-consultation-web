@@ -1,5 +1,4 @@
 import { FC, Fragment, useState } from 'react';
-import AuthTermsAndConditionModal from '../modal/auth-terms-and-conditions';
 
 const TermsAndConditions: FC = () => {
   const [showShowModal, setShowModal] = useState<boolean>(false);
@@ -15,12 +14,6 @@ const TermsAndConditions: FC = () => {
           Terms & Conditions
         </p>
       </small>
-
-      <AuthTermsAndConditionModal
-        setShowModal={setShowModal}
-        showModal={showShowModal}
-        shouldCloseOnBackDrop={false}
-      />
     </Fragment>
   );
 };

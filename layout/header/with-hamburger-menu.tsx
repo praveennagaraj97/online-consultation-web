@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useViewportScroll } from 'framer-motion';
+import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, Fragment, useEffect, useRef, useState } from 'react';
@@ -31,7 +31,7 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
     setShowMenu(false);
   }, menuRef);
 
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
   const [isFixed, setIsFixed] = useState<boolean>(false);
 
   useEffect(() => {

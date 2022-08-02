@@ -7,17 +7,26 @@ export interface InputProps
     HTMLInputElement
   > {
   validation?: {
-    error: boolean;
+    type: 'success' | 'error';
     message: string;
   };
+  showvalidation?: boolean;
   label?: string;
 }
 
 const CommonInput: FC<InputProps> = (props) => {
   const { validation, label, className } = props;
 
+  function inputProps() {
+    let clonedProps = { ...props };
+    delete clonedProps.validation;
+    delete clonedProps.showvalidation;
+    delete clonedProps.label;
+    return clonedProps;
+  }
+
   return (
-    <div className={`w-full ${label ? 'relative' : ''}`}>
+    <div className={`w-full relative`}>
       {label ? (
         <label className="absolute top-0 left-0 text-xs px-3 pt-1 opacity-70">
           {label}
@@ -26,19 +35,25 @@ const CommonInput: FC<InputProps> = (props) => {
         ''
       )}
       <input
-        {...props}
+        {...inputProps()}
         className={`${className} ${
-          validation?.error ? 'outline-red-400 outline outline-1' : ''
+          props.showvalidation
+            ? validation?.type === 'error'
+              ? 'outline-red-500 outline outline-1'
+              : 'outline-green-500 outline outline-1'
+            : ''
         } ${label ? 'pt-5' : ''}`}
       />
 
-      <motion.small
-        animate={validation?.error ? { opacity: 1 } : { opacity: 0 }}
+      <motion.div
+        animate={props.showvalidation ? { opacity: 1 } : { opacity: 0 }}
         initial={false}
-        className="text-left block text-red-600  mb-1 ml-1"
+        className={`${
+          validation?.type === 'error' ? 'text-red-500' : 'text-green-500'
+        } text-left block  ml-1 absolute -bottom-1.5`}
       >
-        {validation?.message}
-      </motion.small>
+        <small className="cut-text-1">{validation?.message}</small>
+      </motion.div>
     </div>
   );
 };

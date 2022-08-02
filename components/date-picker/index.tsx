@@ -72,6 +72,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             className={className}
             validation={validation}
             onFocus={() => setShow(true)}
+            onBlur={() => setShow(false)}
             readOnly
           />
         ) : (
@@ -86,21 +87,25 @@ const DatePicker: React.FC<DatePickerProps> = ({
               setShow(!show);
             }, 100);
           }}
+          tabIndex={-1}
           type="button"
           className={`${btnClass} absolute  h-full flex items-center p-2`}
         >
           {date ? (
             <BsCalendar2CheckFill
+              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
           ) : show ? (
             <BsCalendar2WeekFill
+              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
           ) : (
             <BsCalendar2PlusFill
+              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
@@ -115,6 +120,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
               }}
               variants={varients}
               initial="initial"
+              tabIndex={-1}
               animate="animate"
               exit="exit"
               className="absolute left-0 top-12 z-10 bg-white"

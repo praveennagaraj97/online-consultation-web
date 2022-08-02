@@ -9,5 +9,9 @@ export type AccountPageOptions =
 export interface ModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  shouldCloseOnBackDrop?: boolean;
 }
+
+export type Action<T = string, P = void> = {
+  type: T;
+  payload: P;
+};

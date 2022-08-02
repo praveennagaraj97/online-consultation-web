@@ -1,25 +1,19 @@
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
-import { FC } from 'react';
-import useNProgress from '../hooks/userNProgress';
+import type { FC } from 'react';
+import { SWRConfig } from 'swr';
 import Layout from '../layout';
 import '../styles/fonts.css';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
+import { fetchOptions } from '../utils/fetchOptions';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
-  useNProgress();
-
   return (
-    <Layout>
-      <Head>
-        <meta
-          httpEquiv="ScreenOrientation"
-          content="autoRotate:disabled"
-        ></meta>
-      </Head>
-      <Component {...pageProps} />
-    </Layout>
+    <SWRConfig value={fetchOptions}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SWRConfig>
   );
 };
 

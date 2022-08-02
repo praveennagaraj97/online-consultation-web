@@ -13,6 +13,7 @@
     "start:dev": "docker-compose --env-file ./.env.production.local -f docker-compose-dev.yml down && docker-compose -f docker-compose-dev.yml --env-file ./.env.production.local up --build"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "framer-motion": "^6.5.1",
     "husky": "^8.0.1",
     "next": "^12.2.3",

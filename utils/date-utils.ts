@@ -26,7 +26,7 @@ export const monthNames = [
 /**
  * @description Formats date
  * @param date
- * @returns formated date.
+ * @returns formated date in DD/MM/YYYY
  */
 export function formattedDate(date: Date): string {
   return date.toLocaleDateString('en-in', {

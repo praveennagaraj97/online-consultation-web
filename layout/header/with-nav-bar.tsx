@@ -1,4 +1,4 @@
-import { useViewportScroll } from 'framer-motion';
+import { useScroll } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
@@ -23,7 +23,7 @@ const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
   isLogged,
   userIP,
 }) => {
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
   const [isFixed, setIsFixed] = useState<boolean>(false);
 
   useEffect(() => {

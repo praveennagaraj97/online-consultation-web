@@ -1,44 +1,19 @@
-import { motion } from 'framer-motion';
-import { FC, useRef } from 'react';
-import { IoIosClose } from 'react-icons/io';
-import Modal from '.';
-import useHandleClose from '../../hooks/useHandleClose';
-import type { ModalProps } from '../../types/globals';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import FadePageTransition from '../../components/animations/fade-page-transition';
+import ViewContainer from '../../components/shared/view-container';
 
-const AuthTermsAndConditionModal: FC<ModalProps> = ({
-  setShowModal,
-  showModal,
-  shouldCloseOnBackDrop,
-}) => {
-  const closeRef = useRef<HTMLDivElement>(null);
-
-  useHandleClose(() => {
-    if (showModal) {
-      setShowModal(false);
-    }
-  }, closeRef);
-
+const TermsAndConditionPage: NextPage = () => {
   return (
-    <Modal setShowModal={setShowModal} showModal={showModal}>
-      <motion.div
-        animate={{ scale: 1 }}
-        initial={{ scale: 0 }}
-        exit={{ scale: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        ref={closeRef}
-        className=" 
-        overflow-auto relative lg:w-10/12  [max-height:90vh] [max-width:98vw]
-        md:w-2/3  bg-white rounded-xl shadow-2xl  m-auto sm:px-14 px-2 py-5"
-      >
-        <IoIosClose
-          fontSize={30}
-          className="absolute top-3 right-3 cursor-pointer "
-          onClick={() => setShowModal(false)}
-        />
-        <h2 className="text-center text-xl mb-6">
+    <FadePageTransition>
+      <Head>
+        <title>Get Med Go | Terms and Conditions</title>
+      </Head>
+      <ViewContainer ariaDescribedBy="Add Prescription Section Start">
+        <h1 className="text-xl my-6">
           <strong>Terms and Conditions</strong>
-        </h2>
-        <div className="overflow-y-auto h-full pb-16">
+        </h1>
+        <div className="overflow-y-auto h-full">
           <p className="mt-2">
             These terms and conditions outline the rules and regulations for the
             use of {'Get Med Go'} Website, located at gedmedgo.com
@@ -354,9 +329,9 @@ const AuthTermsAndConditionModal: FC<ModalProps> = ({
             loss or damage of any nature.
           </p>
         </div>
-      </motion.div>
-    </Modal>
+      </ViewContainer>
+    </FadePageTransition>
   );
 };
 
-export default AuthTermsAndConditionModal;
+export default TermsAndConditionPage;

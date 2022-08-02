@@ -1,49 +1,60 @@
-import { motion } from 'framer-motion';
-import type { FC, ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { FC, ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalProps } from '../../types/globals';
+import { randomString } from '../../utils/helpers';
 import { _document } from '../../utils/web.api';
 
 interface PortalProps extends ModalProps {
   children: ReactNode;
 }
-
-const Modal: FC<PortalProps> = ({ showModal, children }) => {
-  const [mounted, setMounted] = useState<boolean>(false);
+/**
+ * @props PortalProps
+ * @returns Client only Portal
+ */
+const Portal: FC<PortalProps> = ({ children, showModal }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const selector = 'portal-' + randomString(7);
+
+    const _el = _document()?.createElement('div');
+
+    if (_el && selector && !ref.current) {
+      _el.id = selector;
+
+      _document()?.body.appendChild(_el);
+      ref.current = _el;
+    }
 
     return () => {
-      setMounted(false);
+      ref.current = null;
+      if (_el) {
+        _document()?.body.removeChild(_el);
+      }
     };
   }, []);
 
-  const OverlayComponent: FC = () => {
-    if (!showModal) {
-      return null;
+  useEffect(() => {
+    if (showModal) {
+      _document()?.body.classList.add('modal-open');
+    } else {
+      _document()?.body.classList.remove('modal-open');
     }
 
-    return (
-      <motion.div
-        animate={{ opacity: 1 }}
-        initial={{ opacity: 0 }}
-        transition={{ duration: 0.8 }}
-        className="fixed top-0 left-0 w-full
-         h-full z-50 flex justify-center items-center backdrop-blur-sm bg-blue-zodiac/25"
-      >
-        {children}
-      </motion.div>
-    );
-  };
+    return () => {
+      _document()?.body.classList.remove('modal-open');
+    };
+  }, [showModal]);
 
-  return mounted
-    ? createPortal(
-        <OverlayComponent />,
-        _document()?.getElementById('portals')!
-      )
-    : null;
+  if (!ref.current) {
+    return null;
+  }
+
+  return createPortal(
+    <AnimatePresence exitBeforeEnter>{showModal && children}</AnimatePresence>,
+    ref.current
+  );
 };
 
-export default Modal;
+export default Portal;

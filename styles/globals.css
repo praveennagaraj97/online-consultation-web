@@ -127,25 +127,6 @@
     @apply overflow-hidden;
   }
 
-  .growing-link {
-    @apply no-underline relative;
-  }
-
-  .growing-link:after {
-    border-radius: 1em;
-    border-top: 0.1em solid #e3136e;
-    content: '';
-    position: absolute;
-    right: 100%;
-    bottom: 0em;
-    left: 0;
-    transition: right 0.4s cubic-bezier(0, 1, 0, 1);
-  }
-
-  .growing-linkhover:after {
-    right: 0;
-  }
-
   .input-focus {
     @apply focus:outline-none 
     focus:border-pink-500/30

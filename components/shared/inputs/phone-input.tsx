@@ -7,9 +7,11 @@ interface PhoneInputProps
     HTMLInputElement
   > {
   validation?: {
-    error: boolean;
     message: string;
+    type: 'success' | 'error';
   };
+  showvalidation?: boolean;
+  phonecode?: string;
 }
 
 const PhoneInput: FC<PhoneInputProps> = (options) => {
@@ -20,7 +22,7 @@ const PhoneInput: FC<PhoneInputProps> = (options) => {
           options.disabled ? 'disabled bg-transparent' : ''
         }`}
       >
-        +91
+        {options.phonecode || '+91'}
       </div>
 
       <CommonInput validation={options.validation} {...options} />

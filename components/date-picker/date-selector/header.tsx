@@ -9,9 +9,7 @@ const Header: FC = () => {
     prevMonth,
     viewMonths,
     viewYears,
-    selectDate,
     visible: { month, year },
-    isSelectedDate,
   } = useContext(DatepickerCtx);
 
   return (
