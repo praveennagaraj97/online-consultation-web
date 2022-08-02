@@ -1,4 +1,3 @@
-import { signOut } from '@firebase/auth';
 import { FC, ReactNode } from 'react';
 import {
   AiOutlineLogout,
@@ -9,7 +8,7 @@ import {
 import { BiReceipt } from 'react-icons/bi';
 import { BsPeople } from 'react-icons/bs';
 import { FaRegAddressCard } from 'react-icons/fa';
-import { firebaseAuth } from '../../../firebase/config';
+
 import { Routes } from '../../../routes';
 import { AccountPageOptions } from '../../../types/globals';
 import FadePageTransition from '../../animations/fade-page-transition';
@@ -61,9 +60,7 @@ const AccountViewLayout: FC<{
           />
 
           <button
-            onClick={() => {
-              signOut(firebaseAuth);
-            }}
+            onClick={() => {}}
             className={`flex p-4 pr-16 w-full items-center 
             hover:bg-razzmatazz hover:text-gray-50 transition-all transform duration-300`}
           >

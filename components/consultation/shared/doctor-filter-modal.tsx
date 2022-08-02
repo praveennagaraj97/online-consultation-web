@@ -4,7 +4,8 @@ import { IoIosClose } from 'react-icons/io';
 import useHandleClose from '../../../hooks/useHandleClose';
 import useWindowSize from '../../../hooks/useWindowSize';
 import { ModalProps } from '../../../types/globals';
-import { DatePicker } from '../../date-picker';
+import DatePicker from '../../date-picker';
+
 import Modal from '../../modal';
 
 const DoctorFilterModal: FC<ModalProps> = ({ setShowModal, showModal }) => {

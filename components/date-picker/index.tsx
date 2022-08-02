@@ -26,7 +26,7 @@ interface DatePickerProps {
   placeholder?: string;
   iconClassName?: string;
   validation?: {
-    error: boolean;
+    type: 'error' | 'success';
     message: string;
   };
   disabled?: boolean;
