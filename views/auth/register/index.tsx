@@ -5,9 +5,9 @@ import { FC, useReducer } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { ImSpinner2 } from 'react-icons/im';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
-import useMessageStatusSetter from '../../../components/container/useStatusMessageSetter';
 import DatePicker from '../../../components/date-picker';
 import CommonInput from '../../../components/shared/inputs/common-input';
+import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 
 import { formattedDate } from '../../../utils/date-utils';
 
@@ -22,7 +22,7 @@ const RegisterFormPhoneInput = dynamic(() => import('./phone-input'), {
 });
 
 const RegisterView: FC = () => {
-  const { StatusTag, setter } = useMessageStatusSetter();
+  const { setter } = useMessageStatusSetter();
 
   const [state, dispatch] = useReducer(
     registerFormReducer,
@@ -142,7 +142,7 @@ const RegisterView: FC = () => {
             </a>
           </span>
           <div className="text-center [min-height:20px] my-2 text-sm">
-            <StatusTag />
+            {/* <StatusTag /> */}
           </div>
 
           <button

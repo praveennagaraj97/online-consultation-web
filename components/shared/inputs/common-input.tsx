@@ -52,7 +52,9 @@ const CommonInput: FC<InputProps> = (props) => {
           validation?.type === 'error' ? 'text-red-500' : 'text-green-500'
         } text-left block  ml-1 absolute -bottom-1.5`}
       >
-        <small className="cut-text-1">{validation?.message}</small>
+        <small className="cut-text-1" title={validation?.message || ''}>
+          {validation?.message}
+        </small>
       </motion.div>
     </div>
   );

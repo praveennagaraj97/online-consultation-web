@@ -5,19 +5,21 @@ import AnchorTwist from '../../../components/animations/anchor-tag-twist';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import IsNewUser from '../../../components/auth/is-new-user';
 import TermsAndConditions from '../../../components/auth/terms-and-condition';
-import useMessageStatusSetter from '../../../components/container/useStatusMessageSetter';
+import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 
 import PhoneInput from '../../../components/shared/inputs/phone-input';
 
 import { Routes } from '../../../routes';
 
+import ErrorStatusTag from '../../../components/container/error-status-tag';
 import { transformToNumberPipe } from '../../../utils/helpers';
 
 interface PhoneRequestContainerProps {}
 
 const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
   const [enteredNumber, settEnteredNumber] = useState<number | string>('');
-  const { StatusTag, setter } = useMessageStatusSetter();
+  const { setter, errMessage, infoMessage, successmessage } =
+    useMessageStatusSetter();
   const [isSending, setIsSending] = useState<boolean>(false);
 
   const [showOTPView, setShowOTPView] = useState<boolean>(false);
@@ -84,7 +86,12 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
             </AnchorTwist>
           </div>
 
-          <StatusTag className="h-5 text-center" />
+          <ErrorStatusTag
+            errMessage={errMessage}
+            infoMessage={infoMessage}
+            successmessage={successmessage}
+            className="text-sm min-h-[25px]"
+          />
           <div className="my-1">
             <TermsAndConditions />
           </div>

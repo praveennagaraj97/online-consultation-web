@@ -2,20 +2,20 @@ import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC, Fragment, useEffect, useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
-import ConfirmModal from '../../../components/modal/confirm-modal';
-import OneTimePasswordInput from '../../../components/shared/inputs/otp-input';
-import PhoneInput from '../../../components/shared/inputs/phone-input';
-import { publicRoutes } from '../../../routes/api-routes';
-import type { BaseAPiResponse } from '../../../types/response';
+import ConfirmModal from '../../../../components/modal/confirm-modal';
+import PhoneInput from '../../../../components/shared/inputs/phone-input';
+import { publicRoutes } from '../../../../routes/api-routes';
+import type { BaseAPiResponse } from '../../../../types/response';
 import type {
   CheckPhoneOrEmailExists,
   VerificationCode,
-} from '../../../types/response/auth.response';
-import { requestOptions } from '../../../utils/fetchOptions';
+} from '../../../../types/response/auth.response';
+import { requestOptions } from '../../../../utils/fetchOptions';
 import {
   validateIndianPhoneNumber,
   validateIsValueIsNumeric,
-} from '../../../utils/validator';
+} from '../../../../utils/validator';
+import VerifyCode from './verify-code';
 
 interface RegisterFormPhoneInputProps {
   phoneNumber: string;
@@ -32,9 +32,8 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
   verificationId,
   onVerificationIdChange,
 }) => {
-  const [showOTPview, setShowOTPView] = useState(false);
   const [showConfirmWindow, setShowConfirmWindow] = useState<boolean>(false);
-  const [otp, setOtp] = useState('');
+
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [availabilityChecking, setAvailabiltyChecking] =
     useState<boolean>(false);
@@ -78,42 +77,12 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
         requestOptions
       );
 
-      onVerificationIdChange(data.result.verification_id);
       setShowConfirmWindow(false);
-      setTimeout(() => {
-        setShowOTPView(true);
-      }, 3000);
-
+      onVerificationIdChange(data.result.verification_id);
       return null;
     } catch (error) {
       return null;
     }
-  }
-
-  if (showOTPview) {
-    return (
-      <div className="mb-2">
-        <OneTimePasswordInput
-          onChange={(otp) => {
-            setOtp(otp);
-          }}
-          value={otp}
-          className="common-input input-focus p-2"
-        />
-        <p
-          className="text-xs mt-2 text-right hover:text-blue-zodiac text-razzmatazz smooth-animate"
-          role="button"
-          onClick={() => {
-            setShowOTPView(false);
-            setOtp('');
-            onVerificationIdChange('');
-            onChange('');
-          }}
-        >
-          Change number
-        </p>
-      </div>
-    );
   }
 
   return (
@@ -184,6 +153,17 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
           )}
         </AnimatePresence>
       </motion.div>
+      {verificationId ? (
+        <VerifyCode
+          onClear={() => {
+            onVerificationIdChange('');
+            onChange('');
+          }}
+          verificationCode={verificationId}
+        />
+      ) : (
+        ''
+      )}
       <ConfirmModal
         isAsync
         confirmBtn="Send Verification Code"

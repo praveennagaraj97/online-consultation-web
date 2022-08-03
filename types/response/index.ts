@@ -1,4 +1,4 @@
-export interface BaseAPiResponse<T> {
+export interface BaseAPiResponse<T = void> {
   result: T;
   status_code: number;
   message: string;
@@ -25,3 +25,14 @@ export type ImageType = {
   width: number;
   height: number;
 };
+
+export type ErrorEntity = {
+  status_code: number;
+  message: string;
+};
+
+export interface ErrorResponse<T> {
+  response: {
+    data: T;
+  };
+}

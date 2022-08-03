@@ -9,6 +9,7 @@ export type Props = {
   length?: number;
   className?: string;
   gap?: number;
+  disabled?: boolean;
 };
 
 const OneTimePasswordInput: FC<Props> = ({
@@ -17,6 +18,7 @@ const OneTimePasswordInput: FC<Props> = ({
   length = 6,
   className = 'common-input input-focus p-2',
   gap = 20,
+  disabled,
 }) => {
   const items = useMemo<string[]>(() => {
     const valueArray = value.split('');
@@ -141,6 +143,7 @@ const OneTimePasswordInput: FC<Props> = ({
           onChange={(e) => inputOnChange(e, idx)}
           onKeyDown={inputOnKeyDown}
           onFocus={inputOnFocus}
+          disabled={disabled}
         />
       ))}
     </div>

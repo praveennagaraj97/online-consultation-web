@@ -5,11 +5,9 @@ import AnchorTwist from '../../../components/animations/anchor-tag-twist';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import IsNewUser from '../../../components/auth/is-new-user';
 import TermsAndConditions from '../../../components/auth/terms-and-condition';
-import useMessageStatusSetter from '../../../components/container/useStatusMessageSetter';
 import { Routes } from '../../../routes';
 
 const LoginWithEmailView: FC = () => {
-  const { StatusTag, setter } = useMessageStatusSetter();
   const [isSending, setIsSending] = useState<boolean>(false);
 
   return (
@@ -56,7 +54,6 @@ const LoginWithEmailView: FC = () => {
             </AnchorTwist>
           </div>
 
-          <StatusTag className="h-5 text-center" />
           <div className="my-1">
             <TermsAndConditions />
           </div>
