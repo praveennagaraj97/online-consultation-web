@@ -1,13 +1,12 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useReducer } from 'react';
+import { FC, useReducer, useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { ImSpinner2 } from 'react-icons/im';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import DatePicker from '../../../components/date-picker';
 import CommonInput from '../../../components/shared/inputs/common-input';
-import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 
 import { formattedDate } from '../../../utils/date-utils';
 
@@ -22,7 +21,7 @@ const RegisterFormPhoneInput = dynamic(() => import('./phone-input'), {
 });
 
 const RegisterView: FC = () => {
-  const { setter } = useMessageStatusSetter();
+  const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false);
 
   const [state, dispatch] = useReducer(
     registerFormReducer,
@@ -83,6 +82,7 @@ const RegisterView: FC = () => {
               phoneNumber={state.phone_number}
               phoneCode={state.phone_code}
               verificationId={state.verification_id}
+              isVerified={isPhoneVerified}
               onChange={(value) => {
                 dispatch({
                   type: RegisterActions.PHONE_NUMBER,
@@ -95,6 +95,9 @@ const RegisterView: FC = () => {
                   payload: value,
                 });
               }}
+              onVerify={(status) => {
+                setIsPhoneVerified(status);
+              }}
             />
 
             <DatePicker
@@ -105,7 +108,7 @@ const RegisterView: FC = () => {
                 });
               }}
               className="input-focus w-full common-input px-3 py-2 h-12 "
-              btnClass="right-0 -top-1"
+              btnClass="right-0 top-0"
               placeholder="Date of birth"
               maxDate={new Date()}
               date={
@@ -114,7 +117,7 @@ const RegisterView: FC = () => {
             />
             <select
               name="gender"
-              className="input-focus w-full common-input px-3 py-2 h-12"
+              className="input-focus w-full common-input mt-3 px-3 py-2 h-12"
               value={state.gender}
               onChange={(ev) => {
                 dispatch({

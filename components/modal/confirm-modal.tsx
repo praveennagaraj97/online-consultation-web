@@ -19,6 +19,7 @@ interface ConfirmModalProps extends ModalProps {
   confirmBtn?: string;
   cancelBtn?: string;
   isAsync?: boolean;
+  responseMsgChildren?: ReactNode;
 }
 
 const ConfirmModal: FC<ConfirmModalProps> = ({
@@ -31,6 +32,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
   cancelBtn = 'Cancel',
   confirmBtn = 'Confirm',
   isAsync = false,
+  responseMsgChildren,
 }) => {
   const { width } = useWindowResize(true);
   const closeRef = useRef<HTMLDivElement>(null);
@@ -67,8 +69,13 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
                   <p className="opacity-80 sm:text-sm text-center whitespace-pre-line">
                     {content?.description}
                   </p>
-                  <hr className="my-4 border-blue-zodiac/30" />
-                  <div className="flex flex-wrap space-x-2 mt-4 mb-2 justify-center">
+                  <hr
+                    className={`${
+                      responseMsgChildren ? 'mb-1 mt-4' : 'my-4'
+                    } border-blue-zodiac/30`}
+                  />
+                  {responseMsgChildren}
+                  <div className="flex flex-wrap space-x-2 my-2 justify-center">
                     <button
                       onClick={onCancel}
                       disabled={loading}

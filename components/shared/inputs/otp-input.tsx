@@ -132,7 +132,7 @@ const OneTimePasswordInput: FC<Props> = ({
             ease: 'easeInOut',
           }}
           key={idx}
-          type="text"
+          type="tel"
           inputMode="numeric"
           autoComplete="one-time-code"
           autoFocus={idx === 0}

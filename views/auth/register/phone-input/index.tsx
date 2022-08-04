@@ -4,6 +4,8 @@ import { FC, Fragment, useEffect, useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 import ConfirmModal from '../../../../components/modal/confirm-modal';
 import PhoneInput from '../../../../components/shared/inputs/phone-input';
+import ResponseStatusTag from '../../../../components/shared/response-status-tag';
+import useMessageStatusSetter from '../../../../hooks/useStatusMessageSetter';
 import { publicRoutes } from '../../../../routes/api-routes';
 import type { BaseAPiResponse } from '../../../../types/response';
 import type {
@@ -11,6 +13,7 @@ import type {
   VerificationCode,
 } from '../../../../types/response/auth.response';
 import { requestOptions } from '../../../../utils/fetchOptions';
+import { apiErrorParser } from '../../../../utils/parser';
 import {
   validateIndianPhoneNumber,
   validateIsValueIsNumeric,
@@ -23,6 +26,8 @@ interface RegisterFormPhoneInputProps {
   onChange: (value: string) => void;
   verificationId: string;
   onVerificationIdChange: (value: string) => void;
+  onVerify: (status: boolean) => void;
+  isVerified: boolean;
 }
 
 const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
@@ -31,8 +36,12 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
   onChange,
   verificationId,
   onVerificationIdChange,
+  isVerified,
+  onVerify,
 }) => {
   const [showConfirmWindow, setShowConfirmWindow] = useState<boolean>(false);
+
+  const { errMessage, successmessage, setter } = useMessageStatusSetter();
 
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [availabilityChecking, setAvailabiltyChecking] =
@@ -77,10 +86,12 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
         requestOptions
       );
 
+      await setter(data.message, 'success');
       setShowConfirmWindow(false);
       onVerificationIdChange(data.result.verification_id);
       return null;
     } catch (error) {
+      setter(apiErrorParser(error).message, 'error');
       return null;
     }
   }
@@ -145,7 +156,13 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
                 ) : (
                   ''
                 )}
-                <span>{availabilityChecking ? 'Please wait' : 'Verify'}</span>
+                <span>
+                  {availabilityChecking
+                    ? 'Please wait'
+                    : isVerified
+                    ? 'Verified'
+                    : 'Verify'}
+                </span>
               </button>
             </motion.div>
           ) : (
@@ -155,11 +172,15 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
       </motion.div>
       {verificationId ? (
         <VerifyCode
+          onVerify={onVerify}
           onClear={() => {
             onVerificationIdChange('');
             onChange('');
+            onVerify(false);
           }}
           verificationCode={verificationId}
+          isVerified={isVerified}
+          onVerificationIdChange={onVerificationIdChange}
         />
       ) : (
         ''
@@ -179,6 +200,12 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
           setShowConfirmWindow(false);
         }}
         onConfirm={handleSendVerificationCode}
+        responseMsgChildren={
+          <ResponseStatusTag
+            successmessage={successmessage}
+            errMessage={errMessage}
+          />
+        }
       />
     </Fragment>
   );

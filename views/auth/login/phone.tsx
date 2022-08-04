@@ -11,7 +11,7 @@ import PhoneInput from '../../../components/shared/inputs/phone-input';
 
 import { Routes } from '../../../routes';
 
-import ErrorStatusTag from '../../../components/container/error-status-tag';
+import ResponseStatusTag from '../../../components/shared/response-status-tag';
 import { transformToNumberPipe } from '../../../utils/helpers';
 
 interface PhoneRequestContainerProps {}
@@ -86,7 +86,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
             </AnchorTwist>
           </div>
 
-          <ErrorStatusTag
+          <ResponseStatusTag
             errMessage={errMessage}
             infoMessage={infoMessage}
             successmessage={successmessage}
