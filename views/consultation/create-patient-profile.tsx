@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import CreatePatientProfile from '../../components/consultation/create-patient-profile';
-import ViewContainer from '../../components/shared/view-container';
+import ViewContainer from '../../components/container/view-container';
 
 const CreatePatientProfileView: FC = () => {
   return (

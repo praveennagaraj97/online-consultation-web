@@ -1,7 +1,7 @@
 import { FC } from 'react';
+import ViewContainer from '../../components/container/view-container';
 import DoctorsPanel from '../../components/doctor-panel';
 import ProductListSwiper from '../../components/products-list-swiper';
-import ViewContainer from '../../components/shared/view-container';
 import Carousel from './carousel';
 import QuickLinkCards from './quick-link-cards';
 

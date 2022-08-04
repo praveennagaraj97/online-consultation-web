@@ -1,9 +1,9 @@
 import { FC, Fragment } from 'react';
 import { BsChevronRight } from 'react-icons/bs';
 import SearchHeader from '../../components/container/search-header';
+import ViewContainer from '../../components/container/view-container';
 import OrderSummary from '../../components/order-summary';
 import DontHavePrescriptionConsultCard from '../../components/prescription/dont-have-prescription-card';
-import ViewContainer from '../../components/shared/view-container';
 
 const AddPrescriptionView: FC = () => {
   return (

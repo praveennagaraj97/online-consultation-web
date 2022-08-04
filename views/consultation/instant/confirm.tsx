@@ -5,7 +5,7 @@ import { BsShieldLock } from 'react-icons/bs';
 import { FaFilePrescription } from 'react-icons/fa';
 import { GiVideoConference } from 'react-icons/gi';
 import { MdOutlineDeliveryDining } from 'react-icons/md';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 import { Routes } from '../../../routes';
 
 const InstantConsultationConfirmView: FC = () => {

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import SearchHeader from '../../../components/container/search-header';
+import ViewContainer from '../../../components/container/view-container';
 import PrescriptionCard from '../../../components/prescription/prescription-card';
 import BackButton from '../../../components/shared/back-btn';
-import ViewContainer from '../../../components/shared/view-container';
 import { Routes } from '../../../routes';
 
 const SelectFromPastConsultationView: FC = () => {

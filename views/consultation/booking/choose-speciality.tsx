@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 import DoctorsContactedCard from '../../../components/consultation/shared/doctors-contacted-card';
 import SpecialityCard from '../../../components/consultation/shared/speciality-card';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 import { Routes } from '../../../routes';
 
 const ChooseSpecialityView: FC = () => {

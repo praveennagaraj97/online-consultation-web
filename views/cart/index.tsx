@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import CartCard from '../../components/cart/card';
 import SearchHeader from '../../components/container/search-header';
-import ViewContainer from '../../components/shared/view-container';
+import ViewContainer from '../../components/container/view-container';
 import OrderSummary from './order-summary';
 
 const CartView: FC = () => {

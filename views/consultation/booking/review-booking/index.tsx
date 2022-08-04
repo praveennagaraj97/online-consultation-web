@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import AnchorTwist from '../../../../components/animations/anchor-tag-twist';
 import DoctorProfileCard from '../../../../components/consultation/doctor-profile/profile-card';
-import ViewContainer from '../../../../components/shared/view-container';
+import ViewContainer from '../../../../components/container/view-container';
 import { DynamicRoutes, Routes } from '../../../../routes';
 
 const ReviewBookingView: FC = () => {

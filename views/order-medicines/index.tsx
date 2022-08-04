@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
+import ViewContainer from '../../components/container/view-container';
 import ProductListSwiper from '../../components/products-list-swiper';
-import ViewContainer from '../../components/shared/view-container';
 
 const OrderMedicinesView: FC = () => {
   const featuredProds = [

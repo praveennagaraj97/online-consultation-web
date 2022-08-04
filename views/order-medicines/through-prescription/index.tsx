@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC, Fragment } from 'react';
 import { MdOutlineGppGood, MdOutlinePlayCircle } from 'react-icons/md';
 import SearchHeader from '../../../components/container/search-header';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 
 const OrderMedicinesThroughPrescriptionView: FC = () => {
   const steps: string[] = [

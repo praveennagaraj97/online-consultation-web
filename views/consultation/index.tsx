@@ -3,7 +3,7 @@ import { FC, Fragment } from 'react';
 import { BsCalendarPlus } from 'react-icons/bs';
 import { GiStethoscope } from 'react-icons/gi';
 import SearchHeader from '../../components/container/search-header';
-import ViewContainer from '../../components/shared/view-container';
+import ViewContainer from '../../components/container/view-container';
 import { Routes } from '../../routes';
 
 const ConsultationView: FC = () => {

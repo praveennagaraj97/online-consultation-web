@@ -1,5 +1,5 @@
 import ConnectingWindow from '../../../components/consultation/connect/connecting';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 
 const InstantConsultationConnectToDoctorView = () => {
   return (

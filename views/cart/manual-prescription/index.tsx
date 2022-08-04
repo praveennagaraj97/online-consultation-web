@@ -2,8 +2,8 @@ import Image from 'next/image';
 import { FC, Fragment, useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import SearchHeader from '../../../components/container/search-header';
+import ViewContainer from '../../../components/container/view-container';
 import DelivertAddressModel from '../../../components/modal/delivery-address';
-import ViewContainer from '../../../components/shared/view-container';
 
 const CartManualPrescriptionView: FC = () => {
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);

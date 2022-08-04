@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 import { Routes } from '../../../routes';
 
 const InstantConsultationView: FC = () => {

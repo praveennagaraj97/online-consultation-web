@@ -1,11 +1,11 @@
 import { FC, Fragment } from 'react';
 import SearchHeader from '../../components/container/search-header';
+import ViewContainer from '../../components/container/view-container';
 import AlternateBrands from '../../components/product-detail/alternate-brands';
 import ConsultCard from '../../components/product-detail/consult-now-card';
 import ProductDetailImageContainer from '../../components/product-detail/images-container';
 import ProductInfo from '../../components/product-detail/product-info';
 import ProductOverview from '../../components/product-detail/product-overview';
-import ViewContainer from '../../components/shared/view-container';
 import useWindowSize from '../../hooks/useWindowSize';
 
 const ProductDetailView: FC = () => {

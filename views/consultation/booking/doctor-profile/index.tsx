@@ -3,7 +3,7 @@ import { AiOutlineSchedule } from 'react-icons/ai';
 import { GiVideoConference } from 'react-icons/gi';
 import DoctorProfileCard from '../../../../components/consultation/doctor-profile/profile-card';
 import TimeSlotsPicker from '../../../../components/consultation/doctor-profile/time-slot-picker';
-import ViewContainer from '../../../../components/shared/view-container';
+import ViewContainer from '../../../../components/container/view-container';
 
 const DoctorProfileView: FC = () => {
   return (

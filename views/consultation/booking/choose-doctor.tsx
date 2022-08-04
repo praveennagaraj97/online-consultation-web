@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import DoctorCard from '../../../components/consultation/shared/doctor-card';
 import DoctorFilterModal from '../../../components/consultation/shared/doctor-filter-modal';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 
 const ChooseDoctorView: FC = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);

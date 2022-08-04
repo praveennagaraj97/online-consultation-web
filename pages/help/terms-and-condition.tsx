@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import FadePageTransition from '../../components/animations/fade-page-transition';
-import ViewContainer from '../../components/shared/view-container';
+import ViewContainer from '../../components/container/view-container';
 
 const TermsAndConditionPage: NextPage = () => {
   return (

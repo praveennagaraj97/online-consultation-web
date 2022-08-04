@@ -1,5 +1,5 @@
 import UnableToConnectWindow from '../../../components/consultation/connect/unable-to-connect';
-import ViewContainer from '../../../components/shared/view-container';
+import ViewContainer from '../../../components/container/view-container';
 
 const UnableToConnectViewView = () => {
   return (

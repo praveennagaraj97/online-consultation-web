@@ -3,8 +3,8 @@ import { FC, Fragment, useState } from 'react';
 import { AiOutlineSelect } from 'react-icons/ai';
 import { RiGalleryUploadLine } from 'react-icons/ri';
 import SearchHeader from '../../components/container/search-header';
+import ViewContainer from '../../components/container/view-container';
 import UploadPrescriptionModal from '../../components/modal/upload-prescription';
-import ViewContainer from '../../components/shared/view-container';
 import { Routes } from '../../routes';
 
 const UploadPrescriptionView: FC = () => {
