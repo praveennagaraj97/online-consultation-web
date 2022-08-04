@@ -121,7 +121,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
           validation={{
             type: isAvailable ? 'success' : 'error',
             message: isAvailable
-              ? verificationId
+              ? !isVerified && verificationId
                 ? 'A text with verification code has been sent to your mobile number'
                 : ''
               : 'Number is already in use by another account',
