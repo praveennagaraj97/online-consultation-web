@@ -95,7 +95,7 @@ const VerifyCode: FC<VerifyCodeProps> = ({
       <div className="flex justify-end">
         <button
           className="text-xs mt-1 hover:text-blue-zodiac text-razzmatazz smooth-animate"
-          role="button"
+          type="button"
           onClick={(ev) => {
             ev.stopPropagation();
             if (expired) {

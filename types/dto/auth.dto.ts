@@ -7,7 +7,7 @@ export interface RegisterDTO {
   email: string;
   phone_code: string;
   phone_number: string;
-  date_of_birth: string;
+  date_of_birth?: Date;
   gender: string;
   verification_id: string;
 }

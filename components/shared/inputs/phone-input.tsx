@@ -7,8 +7,8 @@ interface PhoneInputProps
     HTMLInputElement
   > {
   validation?: {
-    message: string;
     type: 'success' | 'error';
+    message?: string;
   };
   showvalidation?: boolean;
   phonecode?: string;
@@ -16,7 +16,7 @@ interface PhoneInputProps
 
 const PhoneInput: FC<PhoneInputProps> = (options) => {
   return (
-    <div className="flex relative">
+    <div className="relative">
       <div
         className={`p-2 px-3.5 h-12 absolute flex items-center border shadow-md  rounded-lg z-10 ${
           options.disabled ? 'disabled bg-transparent' : ''

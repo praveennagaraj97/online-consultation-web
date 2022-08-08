@@ -24,19 +24,6 @@ export const monthNames = [
 ];
 
 /**
- * @description Formats date
- * @param date
- * @returns formated date in DD/MM/YYYY
- */
-export function formattedDate(date: Date): string {
-  return date.toLocaleDateString('en-in', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-}
-
-/**
  * @description compares given date with current date returs if both are same
  * @param day number
  * @param month number
@@ -140,4 +127,21 @@ export function daysInMonth(month: number, year: number) {
  */
 export function isLeapYear(year: number): boolean {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+/**
+ * @description Formats date
+ * @param date
+ * @returns formated date in DD/MM/YYYY
+ */
+export function formattedDate(date: Date): string {
+  return date.toLocaleDateString('en-in', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}
+
+export function formateDateToISO8601(date: Date): string {
+  return date.toLocaleDateString('en-CA');
 }

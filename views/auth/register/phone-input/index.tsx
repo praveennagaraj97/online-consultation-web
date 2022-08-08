@@ -5,6 +5,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import ConfirmModal from '../../../../components/modal/confirm-modal';
 import PhoneInput from '../../../../components/shared/inputs/phone-input';
 import ResponseStatusTag from '../../../../components/shared/response-status-tag';
+import { registerUserFormErrors } from '../../../../errors';
 import useMessageStatusSetter from '../../../../hooks/useStatusMessageSetter';
 import { publicRoutes } from '../../../../routes/api-routes';
 import type { BaseAPiResponse } from '../../../../types/response';
@@ -28,6 +29,7 @@ interface RegisterFormPhoneInputProps {
   onVerificationIdChange: (value: string) => void;
   onVerify: (status: boolean) => void;
   isVerified: boolean;
+  showValidation: boolean;
 }
 
 const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
@@ -38,6 +40,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
   onVerificationIdChange,
   isVerified,
   onVerify,
+  showValidation,
 }) => {
   const [showConfirmWindow, setShowConfirmWindow] = useState<boolean>(false);
 
@@ -96,6 +99,27 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
     }
   }
 
+  function validationErrors() {
+    if (!phoneNumber) {
+      return registerUserFormErrors.phone.required;
+    }
+
+    if (
+      phoneNumber.length != 10 ||
+      validateIndianPhoneNumber(phoneCode + phoneNumber)
+    ) {
+      return registerUserFormErrors.phone.invalid;
+    }
+
+    if (!isAvailable) {
+      return 'Phone number is in use by another account';
+    }
+
+    if (!isVerified) {
+      return 'Please verify your phone number';
+    }
+  }
+
   return (
     <Fragment>
       <motion.div
@@ -106,7 +130,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
         <PhoneInput
           type="tel"
           placeholder="Enter mobile number"
-          className="input-focus w-full common-input pr-3 py-2 pl-14 mb-4 h-12 drop-shadow-sm "
+          className="w-full pr-3 py-2 pl-14 rounded-lg h-12"
           name="phone_number"
           phonecode={phoneCode}
           disabled={verificationId.length > 0}
@@ -119,15 +143,12 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
           }}
           value={phoneNumber}
           validation={{
-            type: isAvailable ? 'success' : 'error',
-            message: isAvailable
-              ? !isVerified && verificationId
-                ? 'A text with verification code has been sent to your mobile number'
-                : ''
-              : 'Number is already in use by another account',
+            type: isAvailable && isVerified ? 'success' : 'error',
+            message: validationErrors(),
           }}
           showvalidation={
-            validateIndianPhoneNumber(phoneNumber) && !availabilityChecking
+            (validateIndianPhoneNumber(phoneNumber) && !availabilityChecking) ||
+            showValidation
           }
         />
 
@@ -138,9 +159,10 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
-              className="absolute top-0 right-2 bottom-4 flex items-center"
+              className="absolute top-0 right-2 h-12 flex items-center"
             >
               <button
+                type="button"
                 tabIndex={-1}
                 onClick={(ev) => {
                   ev.stopPropagation();

@@ -6,4 +6,5 @@ export const publicRoutes = {
   ResendVerificationCode: (verificationId: string) =>
     `/api/v1/auth/resend_verification_code/${verificationId}`,
   CheckIfEmailTaken: `/api/v1/auth/check_email_taken`,
+  Register: `/api/v1/auth/register`,
 };

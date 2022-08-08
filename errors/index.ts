@@ -1,1 +1,1 @@
-export const RegisterUserFormErrors = {};
+export { registerUserFormErrors } from './auth.errors';

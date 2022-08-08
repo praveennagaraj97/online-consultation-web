@@ -13,7 +13,7 @@ export enum RegisterActions {
 }
 
 export const initialRegisterFormData: RegisterDTO = {
-  date_of_birth: '',
+  date_of_birth: undefined,
   email: '',
   gender: '',
   name: '',
@@ -24,7 +24,7 @@ export const initialRegisterFormData: RegisterDTO = {
 
 export const registerFormReducer: Reducer<
   RegisterDTO,
-  Action<RegisterActions, string>
+  Action<RegisterActions, any>
 > = (state, action) => {
   switch (action.type) {
     case RegisterActions.NAME:

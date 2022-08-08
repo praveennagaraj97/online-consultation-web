@@ -26,9 +26,10 @@ interface DatePickerProps {
   placeholder?: string;
   iconClassName?: string;
   validation?: {
-    type: 'error' | 'success';
-    message: string;
+    type: 'success' | 'error';
+    message?: string;
   };
+  showvalidation?: boolean;
   disabled?: boolean;
   btnClass?: string;
   showDateString?: boolean;
@@ -39,13 +40,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
   onChange,
   maxDate,
   minDate,
-  className,
+  className = '',
   placeholder,
-  iconClassName,
+  iconClassName = '',
   validation,
   disabled,
   btnClass = '',
   showDateString = true,
+  showvalidation,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const ctxValue = useDatepickerCtx(date, onChange, setShow, maxDate, minDate);
@@ -64,16 +66,16 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <DatepickerCtx.Provider value={ctxValue}>
-      <div className={`relative cursor-pointer w-full`} ref={closeRef}>
+      <div className={`relative w-full`} ref={closeRef}>
         {showDateString ? (
           <CommonInput
-            value={date ? formattedDate(date) : ''}
-            placeholder={placeholder}
             className={className}
+            readOnly
+            placeholder={placeholder}
+            showvalidation={showvalidation}
             validation={validation}
             onFocus={() => setShow(true)}
-            onBlur={() => setShow(false)}
-            readOnly
+            value={date ? formattedDate(date) : ''}
           />
         ) : (
           ''
@@ -87,25 +89,21 @@ const DatePicker: React.FC<DatePickerProps> = ({
               setShow(!show);
             }, 100);
           }}
-          tabIndex={-1}
           type="button"
           className={`${btnClass} absolute  h-full flex items-center p-2`}
         >
           {date ? (
             <BsCalendar2CheckFill
-              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
           ) : show ? (
             <BsCalendar2WeekFill
-              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
           ) : (
             <BsCalendar2PlusFill
-              tabIndex={-1}
               size={20}
               className={`${iconClassName} hover:scale-110 smooth-animate`}
             />
@@ -120,7 +118,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
               }}
               variants={varients}
               initial="initial"
-              tabIndex={-1}
               animate="animate"
               exit="exit"
               className="absolute left-0 top-12 z-10 bg-white"

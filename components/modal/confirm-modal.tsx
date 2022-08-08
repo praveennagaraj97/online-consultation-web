@@ -77,6 +77,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
                   {responseMsgChildren}
                   <div className="flex flex-wrap space-x-2 my-2 justify-center">
                     <button
+                      type="button"
                       onClick={onCancel}
                       disabled={loading}
                       className="text-sm zodiac-border-to-zodiac-bg py-1 px-4 rounded-full"
@@ -84,6 +85,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
                       {cancelBtn}
                     </button>
                     <button
+                      type="button"
                       onClick={async () => {
                         if (isAsync) {
                           setLoading(true);
