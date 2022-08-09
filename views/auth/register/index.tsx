@@ -75,7 +75,7 @@ const RegisterView: FC = () => {
       const { data } = await axios.post<AuthResponse>(
         publicRoutes.Register,
         formData,
-        requestOptions
+        requestOptions()
       );
 
       await setter(data.message, 'success');

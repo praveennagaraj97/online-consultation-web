@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import useSWR from 'swr';
 import ViewContainer from '../../components/container/view-container';
 import DoctorsPanel from '../../components/doctor-panel';
 import ProductListSwiper from '../../components/products-list-swiper';
@@ -58,6 +59,9 @@ const HomePageView: FC = () => {
     },
   ];
 
+  const { data } = useSWR('/api/v1/user');
+
+  console.log(data);
   return (
     <ViewContainer ariaDescribedBy="Home Page Section Start">
       <Carousel />

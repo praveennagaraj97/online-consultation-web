@@ -9,11 +9,7 @@ const Header: FC = () => {
 
   return (
     <Fragment>
-      <HeaderWithMenuBar
-        userIP={''}
-        isRootPage={pathname === '/'}
-        isLogged={false}
-      />
+      <HeaderWithMenuBar userIP={''} isRootPage={pathname === '/'} />
       <HeaderWithHamburgerMenu isRootPage={pathname === '/'} userIP={''} />
     </Fragment>
   );

@@ -1,12 +1,20 @@
 import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { useEffect } from 'react';
+import { useAuthContext } from '../context/auth-context';
 
 const useNProgress = () => {
   const router = useRouter();
+  const { revalidateLoginStatus, refreshToken } = useAuthContext();
+
+  useEffect(() => {
+    revalidateLoginStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const handleStart = () => {
+      refreshToken();
       NProgress.start();
     };
     const handleStop = () => {

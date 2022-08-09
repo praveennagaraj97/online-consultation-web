@@ -9,6 +9,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   useNProgress();
+
   return (
     <div className="flex flex-col place-content-between min-h-screen">
       <Header />

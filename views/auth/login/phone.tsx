@@ -56,7 +56,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
       const { data } = await axios.post<BaseAPiResponse<VerificationCode>>(
         publicRoutes.SendVerificationCode,
         fd,
-        requestOptions
+        requestOptions()
       );
       await setter(data.message, 'success');
       push({
@@ -79,7 +79,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
     try {
       const { data } = await axios.post<
         BaseAPiResponse<CheckPhoneOrEmailExists>
-      >(publicRoutes.CheckIfPhoneNumberTaken, formData, requestOptions);
+      >(publicRoutes.CheckIfPhoneNumberTaken, formData, requestOptions());
 
       if (data.result.is_available) {
         await setter("Couldn't find any account with given number", 'error');

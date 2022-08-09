@@ -43,7 +43,7 @@ const VerifyCode: FC<VerifyCodeProps> = ({
         {
           verify_code: otp,
         },
-        requestOptions
+        requestOptions()
       );
 
       await setter(data.message, 'success');
@@ -63,7 +63,7 @@ const VerifyCode: FC<VerifyCodeProps> = ({
       setResending(true);
       const { data } = await axios.get(
         publicRoutes.ResendVerificationCode(verificationCode),
-        requestOptions
+        requestOptions()
       );
       onVerificationIdChange(data.result.verification_id);
       await setter(data.message, 'success');

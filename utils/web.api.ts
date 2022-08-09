@@ -57,5 +57,5 @@ export function _isMobileBrowser() {
 
 export function _isSafari() {
   // @ts-ignore
-  return window.safari;
+  return !!window.safari;
 }

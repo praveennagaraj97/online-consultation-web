@@ -9,13 +9,13 @@ import { CgCloseO, CgMenuRound } from 'react-icons/cg';
 import { FaBlog, FaFilePrescription, FaUserNurse } from 'react-icons/fa';
 import { GiMedicines } from 'react-icons/gi';
 import { RiArrowDownSFill } from 'react-icons/ri';
-import useHandleClose from '../../hooks/useHandleClose';
-import { Routes } from '../../routes';
+import useHandleClose from '../../../hooks/useHandleClose';
+import { Routes } from '../../../routes';
 
-import { toggleFixedHeader } from '../../utils/helpers';
-import BrandLogo from './shared/brand-logo';
-import Searchbar from './shared/search-bar';
-import ToggleHeader from './shared/toogle-header';
+import { toggleFixedHeader } from '../../../utils/helpers';
+import BrandLogo from '../shared/brand-logo';
+import Searchbar from '../shared/search-bar';
+import ToggleHeader from '../shared/toogle-header';
 
 const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
   isRootPage,
@@ -163,7 +163,9 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
                       <span className="ml-2 text-lg">Cart</span>
                     </a>
                   </Link>
-                  <Link href={false ? Routes.Profile : Routes.LoginWithPhone}>
+                  <Link
+                    href={false ? '/account/profile/' : '/auth/login/phone/'}
+                  >
                     <a>
                       <button className="mobile-nav-btn">
                         <AiOutlineUser />

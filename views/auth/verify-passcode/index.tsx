@@ -47,7 +47,7 @@ const VerifyPasscodeView: FC<{ phoneNumber: PhoneType; verifyId: string }> = ({
       await axios.post<BaseAPiResponse<VerificationCode>>(
         publicRoutes.VerifyCode(verificationId),
         { verify_code: verifyCode },
-        requestOptions
+        requestOptions()
       );
       handleLogin();
       setIsVerified(true);
@@ -69,7 +69,7 @@ const VerifyPasscodeView: FC<{ phoneNumber: PhoneType; verifyId: string }> = ({
       const { data } = await axios.post<AuthResponse>(
         publicRoutes.LoginWithPhoneNumber(rememberMe),
         formData,
-        requestOptions
+        requestOptions()
       );
 
       login(rememberMe, {
@@ -89,7 +89,7 @@ const VerifyPasscodeView: FC<{ phoneNumber: PhoneType; verifyId: string }> = ({
       setResending(true);
       const { data } = await axios.get(
         publicRoutes.ResendVerificationCode(verificationId),
-        requestOptions
+        requestOptions()
       );
       setVerificationId(data.result.verification_id);
       await setter(data.message, 'success');

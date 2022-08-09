@@ -63,7 +63,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
 
           const { data } = await axios.post<
             BaseAPiResponse<CheckPhoneOrEmailExists>
-          >(publicRoutes.CheckIfPhoneNumberTaken, fd, requestOptions);
+          >(publicRoutes.CheckIfPhoneNumberTaken, fd, requestOptions());
           setAvailabiltyChecking(false);
           setIsAvailable(data.result.is_available);
         } catch (error) {
@@ -86,7 +86,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
       const { data } = await axios.post<BaseAPiResponse<VerificationCode>>(
         publicRoutes.SendVerificationCode,
         fd,
-        requestOptions
+        requestOptions()
       );
 
       await setter(data.message, 'success');

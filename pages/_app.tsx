@@ -1,16 +1,18 @@
 import type { AppProps } from 'next/app';
-import type { FC } from 'react';
+import { FC } from 'react';
 import { SWRConfig } from 'swr';
+import { useFetchOptions } from '../hooks/useSwrFetchOptions';
 import Layout from '../layout';
 import AuthProvider from '../providers/auth-provider';
 import '../styles/fonts.css';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
-import { fetchOptions } from '../utils/fetchOptions';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
+  const swrOptions = useFetchOptions();
+
   return (
-    <SWRConfig value={fetchOptions}>
+    <SWRConfig value={swrOptions}>
       <AuthProvider>
         <Layout>
           <Component {...pageProps} />

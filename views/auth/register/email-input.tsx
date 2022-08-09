@@ -22,7 +22,7 @@ const RegisterEmailInput: FC<{
         try {
           const { data } = await axios.post<
             BaseAPiResponse<CheckPhoneOrEmailExists>
-          >(publicRoutes.CheckIfEmailTaken, { email }, requestOptions);
+          >(publicRoutes.CheckIfEmailTaken, { email }, requestOptions());
           setIsAvailable(data.result.is_available);
         } catch (error) {}
       })();

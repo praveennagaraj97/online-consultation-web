@@ -1,26 +1,24 @@
 import { useScroll } from 'framer-motion';
 import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
-import { AiOutlineUser } from 'react-icons/ai';
 import { BsFillCartPlusFill } from 'react-icons/bs';
 import { FaFilePrescription } from 'react-icons/fa';
-import AnchorTwist from '../../components/animations/anchor-tag-twist';
-import { Routes } from '../../routes';
+import AnchorTwist from '../../../components/animations/anchor-tag-twist';
+import { Routes } from '../../../routes';
 
-import { toggleFixedHeader } from '../../utils/helpers';
-import BrandLogo from './shared/brand-logo';
-import Searchbar from './shared/search-bar';
-import ToggleHeader from './shared/toogle-header';
+import { toggleFixedHeader } from '../../../utils/helpers';
+import BrandLogo from '../shared/brand-logo';
+import Searchbar from '../shared/search-bar';
+import ToggleHeader from '../shared/toogle-header';
+import AuthNavLink from './auth-link';
 
 interface HeaderWithMenuBarProps {
   isRootPage: boolean;
-  isLogged: boolean;
   userIP: any;
 }
 
 const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
   isRootPage,
-  isLogged,
   userIP,
 }) => {
   const { scrollY } = useScroll();
@@ -95,16 +93,7 @@ const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
                 <span className="ml-1 ">Cart</span>
               </AnchorTwist>
 
-              <AnchorTwist
-                href={isLogged ? Routes.Profile : Routes.LoginWithPhone}
-                className="mr-2 flex items-center cursor-pointer  hover:text-pink-500 text-sm"
-              >
-                <AiOutlineUser
-                  size={14}
-                  className={!isRootPage ? 'text-razzmatazz' : ''}
-                />
-                <span className="ml-1 ">{isLogged ? 'Account' : 'Login'}</span>
-              </AnchorTwist>
+              <AuthNavLink isRootPage={isRootPage} />
             </nav>
             {isRootPage ? (
               <div className="lg:pt-2 pt-1 flex lg:text-base text-sm sm:ml-0 ml-2 gap-x-2">

@@ -147,10 +147,23 @@ export function formateDateToISO8601(date: Date): string {
 }
 
 // Adds set of date by days count
-export function addNextDaysToDate(days: number, dateCursor?: Date) {
-  const date = dateCursor || new Date();
+export function addNextDaysToDate(days: number, dateCursor: Date = new Date()) {
+  dateCursor.setDate(dateCursor.getDate() + days);
 
-  date.setDate(date.getDate() + days);
+  return dateCursor;
+}
 
-  return date;
+export function addMinutes(minutes: number, dateCursor: Date = new Date()) {
+  dateCursor.setMinutes(dateCursor.getMinutes() + minutes);
+
+  return dateCursor;
+}
+
+export function subtractMinutes(
+  minutes: number,
+  dateCursor: Date = new Date()
+) {
+  dateCursor.setMinutes(dateCursor.getMinutes() - minutes);
+
+  return dateCursor;
 }
