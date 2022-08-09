@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import FadePageTransition from '../../../components/animations/fade-page-transition';
-import LoginWithPhoneView from '../../../views/auth/login/phone';
+import FadePageTransition from '../../../../components/animations/fade-page-transition';
+import LoginWithPhoneView from '../../../../views/auth/login/phone';
 
 const PhoneLoginPage: NextPage = () => {
   return (

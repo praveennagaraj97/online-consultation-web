@@ -38,3 +38,24 @@ export const _isTouchDevice = () => {
     navigator.msMaxTouchPoints > 0
   );
 };
+
+export function _isMobileBrowser() {
+  const toMatch = [
+    /Android/i,
+    /webOS/i,
+    /iPhone/i,
+    /iPad/i,
+    /iPod/i,
+    /BlackBerry/i,
+    /Windows Phone/i,
+  ];
+
+  return toMatch.some((toMatchItem) => {
+    return navigator.userAgent.match(toMatchItem) || window.innerWidth <= 800;
+  });
+}
+
+export function _isSafari() {
+  // @ts-ignore
+  return window.safari;
+}

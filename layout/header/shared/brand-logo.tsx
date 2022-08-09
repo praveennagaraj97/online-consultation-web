@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Routes } from '../../../routes';
 
 export default function BrandLogo({
   isRootPage,
@@ -8,7 +7,7 @@ export default function BrandLogo({
   isRootPage: boolean;
 }): JSX.Element {
   return (
-    <Link href={Routes.Home}>
+    <Link href="/">
       <a>
         <div className="relative lg:w-28 w-24 h-full flex justify-start ">
           {isRootPage ? (

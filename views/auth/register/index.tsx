@@ -2,20 +2,23 @@ import axios from 'axios';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, FormEvent, useReducer, useState } from 'react';
+import { useRouter } from 'next/router';
+import type { FC, FormEvent } from 'react';
+import { useReducer, useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { ImSpinner2 } from 'react-icons/im';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import DatePicker from '../../../components/date-picker';
 import CommonInput from '../../../components/shared/inputs/common-input';
 import ResponseStatusTag from '../../../components/shared/response-status-tag';
+import { useAuthContext } from '../../../context/auth-context';
 import { registerUserFormErrors } from '../../../errors';
 import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 import { publicRoutes } from '../../../routes/api-routes';
-
+import type { AuthResponse } from '../../../types/response/auth.response';
 import { requestOptions } from '../../../utils/fetchOptions';
+
 import { apiErrorParser } from '../../../utils/parser';
-import RegisterEmailInput from './email-input';
 
 import {
   initialRegisterFormData,
@@ -27,10 +30,18 @@ const RegisterFormPhoneInput = dynamic(() => import('./phone-input'), {
   ssr: false,
 });
 
+const RegisterEmailInput = dynamic(() => import('./email-input'), {
+  ssr: false,
+});
+
 const RegisterView: FC = () => {
   const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
   const { setter, successmessage, errMessage } = useMessageStatusSetter();
+  const { query, push } = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { isLogged, login } = useAuthContext();
 
   const [state, dispatch] = useReducer(
     registerFormReducer,
@@ -51,6 +62,7 @@ const RegisterView: FC = () => {
         return;
       }
 
+      setLoading(true);
       const formData = new FormData();
       formData.append('name', state.name);
       formData.append('email', state.email);
@@ -60,13 +72,17 @@ const RegisterView: FC = () => {
       formData.append('verification_id', state.verification_id);
       formData.append('gender', state.gender);
 
-      const { data } = await axios.post(
+      const { data } = await axios.post<AuthResponse>(
         publicRoutes.Register,
         formData,
         requestOptions
       );
+
+      await setter(data.message, 'success');
+      push((query?.['redirectTo'] as string) || '/');
     } catch (error) {
-      await setter(apiErrorParser(error).message, 'error');
+      setLoading(false);
+      await setter(apiErrorParser(error)?.message, 'error');
     }
   }
 
@@ -99,6 +115,7 @@ const RegisterView: FC = () => {
                 placeholder="Name"
                 type="text"
                 name="name"
+                disabled={loading}
                 value={state.name}
                 onChange={(ev) => {
                   dispatch({
@@ -114,6 +131,7 @@ const RegisterView: FC = () => {
               />
               <RegisterEmailInput
                 email={state.email}
+                disabled={loading}
                 onChange={(email) => {
                   dispatch({
                     payload: email,

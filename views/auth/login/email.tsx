@@ -5,7 +5,6 @@ import AnchorTwist from '../../../components/animations/anchor-tag-twist';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import IsNewUser from '../../../components/auth/is-new-user';
 import TermsAndConditions from '../../../components/auth/terms-and-condition';
-import { Routes } from '../../../routes';
 
 const LoginWithEmailView: FC = () => {
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -43,11 +42,11 @@ const LoginWithEmailView: FC = () => {
           <div className="lg:px-6">
             <input
               type="tel"
-              placeholder="Enter mobile number"
-              className="common-input px-3 py-2 h-12 drop-shadow-sm"
+              placeholder="Enter email address"
+              className="common-input w-full px-3 py-2 h-12 drop-shadow-sm"
             />
             <AnchorTwist
-              href={Routes.LoginWithPhone}
+              href="/auth/login/phone"
               className="ml-1 underline text-blue-zodiac/80 mt-1"
             >
               <small>Login with mobile number</small>

@@ -12,7 +12,8 @@ const RegisterEmailInput: FC<{
   email: string;
   onChange: (value: string) => void;
   showValidation: boolean;
-}> = ({ email, onChange, showValidation }) => {
+  disabled: boolean;
+}> = ({ email, onChange, showValidation, disabled }) => {
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const RegisterEmailInput: FC<{
         type="email"
         name="email"
         value={email}
+        disabled={disabled}
         onChange={(ev) => {
           onChange(ev.target.value);
         }}

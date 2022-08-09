@@ -145,3 +145,12 @@ export function formattedDate(date: Date): string {
 export function formateDateToISO8601(date: Date): string {
   return date.toLocaleDateString('en-CA');
 }
+
+// Adds set of date by days count
+export function addNextDaysToDate(days: number, dateCursor?: Date) {
+  const date = dateCursor || new Date();
+
+  date.setDate(date.getDate() + days);
+
+  return date;
+}

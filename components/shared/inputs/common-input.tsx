@@ -50,24 +50,30 @@ const CommonInput: FC<InputProps> = (props) => {
         />
         {props.children}
       </div>
-      <div className="min-h-[24px]">
-        <AnimatePresence exitBeforeEnter>
-          {props.showvalidation && props.validation?.message && (
-            <motion.div
-              animate={{ opacity: 1 }}
-              initial={{ opacity: 0 }}
-              exit={{ opacity: 0 }}
-              className={`${
-                validation?.type === 'error' ? 'text-red-500' : 'text-green-500'
-              } text-left block text-sm  ml-1`}
-            >
-              <small title={validation?.message || ''}>
-                {validation?.message}
-              </small>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {props.validation ? (
+        <div className="min-h-[24px]">
+          <AnimatePresence exitBeforeEnter>
+            {props.showvalidation && props.validation?.message && (
+              <motion.div
+                animate={{ opacity: 1 }}
+                initial={{ opacity: 0 }}
+                exit={{ opacity: 0 }}
+                className={`${
+                  validation?.type === 'error'
+                    ? 'text-red-500'
+                    : 'text-green-500'
+                } text-left block text-sm  ml-1`}
+              >
+                <small title={validation?.message || ''}>
+                  {validation?.message}
+                </small>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

@@ -1,18 +1,17 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment } from 'react';
 
 const TermsAndConditions: FC = () => {
-  const [showShowModal, setShowModal] = useState<boolean>(false);
-
   return (
     <Fragment>
       <small className="block text-center text-blue-zodiac/70 ">
         By clicking on Continue, you agree to our
-        <p
+        <a
+          target="_blank"
+          href="/help/"
           className="text-razzmatazz/70 ml-2 cursor-pointer hover:text-blue-zodiac text-sm"
-          onClick={() => setShowModal(true)}
         >
           Terms & Conditions
-        </p>
+        </a>
       </small>
     </Fragment>
   );

@@ -1,0 +1,5 @@
+export enum StorageKeys {
+  LOGIN_DETAILS = '__LOGIN_DETAILS',
+  ACCESS_TOKEN = 'ACCESS_TOKEN',
+  REFRESH_TOKEN = 'REFRESH_TOKEN',
+}

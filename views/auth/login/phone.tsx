@@ -4,35 +4,92 @@ import { ImSpinner9 } from 'react-icons/im';
 import AnchorTwist from '../../../components/animations/anchor-tag-twist';
 import AuthWrapper from '../../../components/auth/auth-wrapper';
 import IsNewUser from '../../../components/auth/is-new-user';
-import TermsAndConditions from '../../../components/auth/terms-and-condition';
 import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 
 import PhoneInput from '../../../components/shared/inputs/phone-input';
 
-import { Routes } from '../../../routes';
-
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import ToggleInput from '../../../components/shared/inputs/toggle-input';
 import ResponseStatusTag from '../../../components/shared/response-status-tag';
-import { transformToNumberPipe } from '../../../utils/helpers';
+import { publicRoutes } from '../../../routes/api-routes';
+import { BaseAPiResponse } from '../../../types/response';
+import {
+  CheckPhoneOrEmailExists,
+  VerificationCode,
+} from '../../../types/response/auth.response';
+import { requestOptions } from '../../../utils/fetchOptions';
+import { apiErrorParser } from '../../../utils/parser';
+import {
+  validateIndianPhoneNumber,
+  validateIsValueIsNumeric,
+} from '../../../utils/validator';
 
 interface PhoneRequestContainerProps {}
 
 const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
-  const [enteredNumber, settEnteredNumber] = useState<number | string>('');
-  const { setter, errMessage, infoMessage, successmessage } =
-    useMessageStatusSetter();
+  const [enteredNumber, settEnteredNumber] = useState<string>('');
+  const { setter, errMessage, successmessage } = useMessageStatusSetter();
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const { push } = useRouter();
 
-  const [showOTPView, setShowOTPView] = useState<boolean>(false);
-
-  async function sendOTP() {}
-
-  function validator() {
-    if (!enteredNumber.toString().length) {
-      setter('Provide phone number', 'error');
-      return false;
+  async function sendOTP() {
+    if (!enteredNumber) {
+      return setter('Phone number cannot be empty', 'error');
     }
 
-    return true;
+    if (!validateIndianPhoneNumber(enteredNumber)) {
+      return setter('Entered phone number is not valid', 'error');
+    }
+
+    setIsSending(true);
+
+    const fd = await checkIfUseExistWithPhoneNumber();
+
+    if (!fd) {
+      setIsSending(false);
+      return;
+    }
+
+    try {
+      const { data } = await axios.post<BaseAPiResponse<VerificationCode>>(
+        publicRoutes.SendVerificationCode,
+        fd,
+        requestOptions
+      );
+      await setter(data.message, 'success');
+      push({
+        pathname: `/auth/login/phone/verify-code/${data.result.verification_id}/`,
+        query: {
+          rememberMe,
+        },
+      });
+    } catch (error) {
+      await setter(apiErrorParser(error)?.message, 'error');
+      setIsSending(false);
+    }
+  }
+
+  async function checkIfUseExistWithPhoneNumber(): Promise<FormData | null> {
+    const formData = new FormData();
+    formData.append('code', '+91');
+    formData.append('number', enteredNumber);
+
+    try {
+      const { data } = await axios.post<
+        BaseAPiResponse<CheckPhoneOrEmailExists>
+      >(publicRoutes.CheckIfPhoneNumberTaken, formData, requestOptions);
+
+      if (data.result.is_available) {
+        await setter("Couldn't find any account with given number", 'error');
+        return null;
+      }
+
+      return formData;
+    } catch (error) {
+      return null;
+    }
   }
 
   return (
@@ -71,30 +128,52 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
               type="tel"
               value={enteredNumber}
               disabled={isSending}
-              onChange={(e) => {
-                const number = transformToNumberPipe(e.target.value);
-                settEnteredNumber(number);
+              maxLength={10}
+              onChange={(ev) => {
+                if (!ev.target.value) {
+                  settEnteredNumber('');
+                } else if (validateIsValueIsNumeric(ev.target.value)) {
+                  settEnteredNumber(ev.target.value);
+                }
               }}
               placeholder="Enter mobile number"
-              className="px-3 py-2 h-12 pl-14 common-input"
+              className="px-3 py-2 h-12 pl-14 w-full rounded-lg"
             />
             <AnchorTwist
-              href={Routes.LoginWithEmail}
+              href="/auth/login/email"
               className="ml-1 underline text-blue-zodiac/80 mt-1"
             >
               <small>Login with email address</small>
             </AnchorTwist>
+            <div className="mt-6 mb-2">
+              <span className="block text-center text-blue-zodiac/70 mt-3 text-sm">
+                By clicking on continue, you agree to our
+                <a
+                  href="/help/terms-and-condition/"
+                  target="_blank"
+                  className="text-razzmatazz/70 ml-2 cursor-pointer hover:text-blue-zodiac text-sm smooth-animate"
+                >
+                  Terms & Conditions
+                </a>
+              </span>
+            </div>
+
+            <ResponseStatusTag
+              errMessage={errMessage}
+              successmessage={successmessage}
+            />
+
+            <div className="flex items-center space-x-2 text-sm mt-1 mb-4">
+              <ToggleInput
+                state={rememberMe}
+                onclick={() => {
+                  setRememberMe(!rememberMe);
+                }}
+              />
+              <span>Keep me logged in</span>
+            </div>
           </div>
 
-          <ResponseStatusTag
-            errMessage={errMessage}
-            infoMessage={infoMessage}
-            successmessage={successmessage}
-            className="text-sm min-h-[25px]"
-          />
-          <div className="my-1">
-            <TermsAndConditions />
-          </div>
           <button
             type="submit"
             className="md:w-1/2 w-11/12 rounded-lg py-2 mt-2

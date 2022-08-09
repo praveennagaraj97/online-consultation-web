@@ -113,7 +113,7 @@ const VerifyCode: FC<VerifyCodeProps> = ({
             : 'Change number'}
         </button>
       </div>
-      {!isVerified && !expired ? (
+      {!isVerified && !expired && attempts !== 4 ? (
         <Fragment>
           <div className="text-xs">
             {attempts !== null ? <strong>{attempts}/4 attempts - </strong> : ''}
