@@ -1,17 +1,16 @@
+import axios from 'axios';
 import { StorageKeys } from '../../constants';
+import { privateRoutes } from '../../routes/api-routes';
+import type { SessionData } from '../../types/globals';
+import type { RefreshTokenResponse } from '../../types/response/auth.response';
 import { addMinutes, addNextDaysToDate } from '../../utils/date-utils';
+import { requestOptions } from '../../utils/fetchOptions';
 import {
   _isMobileBrowser,
   _isSafari,
   _localStorage,
   _sessionStorage,
 } from '../../utils/web.api';
-
-interface SessionData {
-  logged_at: Date;
-  rememberMe: boolean;
-  expires_at: Date;
-}
 
 export function getAuthSession() {
   let session: string;
@@ -62,3 +61,25 @@ export function setAuthSession(
 }
 
 // Refresh Auth Token
+export async function refreshAuthToken() {
+  try {
+    const { data } = await axios.get<RefreshTokenResponse>(
+      privateRoutes.RefreshAuthToken,
+      {
+        params: {
+          force: true,
+        },
+        ...requestOptions(),
+      }
+    );
+    setAuthSession(false, data.access_token, data.refresh_token);
+    console.log('refreshed');
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function logoutUser() {
+  return axios.get(privateRoutes.Logout, requestOptions());
+}

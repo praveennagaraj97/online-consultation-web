@@ -16,3 +16,9 @@ export const publicRoutes = {
   LoginWithPhoneNumber: (remember: boolean) =>
     `/api/v1/auth/signin_with_phonenumber?remember_me=${remember}`,
 };
+
+export const privateRoutes = {
+  RefreshAuthToken: `/api/v1/auth/refresh_token`,
+
+  Logout: `/api/v1/auth/logout`,
+};

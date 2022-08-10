@@ -112,7 +112,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
         </div>
 
         <form
-          className="py-4 px-2 xl:px-20 lg:px-10 md:px-14 my-auto  mx-auto w-full"
+          className="py-4 px-2 xl:px-20 lg:px-10 md:px-14 my-auto  mx-auto w-full max-w-lg"
           onSubmit={(e) => {
             e.preventDefault();
             sendOTP();

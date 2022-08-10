@@ -1,19 +1,26 @@
 import { createContext, useContext, useState } from 'react';
-import { subtractMinutes } from '../../utils/date-utils';
-import { getAuthSession, setAuthSession } from './helpers';
+import { StorageKeys } from '../../constants';
+import { addNextDaysToDate, subtractMinutes } from '../../utils/date-utils';
+import { _localStorage, _sessionStorage } from '../../utils/web.api';
+import {
+  getAuthSession,
+  logoutUser,
+  refreshAuthToken,
+  setAuthSession,
+} from './helpers';
 
 interface AuthContextType {
   isLogged: boolean;
   login(rememberMe: boolean, token: { access: string; refresh: string }): void;
-  refreshToken: () => void;
   revalidateLoginStatus: () => void;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   isLogged: false,
   login() {},
-  refreshToken() {},
   revalidateLoginStatus() {},
+  logout() {},
 });
 
 export const useAuthContextData: () => AuthContextType = () => {
@@ -25,40 +32,73 @@ export const useAuthContextData: () => AuthContextType = () => {
   ) {
     setIsLogged(true);
     setAuthSession(rememberMe, token.access, token.refresh);
-  }
-
-  function refreshToken() {
-    const session = getAuthSession();
-    if (session) {
-      // Check if logged at is more than 29 days
-      console.log('refresh_expiry is not handled');
-
-      // Force refresh token before 5 mins ot after expired
-      if (new Date() >= subtractMinutes(29, new Date(session.expires_at))) {
-        // Set Next Refresh timer.
-      }
-    }
+    _nextAutoRefreshToken();
   }
 
   // Check if session exists
   function revalidateLoginStatus() {
-    if (getAuthSession()) {
+    const session = getAuthSession();
+    if (session) {
+      // Logout if login was 29 days before. | Refresh Token Expired
+      if (
+        addNextDaysToDate(29, new Date(session.logged_at)).getTime() <
+        new Date().getTime()
+      ) {
+        return logout();
+      }
+
       setIsLogged(true);
-      refreshToken();
+      _nextAutoRefreshToken();
+    }
+  }
+
+  async function logout() {
+    // Make API call
+    try {
+      await logoutUser();
+    } catch (_) {}
+
+    _localStorage()?.removeItem(StorageKeys.ACCESS_TOKEN);
+    _localStorage()?.removeItem(StorageKeys.REFRESH_TOKEN);
+    _localStorage()?.removeItem(StorageKeys.AUTH_SESSION);
+    _sessionStorage()?.removeItem(StorageKeys.ACCESS_TOKEN);
+    _sessionStorage()?.removeItem(StorageKeys.REFRESH_TOKEN);
+    _sessionStorage()?.removeItem(StorageKeys.AUTH_SESSION);
+    setIsLogged(false);
+  }
+
+  let _cancelTimeOutId: any;
+  function _nextAutoRefreshToken() {
+    clearTimeout(_cancelTimeOutId);
+    const session = getAuthSession();
+    if (session) {
+      const nextRefreshTime =
+        subtractMinutes(1, new Date(session.expires_at)).getTime() -
+        new Date().getTime();
+
+      console.log(
+        'NEXT REFRESH TOKEN AFTER : ',
+        nextRefreshTime / 1000 / 60,
+        ' minutes'
+      );
+
+      _cancelTimeOutId = setTimeout(async () => {
+        try {
+          await refreshAuthToken();
+          _nextAutoRefreshToken();
+        } catch (error) {
+          logout();
+        }
+      }, nextRefreshTime);
     }
   }
 
   return {
     isLogged,
     login,
-    refreshToken,
     revalidateLoginStatus,
+    logout,
   };
 };
 
 export const useAuthContext = () => useContext(AuthContext);
-
-async function refreshAuthToken() {
-  try {
-  } catch (error) {}
-}

@@ -27,3 +27,10 @@ export interface PhoneNumber {
   code: string;
   number: string;
 }
+
+export interface RefreshTokenResponse {
+  status_code: number;
+  message: string;
+  access_token: string;
+  refresh_token: string;
+}

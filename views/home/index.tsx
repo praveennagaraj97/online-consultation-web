@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import ViewContainer from '../../components/container/view-container';
 import DoctorsPanel from '../../components/doctor-panel';
 import ProductListSwiper from '../../components/products-list-swiper';
+import { useAuthContext } from '../../context/auth-context';
 import Carousel from './carousel';
 import QuickLinkCards from './quick-link-cards';
 
@@ -59,7 +60,9 @@ const HomePageView: FC = () => {
     },
   ];
 
-  const { data } = useSWR('/api/v1/user');
+  const { isLogged } = useAuthContext();
+
+  const { data } = useSWR(isLogged ? '/api/v1/user' : '');
 
   console.log(data);
   return (
