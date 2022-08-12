@@ -33,6 +33,7 @@ interface DatePickerProps {
   disabled?: boolean;
   btnClass?: string;
   showDateString?: boolean;
+  postionTop?: number;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -48,6 +49,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   btnClass = '',
   showDateString = true,
   showvalidation,
+  postionTop = 50,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const ctxValue = useDatepickerCtx(date, onChange, setShow, maxDate, minDate);
@@ -57,16 +59,15 @@ const DatePicker: React.FC<DatePickerProps> = ({
     exit: { opacity: 0 },
     initial: { y: '-10%', opacity: 0 },
   };
-
-  const closeRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useHandleClose(() => {
     setShow(false);
-  }, closeRef);
+  }, containerRef);
 
   return (
     <DatepickerCtx.Provider value={ctxValue}>
-      <div className={`relative w-full`} ref={closeRef}>
+      <div className={`relative w-full`} ref={containerRef}>
         {showDateString ? (
           <CommonInput
             className={className}
@@ -120,7 +121,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="absolute left-0 top-12 z-10 bg-white"
+              style={{
+                top: `${postionTop}px`,
+              }}
+              className="absolute z-50 left-0 bg-white shadow-lg"
             >
               <DatePickerLayout />
             </motion.div>

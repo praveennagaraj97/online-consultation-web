@@ -23,6 +23,9 @@ export const requestOptions: () => AxiosRequestConfig = () => {
   return {
     baseURL: process.env.NEXT_PUBLIC_API_BASEURL,
     withCredentials: true,
-    headers,
+    headers: {
+      ...headers,
+      'Time-Zone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
   };
 };

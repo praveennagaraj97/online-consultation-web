@@ -16,6 +16,7 @@ import { registerUserFormErrors } from '../../../errors';
 import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 import { publicRoutes } from '../../../routes/api-routes';
 import type { AuthResponse } from '../../../types/response/auth.response';
+import { formateDateToISO8601 } from '../../../utils/date-utils';
 import { requestOptions } from '../../../utils/fetchOptions';
 
 import { apiErrorParser } from '../../../utils/parser';
@@ -41,7 +42,7 @@ const RegisterView: FC = () => {
   const { query, push } = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { isLogged, login } = useAuthContext();
+  const { login } = useAuthContext();
 
   const [state, dispatch] = useReducer(
     registerFormReducer,
@@ -68,7 +69,10 @@ const RegisterView: FC = () => {
       formData.append('email', state.email);
       formData.append('phone_code', state.phone_code);
       formData.append('phone_number', state.phone_number);
-      formData.append('date_of_birth', '');
+      formData.append(
+        'date_of_birth',
+        formateDateToISO8601(state.date_of_birth!)
+      );
       formData.append('verification_id', state.verification_id);
       formData.append('gender', state.gender);
 
@@ -78,6 +82,7 @@ const RegisterView: FC = () => {
         requestOptions()
       );
 
+      login(false, { access: data.access_token, refresh: data.refresh_token });
       await setter(data.message, 'success');
       push((query?.['redirectTo'] as string) || '/');
     } catch (error) {

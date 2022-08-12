@@ -32,7 +32,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
   const { setter, errMessage, successmessage } = useMessageStatusSetter();
   const [isSending, setIsSending] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const { push } = useRouter();
+  const { push, query } = useRouter();
 
   async function sendOTP() {
     if (!enteredNumber) {
@@ -63,6 +63,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
         pathname: `/auth/login/phone/verify-code/${data.result.verification_id}/`,
         query: {
           rememberMe,
+          ...query,
         },
       });
     } catch (error) {
@@ -112,7 +113,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
         </div>
 
         <form
-          className="py-4 px-2 xl:px-20 lg:px-10 md:px-14 my-auto  mx-auto w-full max-w-lg"
+          className="py-4 px-2 xl:px-20 lg:px-10 md:px-14 my-auto  mx-auto w-full"
           onSubmit={(e) => {
             e.preventDefault();
             sendOTP();

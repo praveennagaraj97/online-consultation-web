@@ -62,7 +62,7 @@
 
   button:disabled,
   button[disabled] {
-    @apply opacity-50 transform transition-all pointer-events-none;
+    @apply opacity-50 transform transition-all pointer-events-none text-opacity-50;
   }
 
   input:disabled,

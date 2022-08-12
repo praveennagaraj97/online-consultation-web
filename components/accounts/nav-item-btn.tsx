@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 interface AccountNavItenButtonProps {
   icon: ReactNode;
@@ -18,13 +18,13 @@ const AccountNavItemButton: FC<AccountNavItenButtonProps> = ({
     <Link href={href}>
       <a>
         <button
-          className={`flex p-4 pr-16 w-full items-center ${
+          className={`flex p-4 pr-16 w-full items-center whitespace-nowrap ${
             isActive
               ? `text-gray-50 bg-razzmatazz `
               : `hover:bg-razzmatazz hover:text-gray-50`
           } transition-all transform duration-300`}
         >
-          {icon}
+          <span className="w-5">{icon}</span>
           <span className="ml-2">{title}</span>
         </button>
       </a>

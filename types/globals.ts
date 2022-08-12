@@ -1,5 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react';
-
 export type AccountPageOptions =
   | 'profile'
   | 'linkedProfiles'
@@ -8,7 +6,8 @@ export type AccountPageOptions =
 
 export interface ModalProps {
   showModal: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setShowModal?: (value: boolean) => void;
+  disableScroll?: boolean;
 }
 
 export type Action<T = string, P = void> = {

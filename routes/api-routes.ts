@@ -21,4 +21,6 @@ export const privateRoutes = {
   RefreshAuthToken: `/api/v1/auth/refresh_token`,
 
   Logout: `/api/v1/auth/logout`,
+
+  User: `/api/v1/user`,
 };

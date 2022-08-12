@@ -40,10 +40,7 @@ export const useAuthContextData: () => AuthContextType = () => {
     const session = getAuthSession();
     if (session) {
       // Logout if login was 29 days before. | Refresh Token Expired
-      if (
-        addNextDaysToDate(29, new Date(session.logged_at)).getTime() <
-        new Date().getTime()
-      ) {
+      if (addNextDaysToDate(29, new Date(session.logged_at)) < new Date()) {
         return logout();
       }
 
@@ -72,16 +69,19 @@ export const useAuthContextData: () => AuthContextType = () => {
     clearTimeout(_cancelTimeOutId);
     const session = getAuthSession();
     if (session) {
-      const nextRefreshTime =
-        subtractMinutes(1, new Date(session.expires_at)).getTime() -
-        new Date().getTime();
+      const currentDate = new Date();
+      const expireDate = subtractMinutes(1, new Date(session.expires_at));
+
+      const nextRefreshTime = +expireDate - +currentDate;
 
       console.log(
         'NEXT REFRESH TOKEN AFTER : ',
         nextRefreshTime / 1000 / 60,
         ' minutes'
       );
-
+      if (nextRefreshTime >= 2147483647) {
+        return;
+      }
       _cancelTimeOutId = setTimeout(async () => {
         try {
           await refreshAuthToken();
