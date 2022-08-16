@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, Variant } from 'framer-motion';
+import { motion, Variant } from 'framer-motion';
 import React, { useRef, useState } from 'react';
 import {
   BsCalendar2CheckFill,
@@ -8,6 +8,7 @@ import {
 import { DatepickerCtx, useDatepickerCtx } from '../../context/date-context';
 import useHandleClose from '../../hooks/useHandleClose';
 import { formattedDate } from '../../utils/date-utils';
+import Portal from '../modal';
 import CommonInput from '../shared/inputs/common-input';
 
 import DatePickerLayout from './layout';
@@ -110,26 +111,28 @@ const DatePicker: React.FC<DatePickerProps> = ({
             />
           )}
         </button>
-        <AnimatePresence exitBeforeEnter>
-          {show && (
-            <motion.div
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              variants={varients}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              style={{
-                top: `${postionTop}px`,
-              }}
-              className="absolute z-50 left-0 bg-white shadow-lg"
-            >
-              <DatePickerLayout />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Portal disableScroll={false} showModal={show}>
+          <motion.div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            variants={varients}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            style={{
+              top: `${
+                (containerRef.current?.getBoundingClientRect().top || 0) +
+                postionTop
+              }px`,
+              left: containerRef.current?.getBoundingClientRect().left,
+            }}
+            className="fixed z-50 left-0 bg-white shadow-lg"
+          >
+            <DatePickerLayout />
+          </motion.div>
+        </Portal>
       </div>
     </DatepickerCtx.Provider>
   );

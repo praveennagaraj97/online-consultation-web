@@ -108,6 +108,7 @@ const ProfileView: FC = () => {
 
       await mutate();
       setLoading(false);
+      setShowValidation(false);
       await setter('Profile details updated successfully', 'success');
     } catch (error) {
       await setter(apiErrorParser(error)?.message, 'error');
@@ -117,8 +118,8 @@ const ProfileView: FC = () => {
 
   return (
     <AccountViewLayout option="profile">
-      <form onSubmit={handleSubmit} className="py-6">
-        <div className="mb-4 mt-6">
+      <form onSubmit={handleSubmit}>
+        <div className="lg:mb-4 mt-6">
           <ProfileInput
             title="Full Name"
             value={state.name}
@@ -135,7 +136,18 @@ const ProfileView: FC = () => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 mb-4">
+        <div className="grid lg:grid-cols-2 lg:gap-4 mb-4">
+          <ProfilePhoneField
+            phone={state.phone_number}
+            showValidation={showvalidation}
+          />
+          <ProfileEmailInput
+            email={state.email}
+            isVerified={state.email_verified}
+          />
+        </div>
+
+        <div className="grid lg:grid-cols-2 lg:gap-4 mb-4">
           <ProfileDOBInput
             setDate={(date) => {
               dispatch({
@@ -174,17 +186,6 @@ const ProfileView: FC = () => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 mb-4">
-          <ProfilePhoneField
-            phone={state.phone_number}
-            showValidation={showvalidation}
-          />
-          <ProfileEmailInput
-            email={state.email}
-            isVerified={state.email_verified}
-          />
-        </div>
-
         <ResponseStatusTag
           errMessage={errMessage}
           successmessage={successmessage}
@@ -196,7 +197,7 @@ const ProfileView: FC = () => {
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
               type="submit"
-              className="px-8 rounded-lg py-2 mx-auto razzmatazz-to-transparent mt-2 flex items-center space-x-2"
+              className="px-8 rounded-lg py-2 mx-auto razzmatazz-to-transparent mt-4 flex items-center space-x-2"
             >
               {loading ? <ImSpinner2 className="animate-spin" /> : ''}
               <span>Save changes</span>
