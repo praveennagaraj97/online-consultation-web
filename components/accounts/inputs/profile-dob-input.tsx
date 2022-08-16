@@ -28,7 +28,6 @@ const ProfileDOBInput: FC<ProfileDOBInputProps> = (props) => {
           className="w-full focus:outline-none border-0 focus:border-0"
           btnClass="absolute right-0 top-0"
           date={props.date}
-          validation={props.validation}
           postionTop={35}
           maxDate={new Date()}
         />
