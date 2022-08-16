@@ -3,7 +3,6 @@ import { FC, Fragment, useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import SearchHeader from '../../../components/container/search-header';
 import ViewContainer from '../../../components/container/view-container';
-import DelivertAddressModel from '../../../components/modal/delivery-address';
 
 const CartManualPrescriptionView: FC = () => {
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
@@ -72,10 +71,10 @@ const CartManualPrescriptionView: FC = () => {
                 >
                   Add Delivery Address
                 </button>
-                <DelivertAddressModel
+                {/* <DelivertAddressModel
                   setShowModal={setShowAddressModal}
                   showModal={showAddressModal}
-                />
+                /> */}
               </div>
             </div>
           </div>

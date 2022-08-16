@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import DelivertAddressModel from '../../components/modal/delivery-address';
 
 const OrderSummary: FC = () => {
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
@@ -46,10 +45,10 @@ const OrderSummary: FC = () => {
       >
         Add Delivery Address
       </button>
-      <DelivertAddressModel
+      {/* <DelivertAddressModel
         setShowModal={setShowAddressModal}
         showModal={showAddressModal}
-      />
+      /> */}
     </div>
   );
 };

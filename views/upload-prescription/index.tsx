@@ -4,7 +4,6 @@ import { AiOutlineSelect } from 'react-icons/ai';
 import { RiGalleryUploadLine } from 'react-icons/ri';
 import SearchHeader from '../../components/container/search-header';
 import ViewContainer from '../../components/container/view-container';
-import UploadPrescriptionModal from '../../components/modal/upload-prescription';
 import { Routes } from '../../routes';
 
 const UploadPrescriptionView: FC = () => {
@@ -80,10 +79,10 @@ const UploadPrescriptionView: FC = () => {
           </span>
         </div>
       </ViewContainer>
-      <UploadPrescriptionModal
+      {/* <UploadPrescriptionModal
         setShowModal={setShowUploadModal}
         showModal={showUploadModal}
-      />
+      /> */}
     </Fragment>
   );
 };

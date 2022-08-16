@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
 import DoctorCard from '../../../components/consultation/shared/doctor-card';
-import DoctorFilterModal from '../../../components/consultation/shared/doctor-filter-modal';
 import ViewContainer from '../../../components/container/view-container';
 
 const ChooseDoctorView: FC = () => {
@@ -33,7 +32,7 @@ const ChooseDoctorView: FC = () => {
         <DoctorCard />
         <DoctorCard />
       </div>
-      <DoctorFilterModal setShowModal={setShowFilter} showModal={showFilter} />
+      {/* <DoctorFilterModal setShowModal={setShowFilter} showModal={showFilter} /> */}
     </ViewContainer>
   );
 };
