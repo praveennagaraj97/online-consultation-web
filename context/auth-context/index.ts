@@ -79,7 +79,7 @@ export const useAuthContextData: () => AuthContextType = () => {
         nextRefreshTime / 1000 / 60,
         ' minutes'
       );
-      if (nextRefreshTime >= 2147483647) {
+      if (nextRefreshTime >= 432000000) {
         return;
       }
       _cancelTimeOutId = setTimeout(async () => {

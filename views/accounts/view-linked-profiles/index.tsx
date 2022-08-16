@@ -18,7 +18,7 @@ const LinkedProfilesView: FC = () => {
           <span>Add New</span>
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 p-4">
         <LinkedProfileCard />
         <LinkedProfileCard />
         <LinkedProfileCard />

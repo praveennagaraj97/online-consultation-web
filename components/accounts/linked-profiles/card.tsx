@@ -4,7 +4,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 
 const LinkedProfileCard: FC = () => {
   return (
-    <div className="border drop-shadow-xl shadow-lg rounded-xl py-3 px-4">
+    <div className="border drop-shadow-xl shadow-lg rounded-xl py-3 px-4 smooth-animate hover:scale-105">
       <div className="grid grid-cols-2 mb-1">
         <p>Name</p>
         <p className="text-right font-semibold">Donal Stevan Paul</p>
