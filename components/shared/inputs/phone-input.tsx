@@ -12,20 +12,23 @@ interface PhoneInputProps
   };
   showvalidation?: boolean;
   phonecode?: string;
+  phonecodeclassname: string;
 }
 
-const PhoneInput: FC<PhoneInputProps> = (options) => {
+const PhoneInput: FC<PhoneInputProps> = (props) => {
   return (
     <div className="relative">
       <div
-        className={`p-2 px-3.5 h-12 absolute flex items-center border shadow-md  rounded-lg z-10 ${
-          options.disabled ? 'disabled bg-transparent' : ''
+        className={`${
+          props.phonecodeclassname
+        } absolute flex items-center border shadow-md  rounded-lg z-10 ${
+          props.disabled ? 'disabled bg-transparent' : ''
         }`}
       >
-        {options.phonecode || '+91'}
+        {props.phonecode || '+91'}
       </div>
 
-      <CommonInput validation={options.validation} {...options} />
+      <CommonInput validation={props.validation} {...props} />
     </div>
   );
 };

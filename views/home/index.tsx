@@ -64,7 +64,6 @@ const HomePageView: FC = () => {
 
   const { data } = useSWR(isLogged ? '/api/v1/user' : '');
 
-  console.log(data);
   return (
     <ViewContainer ariaDescribedBy="Home Page Section Start">
       <Carousel />

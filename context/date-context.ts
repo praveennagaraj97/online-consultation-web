@@ -1,5 +1,10 @@
-import type { Dispatch, SetStateAction } from 'react';
-import { createContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import type {
   DatepickerContextType,
   MonthYear,
@@ -70,6 +75,16 @@ export function useDatepickerCtx(
     setMonthYear((state) => ({ ...state, year: y }));
     setView('month');
   };
+
+  useEffect(() => {
+    if (date instanceof Date && !isNaN(date as any)) {
+      setMonthYear((state) => ({
+        ...state,
+        year: date.getFullYear(),
+        month: date.getMonth(),
+      }));
+    }
+  }, [date]);
 
   return {
     date,

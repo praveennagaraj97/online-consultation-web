@@ -67,14 +67,6 @@ const ProfileView: FC = () => {
     }
   }, [data, state]);
 
-  if (isValidating) {
-    return (
-      <AccountViewLayout option="profile">
-        <ProfileSkeleton />
-      </AccountViewLayout>
-    );
-  }
-
   async function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
     try {
@@ -114,6 +106,14 @@ const ProfileView: FC = () => {
       await setter(apiErrorParser(error)?.message, 'error');
       setLoading(false);
     }
+  }
+
+  if (isValidating) {
+    return (
+      <AccountViewLayout option="profile">
+        <ProfileSkeleton />
+      </AccountViewLayout>
+    );
   }
 
   return (

@@ -12,11 +12,7 @@ interface PortalProps extends ModalProps {
  * @props PortalProps
  * @returns Client only Portal
  */
-const Portal: FC<PortalProps> = ({
-  children,
-  showModal,
-  disableScroll = false,
-}) => {
+const Portal: FC<PortalProps> = ({ children, showModal, disableScroll }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -40,15 +36,13 @@ const Portal: FC<PortalProps> = ({
   }, []);
 
   useEffect(() => {
-    if (showModal && !disableScroll) {
-      _document()?.body.classList.add('modal-open');
-    } else {
-      _document()?.body.classList.remove('modal-open');
+    if (disableScroll) {
+      if (showModal) {
+        _document()!.body.style.overflow = 'hidden';
+      } else {
+        _document()!.body.style.overflow = '';
+      }
     }
-
-    return () => {
-      _document()?.body.classList.remove('modal-open');
-    };
   }, [disableScroll, showModal]);
 
   if (!ref.current) {

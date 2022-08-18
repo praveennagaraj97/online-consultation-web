@@ -20,3 +20,8 @@ export interface SessionData {
   rememberMe: boolean;
   expires_at: Date;
 }
+
+export type ErrorResponseCallback = {
+  type: 'error' | 'success';
+  message: string;
+};

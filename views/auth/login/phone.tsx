@@ -137,6 +137,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
                   settEnteredNumber(ev.target.value);
                 }
               }}
+              phonecodeclassname="h-12 p-3"
               placeholder="Enter mobile number"
               className="px-3 py-2 h-12 pl-14 w-full rounded-lg"
             />

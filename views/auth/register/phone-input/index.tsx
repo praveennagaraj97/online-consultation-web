@@ -132,6 +132,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
           placeholder="Enter mobile number"
           className="w-full pr-3 py-2 pl-14 rounded-lg h-12"
           name="phone_number"
+          phonecodeclassname="h-12 p-3"
           phonecode={phoneCode}
           disabled={verificationId.length > 0}
           onChange={(ev) => {
