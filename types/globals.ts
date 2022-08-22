@@ -21,7 +21,8 @@ export interface SessionData {
   expires_at: Date;
 }
 
-export type ErrorResponseCallback = {
+export interface ErrorResponseCallback<E = void> {
   type: 'error' | 'success';
   message: string;
-};
+  errors?: E;
+}

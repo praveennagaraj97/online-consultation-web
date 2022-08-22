@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FC, FormEvent, useReducer, useRef, useState } from 'react';
+import { FC, FormEvent, useEffect, useReducer, useRef, useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 import { IoIosClose } from 'react-icons/io';
 import { GendersOptions, RelationshipOptions } from '../../../../constants';
@@ -9,6 +9,7 @@ import useMessageStatusSetter from '../../../../hooks/useStatusMessageSetter';
 import useWindowResize from '../../../../hooks/useWindowResize';
 import { RelativeFormDTO } from '../../../../types/dto/account.dto';
 import { ErrorResponseCallback, ModalProps } from '../../../../types/globals';
+import { RelativeEntity } from '../../../../types/response/user.response';
 import { formateDateToISO8601 } from '../../../../utils/date-utils';
 import {
   validateEmail,
@@ -29,8 +30,11 @@ import {
 interface PatientRelativeFormProps extends Omit<ModalProps, 'disableScroll'> {
   heading: string;
   btnName: string;
-  defaultValue?: RelativeFormDTO;
-  onSubmit: (values: RelativeFormDTO) => Promise<ErrorResponseCallback>;
+  defaultValue?: RelativeEntity;
+  onSubmit: (
+    values: RelativeFormDTO
+  ) => Promise<ErrorResponseCallback<RelativeFormDTO | null>>;
+  onClose?: () => void;
 }
 
 const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
@@ -40,6 +44,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
   btnName,
   defaultValue,
   onSubmit,
+  onClose = () => {},
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowResize(true);
@@ -47,17 +52,21 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const { setter, successmessage, errMessage } = useMessageStatusSetter();
 
+  const [errors, setErrors] = useState<RelativeFormDTO>();
+
   const [state, dispatch] = useReducer(
     relativeFormReducer,
-    defaultValue || initialRelativeFormData
+    initialRelativeFormData
   );
 
   useHandleClose(() => {
     setShowModal(false);
+    onClose();
   }, containerRef);
 
   async function handleOnSubmit(ev: FormEvent) {
     ev.preventDefault();
+
     setShowValidation(true);
 
     const formKeys = Object.keys(state);
@@ -65,21 +74,73 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
     if (formKeys.some((key: string) => state?.[key] == '')) {
       return;
     }
+
     setLoading(true);
-    setShowValidation(false);
-    const { message, type } = await onSubmit(state);
+    const { message, type, errors } = await onSubmit(state);
+
     if (type === 'error') {
-      await setter(message, 'error');
+      if (errors) {
+        setErrors(errors);
+      }
+      await setter(message || '', 'error');
     } else {
-      await setter(message, 'success');
+      await setter(message || '', 'success');
       dispatch({ type: RelativeFormActions.Reset, payload: null });
+      setShowModal(false);
+      onClose();
     }
 
     setLoading(false);
   }
 
+  useEffect(() => {
+    if (defaultValue) {
+      const { date_of_birth, email, gender, name, phone, relation } =
+        defaultValue;
+
+      dispatch({
+        payload: {
+          date_of_birth,
+          email,
+          gender,
+          name,
+          phone_code: phone.code,
+          phone_number: phone.number,
+          relation,
+        },
+        type: RelativeFormActions.InitDefaultValues,
+      });
+    }
+  }, [defaultValue]);
+
+  useEffect(() => {
+    if (showValidation) {
+      setErrors({
+        name: state.name.trim() ? '' : relativeUserFormErrors.name,
+        email: state.email
+          ? validateEmail(state.email)
+            ? ''
+            : relativeUserFormErrors.email.invalid
+          : relativeUserFormErrors.email.required,
+        phone_number: !state.phone_number.trim()
+          ? relativeUserFormErrors.phone.required
+          : validateIndianPhoneNumber(state.phone_number)
+          ? ''
+          : relativeUserFormErrors.phone.invalid,
+        date_of_birth: !state.date_of_birth
+          ? relativeUserFormErrors.dateOfBirth
+          : '',
+        gender: !state.gender ? relativeUserFormErrors.gender : '',
+        relation: !state.relation.trim()
+          ? relativeUserFormErrors.relationship
+          : '',
+        phone_code: '',
+      });
+    }
+  }, [state, showValidation]);
+
   return (
-    <Portal showModal={showModal} disableScroll={true}>
+    <Portal showModal={showModal} disableScroll>
       <motion.div
         ref={containerRef}
         initial={width > 640 ? { x: '200%' } : { y: '100%' }}
@@ -96,7 +157,10 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               className="cursor-pointer bg-razzmatazz rounded-full text-gray-50
               border border-razzmatazz hover:bg-transparent hover:text-blue-zodiac/70 smooth-animate"
               role="button"
-              onClick={() => setShowModal(false)}
+              onClick={() => {
+                setShowModal(false);
+                onClose();
+              }}
             />
           </div>
 
@@ -119,7 +183,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               }}
               validation={{
                 type: 'error',
-                message: state.name.trim() ? '' : relativeUserFormErrors.name,
+                message: errors?.name,
               }}
             />
             <CommonInput
@@ -129,11 +193,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               disabled={loading}
               validation={{
                 type: 'error',
-                message: state.email
-                  ? validateEmail(state.email)
-                    ? ''
-                    : relativeUserFormErrors.email.invalid
-                  : relativeUserFormErrors.email.required,
+                message: errors?.email,
               }}
               value={state.email}
               onChange={(ev) => {
@@ -151,11 +211,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               disabled={loading}
               validation={{
                 type: 'error',
-                message: !state.phone_number.trim()
-                  ? relativeUserFormErrors.phone.required
-                  : validateIndianPhoneNumber(state.phone_number)
-                  ? ''
-                  : relativeUserFormErrors.phone.invalid,
+                message: errors?.phone_number,
               }}
               value={state.phone_number}
               maxLength={10}
@@ -184,9 +240,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               showvalidation={showValidation}
               validation={{
                 type: 'error',
-                message: !state.date_of_birth
-                  ? relativeUserFormErrors.dateOfBirth
-                  : '',
+                message: errors?.date_of_birth,
               }}
             />
             <SelectInput
@@ -196,7 +250,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               disabled={loading}
               validation={{
                 type: 'error',
-                message: !state.gender ? relativeUserFormErrors.gender : '',
+                message: errors?.gender,
               }}
               value={state.gender}
               onChange={(ev) => {
@@ -224,9 +278,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               value={state.relation}
               validation={{
                 type: 'error',
-                message: !state.relation.trim()
-                  ? relativeUserFormErrors.relationship
-                  : '',
+                message: errors?.relation,
               }}
               onChange={(ev) => {
                 dispatch({
@@ -255,7 +307,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               className="razzmatazz-to-transparent px-6 py-2 rounded-lg  mx-auto mb-5 flex space-x-2 gap-x-2 items-center"
             >
               {loading ? <ImSpinner2 className="animate-spin" /> : ''}
-              <span>{btnName}</span>
+              <span>{loading ? 'Please wait' : btnName}</span>
             </button>
           </form>
         </div>

@@ -87,7 +87,7 @@ const RegisterView: FC = () => {
       push((query?.['redirectTo'] as string) || '/');
     } catch (error) {
       setLoading(false);
-      await setter(apiErrorParser(error)?.message, 'error');
+      await setter(apiErrorParser(error)?.message || '', 'error');
     }
   }
 

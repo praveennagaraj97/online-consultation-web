@@ -94,7 +94,7 @@ const RegisterFormPhoneInput: FC<RegisterFormPhoneInputProps> = ({
       onVerificationIdChange(data.result.verification_id);
       return null;
     } catch (error) {
-      setter(apiErrorParser(error).message, 'error');
+      setter(apiErrorParser(error)?.message || '', 'error');
       return null;
     }
   }

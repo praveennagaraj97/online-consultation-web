@@ -67,7 +67,7 @@ const LoginWithPhoneView: FC<PhoneRequestContainerProps> = ({}) => {
         },
       });
     } catch (error) {
-      await setter(apiErrorParser(error)?.message, 'error');
+      await setter(apiErrorParser(error)?.message || '', 'error');
       setIsSending(false);
     }
   }

@@ -10,6 +10,7 @@ export enum RelativeFormActions {
   Gender,
   DateOfBirth,
   Reset,
+  InitDefaultValues,
 }
 
 export const initialRelativeFormData: RelativeFormDTO = {
@@ -47,6 +48,9 @@ export const relativeFormReducer: Reducer<
 
     case RelativeFormActions.Reset:
       return initialRelativeFormData;
+
+    case RelativeFormActions.InitDefaultValues:
+      return { ...state, ...action.payload };
 
     default:
       return initialRelativeFormData;

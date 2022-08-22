@@ -23,4 +23,6 @@ export const privateRoutes = {
   Logout: `/api/v1/auth/logout`,
 
   User: `/api/v1/user`,
+
+  Relative: `/api/v1/user/relative`,
 };

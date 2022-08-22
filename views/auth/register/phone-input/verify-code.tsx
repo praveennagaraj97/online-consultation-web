@@ -52,7 +52,7 @@ const VerifyCode: FC<VerifyCodeProps> = ({
     } catch (error) {
       const errRes = apiErrorParser(error);
 
-      await setter(errRes.message, 'error');
+      await setter(errRes?.message || '', 'error');
       onVerify(false);
       setIsVerifying(false);
     }

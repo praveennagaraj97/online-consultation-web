@@ -103,7 +103,7 @@ const ProfileView: FC = () => {
       setShowValidation(false);
       await setter('Profile details updated successfully', 'success');
     } catch (error) {
-      await setter(apiErrorParser(error)?.message, 'error');
+      await setter(apiErrorParser(error)?.message || '', 'error');
       setLoading(false);
     }
   }

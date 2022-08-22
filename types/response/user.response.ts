@@ -9,3 +9,13 @@ export interface UserEntity {
   gender: string;
   email_verified: boolean;
 }
+
+export interface RelativeEntity {
+  id: string;
+  name: string;
+  email: string;
+  phone: PhoneType;
+  date_of_birth: string;
+  gender: string;
+  relation: string;
+}

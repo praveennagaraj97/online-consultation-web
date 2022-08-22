@@ -2,18 +2,42 @@ import axios from 'axios';
 import { FC, Fragment, useState } from 'react';
 import { VscPersonAdd } from 'react-icons/vsc';
 import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
-import { RelativeFormDTO } from '../../../types/dto/account.dto';
+import { privateRoutes } from '../../../routes/api-routes';
+import type { RelativeFormDTO } from '../../../types/dto/account.dto';
 import { ErrorResponseCallback } from '../../../types/globals';
+import { requestOptions } from '../../../utils/fetchOptions';
+import { apiErrorParser } from '../../../utils/parser';
 
 const AddNewRelative: FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   async function handleOnSubmit(
     formValues: RelativeFormDTO
-  ): Promise<ErrorResponseCallback> {
-    await axios.post('/', formValues);
+  ): Promise<ErrorResponseCallback<RelativeFormDTO | null>> {
+    const formData = new FormData();
 
-    return { message: 'Added successfully', type: 'success' };
+    for (let key in formValues) {
+      //@ts-ignore
+      formData.append(key, `${formValues[key]}`);
+    }
+
+    try {
+      const { data } = await axios.post(
+        privateRoutes.Relative,
+        formData,
+        requestOptions()
+      );
+
+      return { message: 'Added successfully', type: 'success' };
+    } catch (error) {
+      const errs = apiErrorParser<RelativeFormDTO>(error);
+
+      return {
+        message: errs?.message,
+        type: 'error',
+        errors: errs?.errors,
+      };
+    }
   }
 
   return (

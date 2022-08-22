@@ -9,7 +9,7 @@ export interface PaginatedBaseAPiResponse<T> {
   next: boolean;
   prev: boolean;
   paginate_id: string | null;
-  result: T | null;
+  results: T | null;
   status_code: number;
   message: string;
 }
@@ -26,10 +26,11 @@ export type ImageType = {
   height: number;
 };
 
-export type ErrorEntity = {
+export interface ErrorEntity<E = void> {
   status_code: number;
   message: string;
-};
+  errors?: E;
+}
 
 export interface ErrorResponse<T> {
   response: {
