@@ -75,6 +75,14 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
       return;
     }
 
+    if (!validateEmail(state.email)) {
+      return;
+    }
+
+    if (!validateIndianPhoneNumber(state.phone_number)) {
+      return;
+    }
+
     setLoading(true);
     const { message, type, errors } = await onSubmit(state);
 
@@ -87,6 +95,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
       await setter(message || '', 'success');
       dispatch({ type: RelativeFormActions.Reset, payload: null });
       setShowModal(false);
+      setShowValidation(false);
       onClose();
     }
 
@@ -260,7 +269,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
                 });
               }}
             >
-              <option value="">Choose your gender</option>
+              <option value="">Choose gender</option>
               {GendersOptions.map(({ label, value }) => {
                 return (
                   <option value={value} key={value}>

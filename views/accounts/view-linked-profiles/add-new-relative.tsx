@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { FC, Fragment, useState } from 'react';
 import { VscPersonAdd } from 'react-icons/vsc';
+import { mutate } from 'swr';
 import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
 import { privateRoutes } from '../../../routes/api-routes';
 import type { RelativeFormDTO } from '../../../types/dto/account.dto';
 import { ErrorResponseCallback } from '../../../types/globals';
+import { BaseAPiResponse } from '../../../types/response';
+import { RelativeEntity } from '../../../types/response/user.response';
 import { requestOptions } from '../../../utils/fetchOptions';
 import { apiErrorParser } from '../../../utils/parser';
 
@@ -22,13 +25,14 @@ const AddNewRelative: FC = () => {
     }
 
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.post<BaseAPiResponse<RelativeEntity>>(
         privateRoutes.Relative,
         formData,
         requestOptions()
       );
 
-      return { message: 'Added successfully', type: 'success' };
+      await mutate(privateRoutes.Relative);
+      return { message: data.message, type: 'success' };
     } catch (error) {
       const errs = apiErrorParser<RelativeFormDTO>(error);
 

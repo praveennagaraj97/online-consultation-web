@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { FC, useState } from 'react';
+import { FC, Fragment, useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import AccountViewLayout from '../../../components/accounts/layout';
 import LinkedProfileCard from '../../../components/accounts/linked-profiles/card';
 import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
 import ConfirmModal from '../../../components/modal/confirm-modal';
+import ResponseStatusTag from '../../../components/shared/response-status-tag';
+import LinkedProfileCardSkeleton from '../../../components/skeletons/accounts/linked-profile-card';
+import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 import { privateRoutes } from '../../../routes/api-routes';
 import { RelativeFormDTO } from '../../../types/dto/account.dto';
 import { ErrorResponseCallback } from '../../../types/globals';
@@ -21,6 +24,8 @@ const LinkedProfilesView: FC = () => {
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [editData, setEditData] = useState<RelativeEntity>();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
+  const { errMessage, setter, successmessage } = useMessageStatusSetter();
+  const [deleteId, setDeleteId] = useState<string>();
 
   async function handleEdit(
     formValues: RelativeFormDTO
@@ -73,27 +78,50 @@ const LinkedProfilesView: FC = () => {
     }
   }
 
+  async function handleDelete() {
+    try {
+      await axios.delete(privateRoutes.Relative + '/' + deleteId, {
+        ...requestOptions(),
+      });
+      await mutate(privateRoutes.Relative);
+      await setter('Relative profile deleted successfully', 'error');
+      setShowDeleteConfirm(false);
+      setDeleteId(undefined);
+    } catch (error) {
+      setter(apiErrorParser(error)?.message || '', 'error');
+    }
+  }
+
   return (
     <AccountViewLayout option="linkedProfiles">
       <AddNewRelative />
-      <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-6 p-4">
-        {data?.results?.map((relative) => {
-          return (
-            <LinkedProfileCard
-              key={relative.id}
-              {...relative}
-              onEditClick={(ev) => {
-                ev.stopPropagation();
-                setEditData(relative);
-                setShowEditForm(true);
-              }}
-              onDeleteClick={(ev) => {
-                ev.stopPropagation();
-                setShowDeleteConfirm(true);
-              }}
-            />
-          );
-        })}
+      <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-6 p-4 mb-8">
+        {isValidating ? (
+          new Array(6).fill('').map((_, idx) => {
+            return <LinkedProfileCardSkeleton key={idx} />;
+          })
+        ) : (
+          <Fragment>
+            {data?.results?.map((relative) => {
+              return (
+                <LinkedProfileCard
+                  key={relative.id}
+                  {...relative}
+                  onEditClick={(ev) => {
+                    ev.stopPropagation();
+                    setEditData(relative);
+                    setShowEditForm(true);
+                  }}
+                  onDeleteClick={(ev) => {
+                    ev.stopPropagation();
+                    setShowDeleteConfirm(true);
+                    setDeleteId(relative.id);
+                  }}
+                />
+              );
+            })}
+          </Fragment>
+        )}
       </div>
       <PatientRelativeForm
         btnName="Save Changes"
@@ -112,7 +140,13 @@ const LinkedProfilesView: FC = () => {
         onCancel={() => {
           setShowDeleteConfirm(false);
         }}
-        onConfirm={() => {}}
+        responseMsgChildren={
+          <ResponseStatusTag
+            errMessage={errMessage}
+            successmessage={successmessage}
+          />
+        }
+        onConfirm={handleDelete}
         showModal={showDeleteConfirm}
         isAsync
         content={{
