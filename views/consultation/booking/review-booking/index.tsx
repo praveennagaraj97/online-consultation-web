@@ -3,7 +3,6 @@ import { FC } from 'react';
 import AnchorTwist from '../../../../components/animations/anchor-tag-twist';
 import DoctorProfileCard from '../../../../components/consultation/doctor-profile/profile-card';
 import ViewContainer from '../../../../components/container/view-container';
-import { DynamicRoutes, Routes } from '../../../../routes';
 
 const ReviewBookingView: FC = () => {
   return (
@@ -22,14 +21,7 @@ const ReviewBookingView: FC = () => {
               </button>
 
               <div className="font-semibold text-razzmatazz">
-                <AnchorTwist
-                  href={DynamicRoutes.DoctorProfile(
-                    'susan-duran',
-                    '1222dwadahjk212jkhdw'
-                  )}
-                >
-                  Change Date & Time
-                </AnchorTwist>
+                <AnchorTwist href={''}>Change Date & Time</AnchorTwist>
               </div>
             </div>
           </div>
@@ -74,7 +66,7 @@ const ReviewBookingView: FC = () => {
             <p className="font-semibold">Amount to be paid</p>
             <p>₹ 400</p>
           </div>
-          <Link href={Routes.InstantConsultationConnectToDoctor}>
+          <Link href={''}>
             <a
               role="button"
               className="razzmatazz-to-transparent block mx-auto py-2 px-5 rounded-md mt-10 text-center w-fit"

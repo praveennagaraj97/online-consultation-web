@@ -11,8 +11,6 @@ import { BsPeople } from 'react-icons/bs';
 import { FaRegAddressCard } from 'react-icons/fa';
 import { useAuthContext } from '../../../context/auth-context';
 
-import { Routes } from '../../../routes';
-
 import { AccountPageOptions } from '../../../types/globals';
 import FadePageTransition from '../../animations/fade-page-transition';
 
@@ -55,19 +53,19 @@ const AccountViewLayout: FC<{
         `}
       >
         <AccountNavItemButton
-          href={Routes.Profile}
+          href={'/account/profile'}
           icon={<AiOutlineUser />}
           title="My Profile"
           isActive={option === 'profile'}
         />
         <AccountNavItemButton
-          href={Routes.LinkedProfiles}
+          href={'/account/linked-profiles'}
           icon={<BsPeople />}
           title="View Linked Profiles"
           isActive={option === 'linkedProfiles'}
         />
         <AccountNavItemButton
-          href={Routes.Orders}
+          href={'/account/orders'}
           icon={<AiOutlineMedicineBox />}
           title="My Orders"
           isActive={option === 'myOrders'}
@@ -79,7 +77,7 @@ const AccountViewLayout: FC<{
           isActive={option === 'myAppointments'}
         />
         <AccountNavItemButton
-          href={Routes.Home}
+          href={'/'}
           icon={<BiReceipt />}
           title="Invoices"
           isActive={false}

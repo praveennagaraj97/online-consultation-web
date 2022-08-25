@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import { GoPrimitiveDot } from 'react-icons/go';
-import { Routes } from '../../routes';
 
 const ConsultCard: FC = () => {
   return (
@@ -30,7 +29,7 @@ const ConsultCard: FC = () => {
           </div>
         </div>
       </div>
-      <Link href={Routes.Consultation} passHref>
+      <Link href={'/consultation'} passHref>
         <button className="px-3 py-1 border rounded-lg razzmatazz-to-transparent hover:text-gray-50">
           Consult Now
         </button>

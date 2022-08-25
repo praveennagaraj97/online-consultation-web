@@ -26,3 +26,5 @@ export interface ErrorResponseCallback<E = void> {
   message: string;
   errors?: E;
 }
+
+export type ConsultatationType = 'Schedule' | 'Instant';

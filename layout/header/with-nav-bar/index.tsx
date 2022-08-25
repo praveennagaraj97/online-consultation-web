@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from 'react';
 import { BsFillCartPlusFill } from 'react-icons/bs';
 import { FaFilePrescription } from 'react-icons/fa';
 import AnchorTwist from '../../../components/animations/anchor-tag-twist';
-import { Routes } from '../../../routes';
 
 import { toggleFixedHeader } from '../../../utils/helpers';
 import BrandLogo from '../shared/brand-logo';
@@ -71,19 +70,19 @@ const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
               </div>
               <AnchorTwist
                 className="mx-4  hover:text-pink-500 text-sm"
-                href={Routes.OrderMedicines}
+                href={'/order-medicines'}
               >
                 <span>Order Medicines</span>
               </AnchorTwist>
               <AnchorTwist
                 className="mx-4  hover:text-pink-500 text-sm"
-                href={Routes.Consultation}
+                href={'/consultation'}
               >
                 <span>Consult a Doctor</span>
               </AnchorTwist>
 
               <AnchorTwist
-                href={Routes.Cart}
+                href={'/cart'}
                 className="mx-4 flex items-center cursor-pointer  hover:text-pink-500 text-sm"
               >
                 <BsFillCartPlusFill
@@ -98,7 +97,7 @@ const HeaderWithMenuBar: FC<HeaderWithMenuBarProps> = ({
             {isRootPage ? (
               <div className="lg:pt-2 pt-1 flex lg:text-base text-sm sm:ml-0 ml-2 gap-x-2">
                 <Searchbar userIP={userIP} />
-                <Link href={Routes.UploadPrescription}>
+                <Link href={'/upload-prescription'}>
                   <a
                     className="razzmatazz-to-white py-1 flex whitespace-nowrap items-center rounded-lg px-3 text-sm"
                     role="button"

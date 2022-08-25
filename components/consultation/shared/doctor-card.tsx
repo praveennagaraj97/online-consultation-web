@@ -5,8 +5,6 @@ import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaHospitalUser, FaLanguage } from 'react-icons/fa';
 import { FcGraduationCap } from 'react-icons/fc';
 import { GiHospital } from 'react-icons/gi';
-import { DynamicRoutes, Routes } from '../../../routes';
-import { slugify } from '../../../utils/helpers';
 import AnchorTwist from '../../animations/anchor-tag-twist';
 
 const DoctorCard: FC = () => {
@@ -29,14 +27,7 @@ const DoctorCard: FC = () => {
             />
           </div>
           <div className="pt-2 block text-center">
-            <AnchorTwist
-              href={DynamicRoutes.DoctorProfile(
-                slugify('Susuan Duran'),
-                'uuiiddidiid'
-              )}
-            >
-              View Profile
-            </AnchorTwist>
+            <AnchorTwist href={''}>View Profile</AnchorTwist>
           </div>
         </div>
         <div className="h-full flex flex-col pt-2">
@@ -80,7 +71,7 @@ const DoctorCard: FC = () => {
             <AiOutlineFieldTime />
             <span>3:00 PM, Tomorrow</span>
           </div>
-          <Link href={Routes.ReviewAppointmentBooking}>
+          <Link href={'/consultation/book-appointment/review-booking'}>
             <a
               role="button"
               className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block"

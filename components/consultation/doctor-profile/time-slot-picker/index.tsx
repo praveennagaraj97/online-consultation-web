@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import { BsCalendar3, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import { Routes } from '../../../../routes';
 import TimeSlotAccordian from './slot-accordian';
 
 const TimeSlotsPicker: FC = () => {
@@ -32,7 +31,7 @@ const TimeSlotsPicker: FC = () => {
         setSelectedTimeSlot={setSelectedTimeSlot}
         timeSlot="evening"
       />
-      <Link href={Routes.ReviewAppointmentBooking}>
+      <Link href={'/consultation/book-appointment/review-booking'}>
         <a className={!selectedTimeSlot ? 'pointer-events-none' : ''}>
           <button
             disabled={!selectedTimeSlot}

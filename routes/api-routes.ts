@@ -15,6 +15,8 @@ export const publicRoutes = {
 
   LoginWithPhoneNumber: (remember: boolean) =>
     `/api/v1/auth/signin_with_phonenumber?remember_me=${remember}`,
+
+  ConsultationTypes: `/api/v1/consultation_type`,
 };
 
 export const privateRoutes = {

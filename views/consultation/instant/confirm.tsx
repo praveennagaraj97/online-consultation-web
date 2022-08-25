@@ -6,7 +6,6 @@ import { FaFilePrescription } from 'react-icons/fa';
 import { GiVideoConference } from 'react-icons/gi';
 import { MdOutlineDeliveryDining } from 'react-icons/md';
 import ViewContainer from '../../../components/container/view-container';
-import { Routes } from '../../../routes';
 
 const InstantConsultationConfirmView: FC = () => {
   return (
@@ -72,7 +71,7 @@ const InstantConsultationConfirmView: FC = () => {
                 </p>
               </div>
 
-              <Link href={Routes.InstantConsultationConnectToDoctor}>
+              <Link href={''}>
                 <a
                   role="button"
                   className="razzmatazz-to-transparent block mx-auto py-2 px-5 rounded-md mt-10"

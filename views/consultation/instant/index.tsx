@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import ViewContainer from '../../../components/container/view-container';
-import { Routes } from '../../../routes';
 
 const InstantConsultationView: FC = () => {
   return (
@@ -43,7 +42,7 @@ const InstantConsultationView: FC = () => {
                 <p>Please help us know who this consultation is for</p>
               </div>
               <div className="flex gap-4 mt-6 flex-wrap">
-                <Link href={Routes.InstantConsultationConfirm}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="
@@ -55,7 +54,7 @@ const InstantConsultationView: FC = () => {
                     Ellie Williams
                   </a>
                 </Link>
-                <Link href={Routes.InstantConsultationConfirm}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="
@@ -67,7 +66,7 @@ const InstantConsultationView: FC = () => {
                     Joel Miller
                   </a>
                 </Link>
-                <Link href={Routes.CreatePatientProfile}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="

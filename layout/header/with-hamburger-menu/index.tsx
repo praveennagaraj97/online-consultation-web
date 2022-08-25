@@ -10,7 +10,6 @@ import { FaBlog, FaFilePrescription, FaUserNurse } from 'react-icons/fa';
 import { GiMedicines } from 'react-icons/gi';
 import { RiArrowDownSFill } from 'react-icons/ri';
 import useHandleClose from '../../../hooks/useHandleClose';
-import { Routes } from '../../../routes';
 
 import { toggleFixedHeader } from '../../../utils/helpers';
 import BrandLogo from '../shared/brand-logo';
@@ -139,25 +138,25 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
 
               <nav className="px-2 my-4 flex flex-col justify-between h-full">
                 <div>
-                  <Link href={Routes.OrderMedicines}>
+                  <Link href={'/order-medicines'}>
                     <a role="button" className="mobile-nav-btn">
                       <GiMedicines />
                       <span className="ml-2 text-lg">Order Medicines</span>
                     </a>
                   </Link>
-                  <Link href={Routes.Consultation}>
+                  <Link href={'/consultation'}>
                     <a role="button" className="mobile-nav-btn">
                       <FaUserNurse />
                       <span className="ml-2 text-lg">Consult a Doctor</span>
                     </a>
                   </Link>
-                  <Link href={Routes.Home}>
+                  <Link href={'/'}>
                     <a role="button" className="mobile-nav-btn">
                       <FaBlog />
                       <span className="ml-2 text-lg">Blog</span>
                     </a>
                   </Link>
-                  <Link href={Routes.Cart}>
+                  <Link href={'/cart'}>
                     <a role="button" className="mobile-nav-btn">
                       <BsFillCartPlusFill />
                       <span className="ml-2 text-lg">Cart</span>
@@ -176,7 +175,7 @@ const HeaderWithHamburgerMenu: FC<{ isRootPage: boolean; userIP: any }> = ({
                     </a>
                   </Link>
                 </div>
-                <Link href={Routes.UploadPrescription}>
+                <Link href={'/upload-prescription'}>
                   <a
                     className="bg-razzmatazz  border hover:border-opacity-50 border-opacity-0
                 hover:bg-transparent shadow-xl py-2 px-4 w-full 

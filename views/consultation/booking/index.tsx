@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import ViewContainer from '../../../components/container/view-container';
-import { Routes } from '../../../routes';
 
 const BookAppointmentForConsultationView: FC = () => {
   return (
@@ -40,7 +39,7 @@ const BookAppointmentForConsultationView: FC = () => {
                 <p>Please help us know who this consultation is for</p>
               </div>
               <div className="flex gap-4 mt-6 flex-wrap">
-                <Link href={Routes.ChooseSpecialityForBookingAppointment}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="shadow-md shadow-razzmatazz/40
@@ -51,7 +50,7 @@ const BookAppointmentForConsultationView: FC = () => {
                     Ellie Williams
                   </a>
                 </Link>
-                <Link href={Routes.ChooseSpecialityForBookingAppointment}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="shadow-md shadow-razzmatazz/40
@@ -62,7 +61,7 @@ const BookAppointmentForConsultationView: FC = () => {
                     Joel Miller
                   </a>
                 </Link>
-                <Link href={Routes.CreatePatientProfile}>
+                <Link href={''}>
                   <a
                     role="button"
                     className="

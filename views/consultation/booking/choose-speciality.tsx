@@ -3,7 +3,6 @@ import { FC, useState } from 'react';
 import DoctorsContactedCard from '../../../components/consultation/shared/doctors-contacted-card';
 import SpecialityCard from '../../../components/consultation/shared/speciality-card';
 import ViewContainer from '../../../components/container/view-container';
-import { Routes } from '../../../routes';
 
 const ChooseSpecialityView: FC = () => {
   const [isSelectedId, setIsSelectedId] = useState<number>();
@@ -69,7 +68,7 @@ const ChooseSpecialityView: FC = () => {
             })}
           </div>
 
-          <Link href={Routes.ChooseDoctorForBookingAppointment}>
+          <Link href={''}>
             <a className={!isSelectedId ? 'pointer-events-none' : ''}>
               <button
                 className={`zodiac-to-transparent block mx-auto py-2 px-10 rounded-lg mt-8`}
