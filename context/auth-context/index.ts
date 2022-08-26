@@ -1,5 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import useSWR from 'swr';
 import { StorageKeys } from '../../constants';
+import { privateRoutes } from '../../routes/api-routes';
+import { BaseAPiResponse } from '../../types/response';
+import { UserEntity } from '../../types/response/user.response';
 import { addNextDaysToDate, subtractMinutes } from '../../utils/date-utils';
 import { _localStorage, _sessionStorage } from '../../utils/web.api';
 import {
@@ -14,6 +18,7 @@ interface AuthContextType {
   login(rememberMe: boolean, token: { access: string; refresh: string }): void;
   revalidateLoginStatus: () => void;
   logout: () => void;
+  user: UserEntity | null;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -21,10 +26,16 @@ export const AuthContext = createContext<AuthContextType>({
   login() {},
   revalidateLoginStatus() {},
   logout() {},
+  user: null,
 });
 
 export const useAuthContextData: () => AuthContextType = () => {
   const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState<UserEntity | null>(null);
+
+  const { data } = useSWR<BaseAPiResponse<UserEntity>>(
+    isLogged && !user ? privateRoutes.User : ''
+  );
 
   function login(
     rememberMe: boolean = false,
@@ -93,11 +104,18 @@ export const useAuthContextData: () => AuthContextType = () => {
     }
   }
 
+  useEffect(() => {
+    if (data?.result) {
+      setUser(data.result);
+    }
+  }, [data]);
+
   return {
     isLogged,
     login,
     revalidateLoginStatus,
     logout,
+    user,
   };
 };
 

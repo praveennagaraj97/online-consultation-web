@@ -1,34 +1,11 @@
-import { createContext, useContext, useState } from 'react';
-import type { ConsultatationType } from '../../types/globals';
+import { createContext, useContext } from 'react';
 
-export interface ConsultationContextType {
-  type: ConsultatationType | null;
-  setType: (type: ConsultatationType) => void;
-  consultationId: string;
-  setConsultationId: (id: string) => void;
-}
+export interface ConsultationContextType {}
 
-export const ConsultationContext = createContext<ConsultationContextType>({
-  setType(type) {},
-  type: null,
-  setConsultationId(id) {},
-  consultationId: '',
-});
+export const ConsultationContext = createContext<ConsultationContextType>({});
 
 export const useConsultationContextData: () => ConsultationContextType = () => {
-  const [type, setType] = useState<ConsultatationType | null>(null);
-  const [consultationId, setConsultationId] = useState<string>('');
-
-  return {
-    setType(type: ConsultatationType) {
-      setType(type);
-    },
-    type: type,
-    setConsultationId(id: string) {
-      setConsultationId(id);
-    },
-    consultationId,
-  };
+  return {};
 };
 
 export const useConsultationContext = () => useContext(ConsultationContext);

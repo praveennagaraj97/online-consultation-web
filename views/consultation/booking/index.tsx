@@ -1,9 +1,17 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { FC } from 'react';
+import ConsultationForUserSelectCard from '../../../components/consultation/shared/user-select-card';
 import ViewContainer from '../../../components/container/view-container';
+import NotAuthorised from '../../../components/shared/not-authorized';
+import { useAuthContext } from '../../../context/auth-context';
 
 const BookAppointmentForConsultationView: FC = () => {
+  const { isLogged, user } = useAuthContext();
+
+  if (!isLogged) {
+    return <NotAuthorised />;
+  }
+
   return (
     <ViewContainer>
       <div className="container  mx-auto my-14">
@@ -34,34 +42,14 @@ const BookAppointmentForConsultationView: FC = () => {
                   <p>Get started now</p>
                 </div>
                 <h2 className="text-lg text-razzmatazz mb-2">
-                  Welcome, Ellie Williams
+                  Welcome, {user?.name}
                 </h2>
                 <p>Please help us know who this consultation is for</p>
               </div>
               <div className="flex gap-4 mt-6 flex-wrap">
-                <Link href={''}>
-                  <a
-                    role="button"
-                    className="shadow-md shadow-razzmatazz/40
-                      hover:bg-razzmatazz hover:text-gray-50
-                      transform transition-colors duration-300
-                      border border-razzmatazz lg:px-8 px-4 py-3 rounded-3xl"
-                  >
-                    Ellie Williams
-                  </a>
-                </Link>
-                <Link href={''}>
-                  <a
-                    role="button"
-                    className="shadow-md shadow-razzmatazz/40
-                      hover:bg-razzmatazz hover:text-gray-50
-                      transform transition-colors duration-300
-                      border border-razzmatazz lg:px-8 px-4 py-3 rounded-3xl"
-                  >
-                    Joel Miller
-                  </a>
-                </Link>
-                <Link href={''}>
+                <ConsultationForUserSelectCard />
+
+                {/* <Link href={''}>
                   <a
                     role="button"
                     className="
@@ -72,7 +60,7 @@ const BookAppointmentForConsultationView: FC = () => {
                   >
                     Someone else
                   </a>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

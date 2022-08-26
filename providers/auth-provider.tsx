@@ -5,7 +5,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const context = useAuthContextData();
 
   return (
-    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={context} key="AuthContext">
+      {children}
+    </AuthContext.Provider>
   );
 };
 

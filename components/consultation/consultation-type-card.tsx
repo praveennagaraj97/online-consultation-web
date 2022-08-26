@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
-import { ConsultatationType } from '../../types/globals';
 import { ConsultationTypeEntity } from '../../types/response/consultation.response';
 
-interface ConsultationTypeCardProps extends ConsultationTypeEntity {
-  onActionClick: (type: ConsultatationType) => void;
-}
+interface ConsultationTypeCardProps extends ConsultationTypeEntity {}
 
 const ConsultationTypeCard: FC<ConsultationTypeCardProps> = ({
   icon,
@@ -15,8 +12,6 @@ const ConsultationTypeCard: FC<ConsultationTypeCardProps> = ({
   price,
   action_name,
   type,
-  id,
-  onActionClick,
 }) => {
   return (
     <div className="border rounded-xl shadow-md px-2 py-6">
@@ -37,10 +32,11 @@ const ConsultationTypeCard: FC<ConsultationTypeCardProps> = ({
       <div className="flex justify-around items-center mt-10">
         <span>₹ {price}</span>
         <Link
-          href={type === 'Instant' ? '' : ''}
-          onClick={() => {
-            onActionClick(type);
-          }}
+          href={
+            type === 'Instant'
+              ? '/consultation/instant'
+              : '/consultation/book-appointment'
+          }
         >
           <a
             role="button"

@@ -1,11 +1,7 @@
-import axios from 'axios';
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import FadePageTransition from '../../components/animations/fade-page-transition';
-import { publicRoutes } from '../../routes/api-routes';
-import { PaginatedBaseAPiResponse } from '../../types/response';
-import { ConsultationTypeEntity } from '../../types/response/consultation.response';
-import { requestOptions } from '../../utils/fetchOptions';
+import { consultationAPiService } from '../../services/consultation-api.service';
 import ConsultationView, {
   ConsultationViewProps,
 } from '../../views/consultation';
@@ -27,9 +23,7 @@ export const getStaticProps: GetStaticProps<
   ConsultationViewProps
 > = async () => {
   try {
-    const { data } = await axios.get<
-      PaginatedBaseAPiResponse<ConsultationTypeEntity[]>
-    >(publicRoutes.ConsultationTypes, requestOptions());
+    const { data } = await consultationAPiService.consulatationTypes;
 
     if (!data.results) {
       return {

@@ -10,7 +10,7 @@ export default function ViewContainer({
   return (
     <div
       aria-describedby={ariaDescribedBy}
-      className="xl:container mx-auto xl:px-2 px-4 mb-16"
+      className="xl:container mx-auto xl:px-2  px-4 mb-16"
     >
       {children}
     </div>

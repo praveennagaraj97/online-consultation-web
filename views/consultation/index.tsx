@@ -16,13 +16,7 @@ const ConsultationView: FC<ConsultationViewProps> = ({ types }) => {
         <h1 className="text-xl font-semibold my-5">Consult a Doctor</h1>
         <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-6 gap-y-6">
           {types.map((type) => {
-            return (
-              <ConsultationTypeCard
-                key={type.id}
-                {...type}
-                onActionClick={() => {}}
-              />
-            );
+            return <ConsultationTypeCard key={type.id} {...type} />;
           })}
         </div>
       </ViewContainer>
