@@ -25,6 +25,7 @@ export interface ErrorResponseCallback<E = void> {
   type: 'error' | 'success';
   message: string;
   errors?: E;
+  callback?: () => void;
 }
 
 export type ConsultatationType = 'Schedule' | 'Instant';

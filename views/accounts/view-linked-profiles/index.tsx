@@ -3,6 +3,7 @@ import { FC, Fragment, useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import AccountViewLayout from '../../../components/accounts/layout';
 import LinkedProfileCard from '../../../components/accounts/linked-profiles/card';
+import NoRelativesFound from '../../../components/accounts/linked-profiles/no-relatives-found';
 import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
 import ConfirmModal from '../../../components/modal/confirm-modal';
 import ResponseStatusTag from '../../../components/shared/response-status-tag';
@@ -83,13 +84,22 @@ const LinkedProfilesView: FC = () => {
       await axios.delete(privateRoutes.Relative + '/' + deleteId, {
         ...requestOptions(),
       });
-      await mutate(privateRoutes.Relative);
       await setter('Relative profile deleted successfully', 'error');
-      setShowDeleteConfirm(false);
+      await mutate(privateRoutes.Relative);
       setDeleteId(undefined);
+      setShowDeleteConfirm(false);
     } catch (error) {
       setter(apiErrorParser(error)?.message || '', 'error');
     }
+  }
+
+  if (!isValidating && !data?.count) {
+    return (
+      <AccountViewLayout option="linkedProfiles">
+        <AddNewRelative />
+        <NoRelativesFound />
+      </AccountViewLayout>
+    );
   }
 
   return (

@@ -30,6 +30,7 @@ import {
 interface PatientRelativeFormProps extends Omit<ModalProps, 'disableScroll'> {
   heading: string;
   btnName: string;
+  description?: string;
   defaultValue?: RelativeEntity;
   onSubmit: (
     values: RelativeFormDTO
@@ -45,6 +46,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
   defaultValue,
   onSubmit,
   onClose = () => {},
+  description,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowResize(true);
@@ -84,7 +86,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
     }
 
     setLoading(true);
-    const { message, type, errors } = await onSubmit(state);
+    const { message, type, errors, callback } = await onSubmit(state);
 
     if (type === 'error') {
       if (errors) {
@@ -93,9 +95,12 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
       await setter(message || '', 'error');
     } else {
       await setter(message || '', 'success');
+
       dispatch({ type: RelativeFormActions.Reset, payload: null });
-      setShowModal(false);
       setShowValidation(false);
+      if (callback) {
+        callback();
+      }
       onClose();
     }
 
@@ -172,7 +177,11 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
               }}
             />
           </div>
-
+          {description ? (
+            <p className="p-2 whitespace-pre-wrap text-sm">{description}</p>
+          ) : (
+            ''
+          )}
           <form
             onSubmit={handleOnSubmit}
             className="p-2 grid grid-cols-1 gap-0.5"

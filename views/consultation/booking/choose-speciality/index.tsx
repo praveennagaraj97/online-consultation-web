@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { FC, useState } from 'react';
-import DoctorsContactedCard from '../../../components/consultation/shared/doctors-contacted-card';
-import SpecialityCard from '../../../components/consultation/shared/speciality-card';
-import ViewContainer from '../../../components/container/view-container';
+import DoctorsContactedCard from '../../../../components/consultation/shared/doctors-contacted-card';
+import SpecialityCard from '../../../../components/consultation/shared/speciality-card';
+import ViewContainer from '../../../../components/container/view-container';
 
 const ChooseSpecialityView: FC = () => {
   const [isSelectedId, setIsSelectedId] = useState<number>();
@@ -47,11 +47,11 @@ const ChooseSpecialityView: FC = () => {
 
   return (
     <ViewContainer ariaDescribedBy="Choose speciality for booking appointment">
-      <h1 className="text-2xl font-semibold my-5">Add Prescription</h1>
+      <h1 className="text-2xl font-semibold my-5">Choose speciality</h1>
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-6">
         <div className="lg:col-span-2 shadow-lg p-4 rounded-lg">
           <p className="font-semibold mb-6 text-lg">
-            Choose from the Specialities
+            Consult with top doctors across specialities
           </p>
           <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
             {specialities.map(({ image, title }, idx) => {

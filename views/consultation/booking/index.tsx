@@ -1,12 +1,57 @@
 import Image from 'next/image';
-import { FC } from 'react';
-import ConsultationForUserSelectCard from '../../../components/consultation/shared/user-select-card';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FC, useState } from 'react';
+import useSWR from 'swr';
+import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
+import Consultants from '../../../components/consultation/consultants';
 import ViewContainer from '../../../components/container/view-container';
 import NotAuthorised from '../../../components/shared/not-authorized';
 import { useAuthContext } from '../../../context/auth-context';
+import { privateRoutes } from '../../../routes/api-routes';
+import { accountAPiService } from '../../../services/accounts-api.service';
+import { RelativeFormDTO } from '../../../types/dto/account.dto';
+import { ErrorResponseCallback } from '../../../types/globals';
+import { PaginatedBaseAPiResponse } from '../../../types/response';
+import { RelativeEntity } from '../../../types/response/user.response';
+import { apiErrorParser } from '../../../utils/parser';
 
 const BookAppointmentForConsultationView: FC = () => {
   const { isLogged, user } = useAuthContext();
+  const { isValidating, data } = useSWR<
+    PaginatedBaseAPiResponse<RelativeEntity[]>
+  >(isLogged ? privateRoutes.Relative : '');
+  const [showAddNewRelative, setShowAddNewRelative] = useState(false);
+  const { push } = useRouter();
+
+  async function handleOnSubmit(
+    formValues: RelativeFormDTO
+  ): Promise<ErrorResponseCallback<RelativeFormDTO | null>> {
+    try {
+      const { data } = await accountAPiService.addNewRelative(formValues);
+
+      return {
+        message: 'Profile created successfully',
+        type: 'success',
+        callback: () => {
+          push({
+            pathname: `/consultation/book-appointment/choose-speciality`,
+            query: {
+              patient: data.result.id,
+            },
+          });
+        },
+      };
+    } catch (error) {
+      const errs = apiErrorParser<RelativeFormDTO>(error);
+
+      return {
+        message: errs?.message,
+        type: 'error',
+        errors: errs?.errors,
+      };
+    }
+  }
 
   if (!isLogged) {
     return <NotAuthorised />;
@@ -46,26 +91,65 @@ const BookAppointmentForConsultationView: FC = () => {
                 </h2>
                 <p>Please help us know who this consultation is for</p>
               </div>
-              <div className="flex gap-4 mt-6 flex-wrap">
-                <ConsultationForUserSelectCard />
-
-                {/* <Link href={''}>
-                  <a
-                    role="button"
-                    className="
-                  shadow-md shadow-razzmatazz/40
-                  hover:bg-razzmatazz hover:text-gray-50
-                  transform transition-colors duration-300
-                  border border-razzmatazz lg:px-8 px-4 py-3 rounded-3xl"
+              <Consultants
+                pathName="/consultation/book-appointment/choose-speciality"
+                selfCard={
+                  <Link
+                    href={{
+                      pathname: `/consultation/book-appointment/choose-speciality`,
+                      query: {
+                        patient: user?.id,
+                      },
+                    }}
+                  >
+                    <a>
+                      <button
+                        role="button"
+                        className="shadow-md shadow-razzmatazz/40
+                      hover:bg-razzmatazz hover:text-gray-50
+                      transform transition-colors duration-300
+                      border border-razzmatazz lg:px-8 px-4 sm:py-3  py-2 rounded-3xl"
+                      >
+                        {user?.name}
+                      </button>
+                    </a>
+                  </Link>
+                }
+                loading={isValidating}
+                users={data?.results || []}
+                newCard={
+                  <button
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      setShowAddNewRelative(true);
+                    }}
+                    className="shadow-md shadow-razzmatazz/40
+              hover:bg-razzmatazz hover:text-gray-50
+              transform transition-colors duration-300
+              border border-razzmatazz lg:px-8 px-4 sm:py-3  py-2 rounded-3xl"
                   >
                     Someone else
-                  </a>
-                </Link> */}
-              </div>
+                  </button>
+                }
+              />
             </div>
           </div>
         </div>
       </div>
+      <PatientRelativeForm
+        btnName="Click to proceed"
+        heading="Book appointment"
+        description={`Fill the form below to book this appointment for someone else!.
+You can also view this user under relatives section later.`}
+        onSubmit={handleOnSubmit}
+        showModal={showAddNewRelative}
+        onClose={() => {
+          setShowAddNewRelative(false);
+        }}
+        setShowModal={(value) => {
+          setShowAddNewRelative(value);
+        }}
+      />
     </ViewContainer>
   );
 };

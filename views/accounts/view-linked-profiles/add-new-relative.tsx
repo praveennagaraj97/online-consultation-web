@@ -1,14 +1,11 @@
-import axios from 'axios';
 import { FC, Fragment, useState } from 'react';
 import { VscPersonAdd } from 'react-icons/vsc';
 import { mutate } from 'swr';
 import PatientRelativeForm from '../../../components/accounts/linked-profiles/relative-form';
 import { privateRoutes } from '../../../routes/api-routes';
+import { accountAPiService } from '../../../services/accounts-api.service';
 import type { RelativeFormDTO } from '../../../types/dto/account.dto';
 import { ErrorResponseCallback } from '../../../types/globals';
-import { BaseAPiResponse } from '../../../types/response';
-import { RelativeEntity } from '../../../types/response/user.response';
-import { requestOptions } from '../../../utils/fetchOptions';
 import { apiErrorParser } from '../../../utils/parser';
 
 const AddNewRelative: FC = () => {
@@ -17,19 +14,8 @@ const AddNewRelative: FC = () => {
   async function handleOnSubmit(
     formValues: RelativeFormDTO
   ): Promise<ErrorResponseCallback<RelativeFormDTO | null>> {
-    const formData = new FormData();
-
-    for (let key in formValues) {
-      //@ts-ignore
-      formData.append(key, `${formValues[key]}`);
-    }
-
     try {
-      const { data } = await axios.post<BaseAPiResponse<RelativeEntity>>(
-        privateRoutes.Relative,
-        formData,
-        requestOptions()
-      );
+      const { data } = await accountAPiService.addNewRelative(formValues);
 
       await mutate(privateRoutes.Relative);
       return { message: data.message, type: 'success' };
