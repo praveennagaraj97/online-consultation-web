@@ -1,12 +1,13 @@
+import axios from 'axios';
 import { privateRoutes } from '../routes/api-routes';
 import { RelativeFormDTO } from '../types/dto/account.dto';
 import { BaseAPiResponse } from '../types/response';
 import { RelativeEntity, UserEntity } from '../types/response/user.response';
-import { BaseAPiService } from './api.service';
+import { requestOptions } from '../utils/fetchOptions';
 
-class AccountAPiService extends BaseAPiService {
-  constructor() {
-    super();
+class AccountAPiService {
+  private get axiosInstance() {
+    return axios.create({ ...requestOptions() });
   }
 
   get userDetail() {

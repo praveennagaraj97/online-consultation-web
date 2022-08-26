@@ -9,7 +9,7 @@ import BookAppointmentForConsultationView from '../../../views/consultation/book
 const BookAppointmentForConsultationPage: NextPage = () => {
   return (
     <Fragment>
-      <ConsultationBookingStepper />
+      <ConsultationBookingStepper step={0} />
       <Head>
         <title>Get Med Go | Book Appointment</title>
       </Head>

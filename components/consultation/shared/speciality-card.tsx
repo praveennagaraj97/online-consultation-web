@@ -1,24 +1,25 @@
 import Image from 'next/image';
-import { Dispatch, FC, SetStateAction } from 'react';
+import type { FC } from 'react';
+import type { ImageType } from '../../../types/response';
 
 interface SpecialityCardProps {
   title: string;
-  image: string;
-  id: number;
+  image: ImageType;
+  id: string;
   isSelected: boolean;
-  setIsSelected: Dispatch<SetStateAction<number | undefined>>;
+  onSelect: () => void;
 }
 
 const SpecialityCard: FC<SpecialityCardProps> = ({
   id,
   image,
   title,
-  setIsSelected,
+  onSelect,
   isSelected,
 }) => {
   return (
     <div
-      onClick={() => setIsSelected(id)}
+      onClick={onSelect}
       className={`
       border hover:border-blue-zodiac hover:shadow-md hover:-translate-y-0.5
       p-2 rounded-xl transform transition-all duration-500 cursor-pointer
@@ -31,13 +32,13 @@ const SpecialityCard: FC<SpecialityCardProps> = ({
     >
       <Image
         className="rounded-xl"
-        src={image}
+        src={image.image_src}
         placeholder="blur"
-        blurDataURL={image}
+        blurDataURL={image.blur_data_url}
         alt="..."
         layout="responsive"
-        width={640}
-        height={640}
+        width={image.width}
+        height={image.height}
       />
 
       <p className="font-semibold text-center mt-3">{title}</p>

@@ -17,6 +17,8 @@ export const publicRoutes = {
     `/api/v1/auth/signin_with_phonenumber?remember_me=${remember}`,
 
   ConsultationTypes: `/api/v1/consultation_type`,
+
+  Speciality: `/api/v1/speciality`,
 };
 
 export const privateRoutes = {

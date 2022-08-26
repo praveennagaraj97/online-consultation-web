@@ -10,3 +10,10 @@ export interface ConsultationTypeEntity {
   action_name: string;
   type: ConsultatationType;
 }
+
+export interface SpecialityEntity {
+  id: string;
+  title: string;
+  slug: string;
+  thumbnail: ImageType;
+}
