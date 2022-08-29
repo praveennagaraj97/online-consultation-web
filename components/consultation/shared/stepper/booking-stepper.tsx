@@ -1,15 +1,13 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { AiOutlineSchedule } from 'react-icons/ai';
 import { FaUserNurse } from 'react-icons/fa';
 import { FiUserPlus } from 'react-icons/fi';
 import { MdOutlineFolderSpecial, MdOutlineRateReview } from 'react-icons/md';
-import { useAuthContext } from '../../../../context/auth-context';
-import { useConsultationContext } from '../../../../context/consultation-context';
 
 const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
-  const { user } = useAuthContext();
-  const { patient } = useConsultationContext();
+  const { query } = useRouter();
 
   return (
     <div className="xl:container mx-auto xl:px-4 sm:px-2  px-4 ">
@@ -41,27 +39,23 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
             <Link
               href={{
                 pathname: '/consultation/book-appointment/choose-speciality/',
-                query: {
-                  patient: patient || user?.id,
-                },
+                query,
               }}
             >
-              <a>
-                <button>
-                  <div
-                    className={`${
-                      step >= 1
-                        ? 'bg-pink-600 text-white'
-                        : 'text-black hover:bg-pink-600 hover:text-white'
-                    } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
-                  >
-                    <MdOutlineFolderSpecial
-                      size={24}
-                      className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
-                    />
-                  </div>
-                </button>
-              </a>
+              <button disabled={step < 1}>
+                <div
+                  className={`${
+                    step >= 1
+                      ? 'bg-pink-600 text-white'
+                      : 'text-black hover:bg-pink-600 hover:text-white'
+                  } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
+                >
+                  <MdOutlineFolderSpecial
+                    size={24}
+                    className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
+                  />
+                </div>
+              </button>
             </Link>
           </div>
 
@@ -70,10 +64,20 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
           />
 
           <div className="flex items-center text-pink-600 relative">
-            <Link href={''} passHref>
-              <button>
+            <Link
+              href={{
+                pathname: '/consultation/book-appointment/choose-doctor/',
+                query,
+              }}
+              passHref
+            >
+              <button disabled={step < 2}>
                 <div
-                  className={` rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
+                  className={`${
+                    step >= 2
+                      ? 'bg-pink-600 text-white'
+                      : 'text-black hover:bg-pink-600 hover:text-white'
+                  } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
                 >
                   <FaUserNurse
                     size={24}
@@ -90,7 +94,7 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
 
           <div className="flex items-center text-pink-600 relative">
             <Link href={''} passHref>
-              <button>
+              <button disabled={step < 3}>
                 <div
                   className={` rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
                 >
@@ -108,6 +112,7 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
           />
           <div className="flex items-center text-pink-600 relative">
             <button
+              disabled={step < 4}
               className={` rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
             >
               <MdOutlineRateReview

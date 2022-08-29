@@ -1,8 +1,11 @@
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useState } from 'react';
 import DoctorsContactedCard from '../../../../components/consultation/shared/doctors-contacted-card';
 import SpecialityCard from '../../../../components/consultation/shared/speciality-card';
 import ViewContainer from '../../../../components/container/view-container';
+import { useAuthContext } from '../../../../context/auth-context';
 import { SpecialityEntity } from '../../../../types/response/consultation.response';
 
 export interface ChooseSpecialityViewProps {
@@ -14,7 +17,21 @@ const ChooseSpecialityView: FC<ChooseSpecialityViewProps> = ({
   hasMore,
   specialities,
 }) => {
-  const [isSelectedId, setIsSelectedId] = useState<string>();
+  const { query } = useRouter();
+  const { user } = useAuthContext();
+  const [selectedId, setSelectedId] = useState<string>();
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (query?.['speciality'] && !isCancelled) {
+      setSelectedId(query?.['speciality'] as string);
+    }
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [query]);
 
   return (
     <ViewContainer ariaDescribedBy="Choose speciality for booking appointment">
@@ -25,31 +42,47 @@ const ChooseSpecialityView: FC<ChooseSpecialityViewProps> = ({
             Consult with top doctors across specialities
           </p>
           <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
-            {specialities?.map(({ id, slug, thumbnail, title }, idx) => {
+            {specialities?.map(({ id, thumbnail, title }) => {
               return (
-                <SpecialityCard
-                  onSelect={() => {
-                    setIsSelectedId(id);
-                  }}
-                  isSelected={id == isSelectedId}
-                  id={id}
-                  image={thumbnail}
-                  title={title}
+                <motion.div
                   key={id}
-                />
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    staggerChildren: 0.5,
+                    staggerDirection: 1,
+                  }}
+                >
+                  <SpecialityCard
+                    onSelect={() => {
+                      setSelectedId(id);
+                    }}
+                    isSelected={id == selectedId}
+                    id={id}
+                    image={thumbnail}
+                    title={title}
+                  />
+                </motion.div>
               );
             })}
           </div>
 
-          <Link href={''}>
-            <a className={!isSelectedId ? 'pointer-events-none' : ''}>
-              <button
-                className={`razzmatazz-to-white block mx-auto py-2 px-10 rounded-lg mt-8`}
-                disabled={!isSelectedId}
-              >
-                Proceed
-              </button>
-            </a>
+          <Link
+            href={{
+              pathname: `/consultation/book-appointment/choose-doctor/`,
+              query: {
+                patient: query?.['patient'] || user?.id,
+                speciality: selectedId,
+              },
+            }}
+            passHref
+          >
+            <button
+              className={`razzmatazz-to-white block mx-auto py-2 px-10 rounded-lg mt-8`}
+              disabled={!selectedId}
+            >
+              Proceed
+            </button>
           </Link>
         </div>
 

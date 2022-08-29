@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { Fragment } from 'react';
 import SwipePageTransition from '../../../components/animations/swipe-page-transition';
 import ConsultationBookingStepper from '../../../components/consultation/shared/stepper/booking-stepper';
-import ConsultationContextProvider from '../../../providers/consutation-provider';
 import { consultationAPiService } from '../../../services/consultation-api.service';
 import ChooseSpecialityView, {
   ChooseSpecialityViewProps,
@@ -19,9 +18,7 @@ const ChooseSpecialityForBookingAppointmenPage: NextPage<
       </Head>
       <ConsultationBookingStepper step={1} />
       <SwipePageTransition>
-        <ConsultationContextProvider>
-          <ChooseSpecialityView hasMore={hasMore} specialities={specialities} />
-        </ConsultationContextProvider>
+        <ChooseSpecialityView hasMore={hasMore} specialities={specialities} />
       </SwipePageTransition>
     </Fragment>
   );

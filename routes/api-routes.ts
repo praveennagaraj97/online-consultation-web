@@ -19,6 +19,8 @@ export const publicRoutes = {
   ConsultationTypes: `/api/v1/consultation_type`,
 
   Speciality: `/api/v1/speciality`,
+
+  Doctor: `/api/v1/doctor`,
 };
 
 export const privateRoutes = {
