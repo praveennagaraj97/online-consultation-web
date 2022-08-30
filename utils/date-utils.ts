@@ -135,15 +135,24 @@ export function isLeapYear(year: number): boolean {
  * @returns formated date in DD/MM/YYYY
  */
 export function formattedDate(date: Date): string {
-  return date.toLocaleDateString('en-in', {
+  return date.toLocaleDateString('en-IN', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   });
 }
 
-export function formateDateToISO8601(date: Date): string {
-  return date.toLocaleDateString('en-CA');
+// Format the date to YYYY-MM-DD while submitting to backend.
+export function formateDateToISO8601(dateStr?: string, date?: Date): string {
+  if (dateStr) {
+    date = new Date(dateStr);
+  } else {
+    date = new Date();
+  }
+
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split('T')[0];
 }
 
 // Adds set of date by days count
@@ -166,4 +175,12 @@ export function subtractMinutes(
   dateCursor.setMinutes(dateCursor.getMinutes() - minutes);
 
   return dateCursor;
+}
+
+export function formateDateStringToLocale(
+  dateStr: string,
+  options: Intl.DateTimeFormatOptions = {},
+  locale: Intl.LocalesArgument = 'en-IN'
+) {
+  return new Date(dateStr).toLocaleString(locale, options);
 }

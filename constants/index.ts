@@ -57,3 +57,6 @@ export const RelationshipOptions = [
     label: 'Someone else',
   },
 ];
+
+export const LoadingPlaceholder = '/assets/loading-blur.jpeg';
+export const NotFoundImage = '/assets/img-placeholder.png';

@@ -30,7 +30,7 @@ export interface DoctorEntity {
   is_active: boolean;
   hospital: Hospital;
   spoken_languages?: SpokenLanguagesEntity[] | null;
-  next_available_slot?: null;
+  next_available_slot?: SlotEntity;
 }
 
 export interface Hospital {
@@ -49,4 +49,13 @@ export interface SpokenLanguagesEntity {
   id: string;
   name: string;
   locale_name: string;
+}
+
+export interface SlotEntity {
+  id: string;
+  date: string;
+  start: string;
+  end: string | null;
+  is_available: boolean;
+  reason?: string;
 }

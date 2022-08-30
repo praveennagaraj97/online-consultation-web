@@ -33,19 +33,18 @@ const ChooseDoctorView: FC = () => {
 
   return (
     <ViewContainer>
-      <header className="flex sm:flex-row flex-col sm:gap-0  gap-5 sm:justify-between sm:items-center my-6">
+      <header className="flex  gap-5 justify-between items-center my-6">
         <h1 className="text-2xl font-semibold">Choose Doctor</h1>
-        <div className="flex">
-          <button
-            className="border py-2 px-5
+
+        <button
+          className="border py-2 px-5
             zodiac-border-to-zodiac-bg rounded-md"
-            onClick={() => setShowFilter(true)}
-          >
-            Apply Filter
-          </button>
-        </div>
+          onClick={() => setShowFilter(true)}
+        >
+          Apply Filter
+        </button>
       </header>
-      <DoctorList />
+      <DoctorList speciality={query?.['speciality'] as string} />
     </ViewContainer>
   );
 };

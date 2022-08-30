@@ -93,7 +93,10 @@ const ProfileView: FC = () => {
       }
 
       if (profileData?.date_of_birth != state.date_of_birth) {
-        formData.append('date_of_birth', state.date_of_birth);
+        formData.append(
+          'date_of_birth',
+          formateDateToISO8601(state.date_of_birth)
+        );
       }
 
       await axios.patch(privateRoutes.User, formData, { ...requestOptions() });
@@ -151,7 +154,7 @@ const ProfileView: FC = () => {
           <ProfileDOBInput
             setDate={(date) => {
               dispatch({
-                payload: formateDateToISO8601(date),
+                payload: date.toString(),
                 type: ProfileAction.DateOfBirth,
               });
             }}
@@ -162,7 +165,7 @@ const ProfileView: FC = () => {
             showvalidation={showvalidation}
             validation={{
               type: 'error',
-              message: state.date_of_birth.trim()
+              message: state.date_of_birth
                 ? ''
                 : 'Date of birth cannot be empty',
             }}

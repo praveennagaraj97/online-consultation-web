@@ -10,6 +10,7 @@ import ResponseStatusTag from '../../../components/shared/response-status-tag';
 import LinkedProfileCardSkeleton from '../../../components/skeletons/accounts/linked-profile-card';
 import useMessageStatusSetter from '../../../hooks/useStatusMessageSetter';
 import { privateRoutes } from '../../../routes/api-routes';
+import { accountAPiService } from '../../../services/accounts-api.service';
 import { RelativeFormDTO } from '../../../types/dto/account.dto';
 import { ErrorResponseCallback } from '../../../types/globals';
 import { PaginatedBaseAPiResponse } from '../../../types/response';
@@ -31,42 +32,16 @@ const LinkedProfilesView: FC = () => {
   async function handleEdit(
     formValues: RelativeFormDTO
   ): Promise<ErrorResponseCallback<RelativeFormDTO | null>> {
-    console.log(formValues);
-
-    const formData = new FormData();
-
-    if (editData?.email != formValues.email) {
-      formData.append('email', formValues.email);
-    }
-
-    if (editData?.name != formValues.name) {
-      formData.append('name', formValues.name);
-    }
-
-    if (editData?.gender != formValues.gender) {
-      formData.append('gender', formValues.gender);
-    }
-
-    if (editData?.date_of_birth != formValues.date_of_birth) {
-      formData.append('date_of_birth', formValues.date_of_birth);
-    }
-
-    if (editData?.relation != formValues.relation) {
-      formData.append('relation', formValues.relation);
-    }
-
-    if (editData?.phone.number != formValues.phone_number) {
-      formData.append('phone_number', formValues.phone_number);
-    }
-
     try {
-      await axios.patch(privateRoutes.Relative + `/${editData?.id}`, formData, {
-        ...requestOptions(),
-      });
+      await accountAPiService.editRelativeProfile(formValues, editData!);
       await mutate(privateRoutes.Relative);
+
       return {
         message: 'Relative profile edited successfully',
         type: 'success',
+        callback: () => {
+          setShowEditForm(false);
+        },
       };
     } catch (error) {
       const errs = apiErrorParser<RelativeFormDTO>(error);
@@ -84,7 +59,7 @@ const LinkedProfilesView: FC = () => {
       await axios.delete(privateRoutes.Relative + '/' + deleteId, {
         ...requestOptions(),
       });
-      await setter('Relative profile deleted successfully', 'error');
+      await setter('Relative profile deleted successfully', 'success');
       await mutate(privateRoutes.Relative);
       setDeleteId(undefined);
       setShowDeleteConfirm(false);

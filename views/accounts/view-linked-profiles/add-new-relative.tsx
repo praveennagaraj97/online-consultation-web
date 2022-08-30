@@ -18,7 +18,13 @@ const AddNewRelative: FC = () => {
       const { data } = await accountAPiService.addNewRelative(formValues);
 
       await mutate(privateRoutes.Relative);
-      return { message: data.message, type: 'success' };
+      return {
+        message: data.message,
+        type: 'success',
+        callback: () => {
+          setShowForm(false);
+        },
+      };
     } catch (error) {
       const errs = apiErrorParser<RelativeFormDTO>(error);
 

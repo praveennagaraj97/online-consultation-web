@@ -10,7 +10,6 @@ import useWindowResize from '../../../../hooks/useWindowResize';
 import { RelativeFormDTO } from '../../../../types/dto/account.dto';
 import { ErrorResponseCallback, ModalProps } from '../../../../types/globals';
 import { RelativeEntity } from '../../../../types/response/user.response';
-import { formateDateToISO8601 } from '../../../../utils/date-utils';
 import {
   validateEmail,
   validateIndianPhoneNumber,
@@ -243,7 +242,7 @@ const PatientRelativeForm: FC<PatientRelativeFormProps> = ({
             <DatePicker
               onChange={(date) => {
                 dispatch({
-                  payload: formateDateToISO8601(date),
+                  payload: date.toString(),
                   type: RelativeFormActions.DateOfBirth,
                 });
               }}

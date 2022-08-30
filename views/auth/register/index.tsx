@@ -71,7 +71,7 @@ const RegisterView: FC = () => {
       formData.append('phone_number', state.phone_number);
       formData.append(
         'date_of_birth',
-        formateDateToISO8601(state.date_of_birth!)
+        formateDateToISO8601(undefined, state.date_of_birth)
       );
       formData.append('verification_id', state.verification_id);
       formData.append('gender', state.gender);

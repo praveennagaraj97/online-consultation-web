@@ -74,6 +74,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             className={className}
             readOnly
             placeholder={placeholder}
+            disabled={disabled}
             showvalidation={showvalidation}
             validation={validation}
             onFocus={() => setShow(true)}
