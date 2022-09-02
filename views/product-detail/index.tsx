@@ -6,10 +6,10 @@ import ConsultCard from '../../components/product-detail/consult-now-card';
 import ProductDetailImageContainer from '../../components/product-detail/images-container';
 import ProductInfo from '../../components/product-detail/product-info';
 import ProductOverview from '../../components/product-detail/product-overview';
-import useWindowSize from '../../hooks/useWindowSize';
+import useWindowResize from '../../hooks/useWindowResize';
 
 const ProductDetailView: FC = () => {
-  const { width } = useWindowSize();
+  const { width } = useWindowResize(false);
 
   return (
     <Fragment>

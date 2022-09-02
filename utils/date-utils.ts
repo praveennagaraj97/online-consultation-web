@@ -184,3 +184,47 @@ export function formateDateStringToLocale(
 ) {
   return new Date(dateStr).toLocaleString(locale, options);
 }
+
+export function formatDateRelatively(dateStr?: string, date?: Date) {
+  let compareDate = new Date();
+
+  if (dateStr) {
+    compareDate = new Date(dateStr);
+    date = new Date(dateStr);
+  } else if (!date) {
+    compareDate = new Date();
+    date = new Date();
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  compareDate.setHours(0, 0, 0, 0);
+
+  const tomorrow = addNextDaysToDate(1);
+  tomorrow.setHours(0, 0, 0, 0);
+
+  const time =
+    ' at ' +
+    date.toLocaleString('en', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+  switch (true) {
+    case +today === +compareDate:
+      return 'Today' + time;
+
+    case +tomorrow === +compareDate:
+      return 'Tommorow' + time;
+
+    default:
+      return (
+        date.toLocaleDateString('en', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }) + time
+      );
+  }
+}

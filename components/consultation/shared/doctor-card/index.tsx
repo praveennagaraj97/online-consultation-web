@@ -7,9 +7,11 @@ import { FcGraduationCap } from 'react-icons/fc';
 import { GiHospital } from 'react-icons/gi';
 import { LoadingPlaceholder, NotFoundImage } from '../../../../constants';
 import { DoctorEntity } from '../../../../types/response/consultation.response';
-import { formateDateStringToLocale } from '../../../../utils/date-utils';
+import { formatDateRelatively } from '../../../../utils/date-utils';
 
-interface DoctorCardProps extends DoctorEntity {}
+interface DoctorCardProps extends DoctorEntity {
+  onViewClick: () => void;
+}
 
 const DoctorCard: FC<DoctorCardProps> = ({
   name,
@@ -20,9 +22,14 @@ const DoctorCard: FC<DoctorCardProps> = ({
   experience,
   spoken_languages,
   next_available_slot,
+  onViewClick,
 }) => {
   return (
     <div
+      onClick={(ev) => {
+        ev.stopPropagation();
+        onViewClick();
+      }}
       className={`${
         !next_available_slot ? 'opacity-70' : ''
       } shadow-lg rounded-lg py-4 px-6
@@ -89,16 +96,8 @@ const DoctorCard: FC<DoctorCardProps> = ({
             <p>Next available:</p>
             <div className="flex items-center gap-2 my-1">
               <AiOutlineFieldTime />
-              <span>
-                {formateDateStringToLocale(next_available_slot.start, {
-                  day: '2-digit',
-                  month: 'long',
-                  year: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: true,
-                  hourCycle: 'h12',
-                })}
+              <span className="">
+                {formatDateRelatively(next_available_slot.start)}
               </span>
             </div>
             <Link href={'/consultation/book-appointment/review-booking'}>

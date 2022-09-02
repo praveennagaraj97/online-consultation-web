@@ -1,75 +1,89 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { FC, Fragment } from 'react';
-import { FaHospitalUser, FaLanguage } from 'react-icons/fa';
-import { FcGraduationCap } from 'react-icons/fc';
-import { GiHospital } from 'react-icons/gi';
-import { IoIosHeartEmpty } from 'react-icons/io';
+import { LoadingPlaceholder, NotFoundImage } from '../../../constants';
+import { DoctorEntity } from '../../../types/response/consultation.response';
 
-const DoctorProfileCard: FC = () => {
+const DoctorProfile: FC<{ data: DoctorEntity }> = ({ data }) => {
   return (
     <Fragment>
-      <div className="shadow-lg px-3 py-6 rounded-lg">
-        <div className="rounded-lg flex  items-center justify-between">
-          <div className="flex gap-4 items-center">
-            <div className="relative overflow-hidden h-36 w-36  rounded-full border border-razzmatazz">
-              <Image
-                src={
-                  'https://images.unsplash.com/photo-1610013597524-6fe8bf4a4a36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'
-                }
-                alt="..."
-                className="rounded-full "
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div>
-              <h3 className="text-2xl text-razzmatazz">Dr. Susan Duran</h3>
-              <p className="text-razzmatazz">Consultant Physician</p>
-              <IoIosHeartEmpty
-                size={24}
-                className="hover:scale-105 transform transition-all duration-500
-            cursor-pointer hover:text-razzmatazz sm:hidden block mt-2
-            "
-              />
-            </div>
-          </div>
-          <IoIosHeartEmpty
-            size={32}
-            className="hover:scale-105 transform transition-all duration-500
-            cursor-pointer hover:text-razzmatazz sm:block hidden
-            "
+      <div className="p-2  overflow-y-auto h-full max-h-[90vh] pb-32">
+        <div className="w-44 mx-auto my-4">
+          <Image
+            src={data?.profile_pic?.image_src || NotFoundImage}
+            alt="..."
+            className="rounded-full"
+            layout="responsive"
+            width={data?.profile_pic?.width || 176}
+            height={data?.profile_pic?.height || 176}
+            objectFit="cover"
+            loading="lazy"
+            blurDataURL={data?.profile_pic?.blur_data_url || LoadingPlaceholder}
           />
         </div>
-        <hr className="my-5 opacity-30" />
-        <div className="mt-2 grid lg:grid-cols-2 grid-cols-1 gap-x-4 ">
-          <div className="flex items-center gap-1 my-1">
-            <div className="w-5">
-              <FcGraduationCap />
-            </div>
-            <span>MBBS, MD (Medicine)</span>
+
+        <div className="grid grid-cols-1 gap-4">
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Name</strong>
+            <p>{data.name}</p>
           </div>
-          <div className="flex items-center gap-1 my-1">
-            <div className="w-5">
-              <GiHospital />
-            </div>
-            <span>Manipal Hospital, Hebbal</span>
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Professional title</strong>
+            <p>{data.professional_title}</p>
           </div>
-          <div className="flex items-center gap-1 my-1">
-            <div className="w-5">
-              <FaHospitalUser />
-            </div>
-            <span>14 yrs of experience</span>
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Speaks</strong>
+            <p>
+              {data.spoken_languages
+                ?.map(({ name }) => name)
+                .join(', ')
+                .replace(/,(?=[^,]*$)/, ' and')}
+            </p>
           </div>
-          <div className="flex items-center gap-1 my-1">
-            <div className="w-5">
-              <FaLanguage />
-            </div>
-            <span>English, Malayalam, Hindi</span>
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Experience</strong>
+            <p>
+              {data.experience}{' '}
+              {`${data.experience || 0 > 1 ? 'Years' : 'Year'}`}
+            </p>
+          </div>
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Education</strong>
+            <p>{data.education}</p>
+          </div>
+          <div className="border rounded-md shadow-md py-1 px-2">
+            <strong>Works At</strong>
+            <p>{data.hospital.name}</p>
+            <p className="text-sm opacity-70">{data.hospital.address}</p>
           </div>
         </div>
+      </div>
+      <div className="absolute left-0 right-0 sm:bottom-5 bottom-2">
+        {data?.next_available_slot ? (
+          <div className="w-full sm:pt-0 pt-3 border-gray-700/50">
+            <Link href={'/consultation/book-appointment/review-booking'}>
+              <a
+                role="button"
+                className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block w-full text-center"
+              >
+                Book Appointment
+              </a>
+            </Link>
+          </div>
+        ) : (
+          <div className="w-full sm:pt-0 pt-3 border-gray-700/50">
+            <button
+              role="button"
+              disabled
+              className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block w-full text-center"
+            >
+              Book Appointment
+            </button>
+          </div>
+        )}
       </div>
     </Fragment>
   );
 };
 
-export default DoctorProfileCard;
+export default DoctorProfile;

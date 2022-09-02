@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, Fragment, useState } from 'react';
 import useSWR from 'swr';
 import DoctorCard from '../../../../components/consultation/shared/doctor-card';
 import DoctorCardSkeleton from '../../../../components/skeletons/consultation/doctor-card';
 import { publicRoutes } from '../../../../routes/api-routes';
 import type { PaginatedBaseAPiResponse } from '../../../../types/response';
 import type { DoctorEntity } from '../../../../types/response/consultation.response';
+import ViewDoctorProfile from './view-doctor';
 
 const DoctorList: FC<{ speciality: string }> = ({ speciality }) => {
   const { data, isValidating } = useSWR<
@@ -18,7 +19,9 @@ const DoctorList: FC<{ speciality: string }> = ({ speciality }) => {
     },
   ]);
 
-  if (isValidating) {
+  const [viewDoctorId, setViewDoctorId] = useState<string>('');
+
+  if (isValidating || !data) {
     return (
       <div className="flex flex-col space-y-10">
         <DoctorCardSkeleton />
@@ -29,11 +32,28 @@ const DoctorList: FC<{ speciality: string }> = ({ speciality }) => {
     );
   }
   return (
-    <div className="flex flex-col space-y-10">
-      {data?.results?.map((doctor) => {
-        return <DoctorCard key={doctor.id} {...doctor} />;
-      })}
-    </div>
+    <Fragment>
+      <div className="flex flex-col space-y-10">
+        {data?.results?.map((doctor) => {
+          return (
+            <DoctorCard
+              key={doctor.id}
+              {...doctor}
+              onViewClick={() => {
+                setViewDoctorId(doctor.id);
+              }}
+            />
+          );
+        })}
+      </div>
+      <ViewDoctorProfile
+        showModal={!!viewDoctorId}
+        setShowModal={() => {
+          setViewDoctorId('');
+        }}
+        id={viewDoctorId}
+      />
+    </Fragment>
   );
 };
 
