@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import ViewContainer from '../../../../components/container/view-container';
 import { useAuthContext } from '../../../../context/auth-context';
+import DoctorList from './list';
 
 const SpecialityNotSelected = dynamic(
   () =>
@@ -10,7 +11,7 @@ const SpecialityNotSelected = dynamic(
       '../../../../components/consultation/shared/select-speciality-request'
     )
 );
-const DoctorList = dynamic(() => import('./list'));
+
 const NotAuthorised = dynamic(
   () => import('../../../../components/shared/not-authorized'),
   { ssr: false }

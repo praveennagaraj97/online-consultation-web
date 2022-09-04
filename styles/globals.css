@@ -157,4 +157,8 @@
     background-position-x: 100%;
     background-position-y: 50%;
   }
+
+  img {
+    pointer-events: none;
+  }
 }

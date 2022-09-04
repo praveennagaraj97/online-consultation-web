@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { FC } from 'react';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaHospitalUser, FaLanguage } from 'react-icons/fa';
@@ -11,6 +10,7 @@ import { formatDateRelatively } from '../../../../utils/date-utils';
 
 interface DoctorCardProps extends DoctorEntity {
   onViewClick: () => void;
+  onBookAppointmentClick: () => void;
 }
 
 const DoctorCard: FC<DoctorCardProps> = ({
@@ -23,6 +23,7 @@ const DoctorCard: FC<DoctorCardProps> = ({
   spoken_languages,
   next_available_slot,
   onViewClick,
+  onBookAppointmentClick,
 }) => {
   return (
     <div
@@ -100,14 +101,15 @@ const DoctorCard: FC<DoctorCardProps> = ({
                 {formatDateRelatively(next_available_slot.start)}
               </span>
             </div>
-            <Link href={'/consultation/book-appointment/review-booking'}>
-              <a
-                role="button"
-                className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block"
-              >
-                Book Appointment
-              </a>
-            </Link>
+            <button
+              onClick={(ev) => {
+                ev.stopPropagation();
+                onBookAppointmentClick();
+              }}
+              className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block"
+            >
+              Book Appointment
+            </button>
           </div>
         </div>
       ) : (

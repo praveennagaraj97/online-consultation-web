@@ -1,16 +1,17 @@
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { FC, useRef } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import useSWR from 'swr';
-import DoctorProfile from '../../../../../components/consultation/doctor-profile/profile-card';
+import DoctorProfileModal from '../../../../../components/consultation/doctor-profile/profile-modal';
 import Portal from '../../../../../components/modal';
 import DoctorProfileSkeleton from '../../../../../components/skeletons/consultation/doctor-profile.skeleton';
 import useHandleClose from '../../../../../hooks/useHandleClose';
 import useWindowResize from '../../../../../hooks/useWindowResize';
 import { publicRoutes } from '../../../../../routes/api-routes';
-import { ModalProps } from '../../../../../types/globals';
-import { BaseAPiResponse } from '../../../../../types/response';
-import { DoctorEntity } from '../../../../../types/response/consultation.response';
+import type { ModalProps } from '../../../../../types/globals';
+import type { BaseAPiResponse } from '../../../../../types/response';
+import type { DoctorEntity } from '../../../../../types/response/consultation.response';
 
 interface ViewDoctorProfileProps extends ModalProps {
   id: string;
@@ -24,6 +25,8 @@ const ViewDoctorProfile: FC<ViewDoctorProfileProps> = ({
   const { data, isValidating } = useSWR<BaseAPiResponse<DoctorEntity>>(
     id ? publicRoutes.Doctor + `/${id}` : ''
   );
+
+  const { query, push } = useRouter();
 
   const viewRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowResize(true);
@@ -58,7 +61,15 @@ const ViewDoctorProfile: FC<ViewDoctorProfileProps> = ({
           {isValidating || !data?.result ? (
             <DoctorProfileSkeleton />
           ) : (
-            <DoctorProfile data={data?.result} />
+            <DoctorProfileModal
+              data={data?.result}
+              onBookAppointmentClick={() => {
+                push({
+                  pathname: '/consultation/book-appointment/choose-slot',
+                  query: { ...query, doctor: data.result.id },
+                });
+              }}
+            />
           )}
         </div>
       </motion.div>

@@ -1,22 +1,22 @@
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Fragment } from 'react';
 import SwipePageTransition from '../../../components/animations/swipe-page-transition';
 import ConsultationBookingStepper from '../../../components/consultation/shared/stepper/booking-stepper';
-import ReviewBookingView from '../../../views/consultation/booking/review-booking';
+import DoctorAvailabilitySlotView from '../../../views/consultation/booking/choose-slot';
 
-const ReviewBookingPage: NextPage = () => {
+const ChooseSlotToBookAppointmentPage: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Get Med Go | Consultation | Review Booking</title>
+        <title>Get Med Go | Book Appointment | Choose Slot</title>
       </Head>
-      <ConsultationBookingStepper step={4} />
+      <ConsultationBookingStepper step={3} />
       <SwipePageTransition>
-        <ReviewBookingView />
+        <DoctorAvailabilitySlotView />
       </SwipePageTransition>
     </Fragment>
   );
 };
 
-export default ReviewBookingPage;
+export default ChooseSlotToBookAppointmentPage;

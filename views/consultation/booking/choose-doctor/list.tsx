@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FC, Fragment, useState } from 'react';
 import useSWR from 'swr';
 import DoctorCard from '../../../../components/consultation/shared/doctor-card';
@@ -18,6 +19,8 @@ const DoctorList: FC<{ speciality: string }> = ({ speciality }) => {
       'speciality_id[eq]': speciality,
     },
   ]);
+
+  const { query, push } = useRouter();
 
   const [viewDoctorId, setViewDoctorId] = useState<string>('');
 
@@ -41,6 +44,12 @@ const DoctorList: FC<{ speciality: string }> = ({ speciality }) => {
               {...doctor}
               onViewClick={() => {
                 setViewDoctorId(doctor.id);
+              }}
+              onBookAppointmentClick={() => {
+                push({
+                  pathname: '/consultation/book-appointment/choose-slot',
+                  query: { ...query, doctor: doctor.id },
+                });
               }}
             />
           );

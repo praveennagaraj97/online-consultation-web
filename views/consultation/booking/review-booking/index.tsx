@@ -1,30 +1,33 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
-import AnchorTwist from '../../../../components/animations/anchor-tag-twist';
-import DoctorProfileCard from '../../../../components/consultation/doctor-profile/profile-card';
+import useSWR from 'swr';
+import DoctorInfo from '../../../../components/consultation/doctor-info';
 import ViewContainer from '../../../../components/container/view-container';
+import DoctorProfileInfoSkeleton from '../../../../components/skeletons/consultation/doctor-profile-info.skeleton';
+import { publicRoutes } from '../../../../routes/api-routes';
+import type { BaseAPiResponse } from '../../../../types/response';
+import type { DoctorEntity } from '../../../../types/response/consultation.response';
+import AppointmentSlotInfo from './appointment-slot-info';
 
 const ReviewBookingView: FC = () => {
+  const { query } = useRouter();
+
+  const { data, isValidating } = useSWR<BaseAPiResponse<DoctorEntity>>(
+    query?.['doctor'] ? publicRoutes.Doctor + `/${query?.['doctor']}` : ''
+  );
+
   return (
     <ViewContainer ariaDescribedBy="Profile view of doctor">
       <h1 className="text-2xl font-semibold my-7">Review Booking</h1>
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-        <div className="col-span-1">
-          <DoctorProfileCard />
-          <div className="shadow-lg px-3 py-6 rounded-lg gap-4">
-            <h3 className="font-semibold text-lg  mb-4">
-              Appointment Date & Time
-            </h3>
-            <div className="flex items-center gap-5">
-              <button className="zodiac-border-to-zodiac-bg py-2 px-6">
-                09:00 AM, 30<small>th</small> July 2021
-              </button>
-
-              <div className="font-semibold text-razzmatazz">
-                <AnchorTwist href={''}>Change Date & Time</AnchorTwist>
-              </div>
-            </div>
-          </div>
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
+        <div className="col-span-1 grid grid-cols-1 gap-6">
+          {isValidating ? (
+            <DoctorProfileInfoSkeleton />
+          ) : (
+            <DoctorInfo data={data?.result} />
+          )}
+          <AppointmentSlotInfo />
           <div className="shadow-lg px-3 py-6 rounded-lg gap-4">
             <h3 className="font-semibold text-lg  mb-4">Patient Profile</h3>
             <div className="flex items-center gap-5">

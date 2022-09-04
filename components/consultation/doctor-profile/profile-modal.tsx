@@ -1,14 +1,21 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { FC, Fragment } from 'react';
 import { LoadingPlaceholder, NotFoundImage } from '../../../constants';
 import { DoctorEntity } from '../../../types/response/consultation.response';
 
-const DoctorProfile: FC<{ data: DoctorEntity }> = ({ data }) => {
+interface DoctorProfileModalProps {
+  data: DoctorEntity;
+  onBookAppointmentClick: () => void;
+}
+
+const DoctorProfileModal: FC<DoctorProfileModalProps> = ({
+  data,
+  onBookAppointmentClick,
+}) => {
   return (
     <Fragment>
       <div className="p-2  overflow-y-auto h-full max-h-[90vh] pb-32">
-        <div className="w-44 mx-auto my-4">
+        <div className="w-28 mx-auto my-4">
           <Image
             src={data?.profile_pic?.image_src || NotFoundImage}
             alt="..."
@@ -61,21 +68,20 @@ const DoctorProfile: FC<{ data: DoctorEntity }> = ({ data }) => {
       <div className="absolute left-0 right-0 sm:bottom-5 bottom-2">
         {data?.next_available_slot ? (
           <div className="w-full sm:pt-0 pt-3 border-gray-700/50">
-            <Link href={'/consultation/book-appointment/review-booking'}>
-              <a
-                role="button"
-                className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block w-full text-center"
-              >
-                Book Appointment
-              </a>
-            </Link>
+            <button
+              onClick={onBookAppointmentClick}
+              role="button"
+              className="razzmatazz-to-white py-2 px-6 rounded-lg mt-3 block w-full text-center"
+            >
+              Book Appointment
+            </button>
           </div>
         ) : (
           <div className="w-full sm:pt-0 pt-3 border-gray-700/50">
             <button
               role="button"
               disabled
-              className="razzmatazz-to-transparent py-2 px-6 rounded-lg mt-3 block w-full text-center"
+              className="razzmatazz-to-white py-2 px-6 rounded-lg mt-3 block w-full text-center"
             >
               Book Appointment
             </button>
@@ -86,4 +92,4 @@ const DoctorProfile: FC<{ data: DoctorEntity }> = ({ data }) => {
   );
 };
 
-export default DoctorProfile;
+export default DoctorProfileModal;
