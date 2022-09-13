@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { FaHospitalUser, FaLanguage } from 'react-icons/fa';
 import { FcGraduationCap } from 'react-icons/fc';
 import { GiHospital } from 'react-icons/gi';
-import { LoadingPlaceholder, NotFoundImage } from '../../constants';
-import type { DoctorEntity } from '../../types/response/consultation.response';
+import { LoadingPlaceholder, NotFoundImage } from '../../../constants';
+import type { DoctorEntity } from '../../../types/response/consultation.response';
 
 const DoctorInfo: FC<{ data?: DoctorEntity }> = ({ data }) => {
   return (

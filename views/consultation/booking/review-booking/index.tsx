@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import useSWR from 'swr';
-import DoctorInfo from '../../../../components/consultation/doctor-info';
+import DoctorInfo from '../../../../components/consultation/doctor-profile/doctor-info';
 import ViewContainer from '../../../../components/container/view-container';
 import DoctorProfileInfoSkeleton from '../../../../components/skeletons/consultation/doctor-profile-info.skeleton';
 import { publicRoutes } from '../../../../routes/api-routes';

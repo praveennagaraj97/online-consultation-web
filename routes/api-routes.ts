@@ -21,6 +21,9 @@ export const publicRoutes = {
   Speciality: `/api/v1/speciality`,
 
   Doctor: `/api/v1/doctor`,
+
+  AppointmentSlot: (doctorId: string) =>
+    `/api/v1/appointment_slots/${doctorId}`,
 };
 
 export const privateRoutes = {

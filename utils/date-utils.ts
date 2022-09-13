@@ -162,6 +162,16 @@ export function addNextDaysToDate(days: number, dateCursor: Date = new Date()) {
   return dateCursor;
 }
 
+// Adds set of date by days count
+export function subtractDaysFromDate(
+  days: number,
+  dateCursor: Date = new Date()
+) {
+  dateCursor.setDate(dateCursor.getDate() - days);
+
+  return dateCursor;
+}
+
 export function addMinutes(minutes: number, dateCursor: Date = new Date()) {
   dateCursor.setMinutes(dateCursor.getMinutes() + minutes);
 
@@ -185,7 +195,11 @@ export function formateDateStringToLocale(
   return new Date(dateStr).toLocaleString(locale, options);
 }
 
-export function formatDateRelatively(dateStr?: string, date?: Date) {
+export function formatDateRelatively(
+  dateStr?: string,
+  date?: Date,
+  showTime = true
+) {
   let compareDate = new Date();
 
   if (dateStr) {
@@ -203,13 +217,14 @@ export function formatDateRelatively(dateStr?: string, date?: Date) {
   const tomorrow = addNextDaysToDate(1);
   tomorrow.setHours(0, 0, 0, 0);
 
-  const time =
-    ' at ' +
-    date.toLocaleString('en', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
+  const time = showTime
+    ? ' at ' +
+      date.toLocaleString('en', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      })
+    : '';
 
   switch (true) {
     case +today === +compareDate:

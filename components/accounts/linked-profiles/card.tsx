@@ -33,11 +33,10 @@ const LinkedProfileCard: FC<LinkedProfileCardProps> = ({
           {phone.code + ' ' + phone.number}
         </p>
       </div>
+
       <div className="grid grid-cols-2 mb-1">
         <p>Age</p>
-        <p className="text-right font-semibold">
-          {findAge(date_of_birth)} years
-        </p>
+        <p className="text-right font-semibold">{findAge(date_of_birth)}</p>
       </div>
       <div className="grid grid-cols-2 mb-1">
         <p>Gender</p>
@@ -62,5 +61,13 @@ const LinkedProfileCard: FC<LinkedProfileCardProps> = ({
 export default LinkedProfileCard;
 
 function findAge(date: string) {
-  return new Date().getFullYear() - new Date(date).getFullYear();
+  const ageInYears = new Date().getFullYear() - new Date(date).getFullYear();
+
+  switch (true) {
+    case ageInYears > 0:
+      return ageInYears + 'Years';
+
+    default:
+      return 'Unknown';
+  }
 }

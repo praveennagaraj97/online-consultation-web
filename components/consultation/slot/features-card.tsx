@@ -4,7 +4,7 @@ import { GiVideoConference } from 'react-icons/gi';
 
 const AppointmentFeaturesCard: FC = () => {
   return (
-    <div className="shadow-lg px-3 py-6 rounded-lg flex flex-wrap gap-4 mt-5">
+    <div className="shadow-lg px-3 py-6 rounded-lg flex flex-wrap gap-4 mt-5 border">
       <div className="flex items-center gap-2">
         <GiVideoConference size={24} />
         <span>Video consultation</span>
