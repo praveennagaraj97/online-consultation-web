@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { BsCalendar3, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import {
   addNextDaysToDate,
   formatDateRelatively,
   subtractDaysFromDate,
 } from '../../../utils/date-utils';
+import DatePicker from '../../date-picker';
 
 interface SlotDatePickerProps {
   selectedDate: string;
@@ -36,14 +37,25 @@ const SlotDatePicker: FC<SlotDatePickerProps> = ({
         <BsChevronLeft />
       </button>
       <div className="flex items-center gap-2">
-        <BsCalendar3 size={18} />
+        <div className="w-8 h-4">
+          <DatePicker
+            minDate={minDate}
+            onChange={(date) => {
+              onChange(date.toDateString());
+            }}
+            postionTop={30}
+            showDateString={false}
+            className="left-0 top-0"
+            date={new Date(selectedDate)}
+            centerDropdownOnSmallScreen
+          />
+        </div>
         <span>{formatDateRelatively(selectedDate, undefined, false)}</span>
       </div>
       <BsChevronRight
         role="button"
         className="smooth-animate hover:scale-105"
         onClick={() => {
-          console.log('clicked');
           onChange(addNextDaysToDate(1, new Date(selectedDate)).toDateString());
         }}
       />

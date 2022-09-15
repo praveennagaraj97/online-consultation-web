@@ -1,5 +1,5 @@
 import { motion, Variant } from 'framer-motion';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BsCalendar2CheckFill,
   BsCalendar2PlusFill,
@@ -7,16 +7,13 @@ import {
 } from 'react-icons/bs';
 import { DatepickerCtx, useDatepickerCtx } from '../../context/date-context';
 import useHandleClose from '../../hooks/useHandleClose';
+import useWindowResize from '../../hooks/useWindowResize';
 import { formattedDate } from '../../utils/date-utils';
+import { _window } from '../../utils/web.api';
 import Portal from '../modal';
 import CommonInput from '../shared/inputs/common-input';
 
 import DatePickerLayout from './layout';
-
-export const inputStyle = {
-  paddingTop: '0.375rem',
-  paddingBottom: '0.375rem',
-};
 
 interface DatePickerProps {
   date?: Date;
@@ -35,6 +32,7 @@ interface DatePickerProps {
   btnClass?: string;
   showDateString?: boolean;
   postionTop?: number;
+  centerDropdownOnSmallScreen?: boolean;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -51,9 +49,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
   showDateString = true,
   showvalidation,
   postionTop = 50,
+  centerDropdownOnSmallScreen = false,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const ctxValue = useDatepickerCtx(date, onChange, setShow, maxDate, minDate);
+
+  const [positionRect, setPositionRect] = useState<DOMRect>();
 
   const varients: { animate: Variant; initial: Variant; exit: Variant } = {
     animate: { y: 0, opacity: 1 },
@@ -62,9 +63,26 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  const { width } = useWindowResize(centerDropdownOnSmallScreen);
+
   useHandleClose(() => {
     setShow(false);
   }, containerRef);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setPositionRect(containerRef.current?.getBoundingClientRect());
+      _window()?.addEventListener('scroll', () => {
+        setPositionRect(containerRef.current?.getBoundingClientRect());
+      });
+    }
+
+    return () => {
+      window.removeEventListener('scroll', () => {
+        setPositionRect(undefined);
+      });
+    };
+  }, [containerRef, show]);
 
   return (
     <DatepickerCtx.Provider value={ctxValue}>
@@ -88,9 +106,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             if (disabled) {
               return;
             }
-            setTimeout(() => {
-              setShow(!show);
-            }, 100);
+            setShow(!show);
           }}
           type="button"
           className={`${btnClass} absolute  h-full flex items-center p-2`}
@@ -118,20 +134,28 @@ const DatePicker: React.FC<DatePickerProps> = ({
               e.preventDefault();
               e.stopPropagation();
             }}
+            style={
+              width < 640 && centerDropdownOnSmallScreen
+                ? {
+                    top: `${(positionRect?.top || 0) + postionTop}px`,
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }
+                : {
+                    top: `${(positionRect?.top || 0) + postionTop}px`,
+                    left: positionRect?.left,
+                  }
+            }
             variants={varients}
             initial="initial"
             animate="animate"
             exit="exit"
-            style={{
-              top: `${
-                (containerRef.current?.getBoundingClientRect().top || 0) +
-                postionTop
-              }px`,
-              left: containerRef.current?.getBoundingClientRect().left,
-            }}
-            className="fixed z-50 left-0 bg-white shadow-lg"
+            className="fixed z-50 left-0"
           >
-            <DatePickerLayout />
+            <div className=" bg-white shadow-lg">
+              <DatePickerLayout />
+            </div>
           </motion.div>
         </Portal>
       </div>

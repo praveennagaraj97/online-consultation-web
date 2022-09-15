@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, Variant } from 'framer-motion';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import useHandleClose from '../../../hooks/useHandleClose';
 import { SlotEntity } from '../../../types/response/consultation.response';
@@ -32,6 +32,38 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
   useHandleClose(() => {
     setIsOpen(false);
   }, accordianRef);
+
+  useEffect(() => {
+    if (
+      filterSlotsByRange('morning', slots).some(
+        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      )
+    ) {
+      if (timeSlot === 'morning') {
+        setIsOpen(true);
+      }
+      return;
+    }
+    if (
+      filterSlotsByRange('afternoon', slots).some(
+        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      )
+    ) {
+      if (timeSlot === 'afternoon') {
+        setIsOpen(true);
+      }
+      return;
+    }
+    if (
+      filterSlotsByRange('evening', slots).some(
+        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      )
+    ) {
+      if (timeSlot === 'evening') {
+        setIsOpen(true);
+      }
+    }
+  }, [slots, timeSlot]);
 
   function timeSlotTitle() {
     switch (timeSlot) {
@@ -74,6 +106,7 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
             {filterSlotsByRange(timeSlot, slots).map((slot, idx) => {
               return (
                 <button
+                  disabled={new Date() >= new Date(slot.start)}
                   onClick={() => {
                     onTimeSlotSelect(slot.id);
                   }}

@@ -1,6 +1,6 @@
 export default function DoctorProfileInfoSkeleton(): JSX.Element {
   return (
-    <div className="shadow-lg px-3 py-4 rounded-lg">
+    <div className="shadow-lg px-3 py-4 rounded-lg border">
       <div className="rounded-lg">
         <div className="flex sm:flex-row flex-col gap-4 items-center">
           <div className="skeleton h-36 w-36 min-w-[144px] min-h-[144px]  rounded-full " />

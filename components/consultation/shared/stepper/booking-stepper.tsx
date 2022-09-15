@@ -123,7 +123,11 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
           <div className="flex items-center text-pink-600 relative">
             <button
               disabled={step < 4}
-              className={` rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
+              className={`${
+                step === 4
+                  ? 'bg-pink-600 text-white'
+                  : 'text-black hover:bg-pink-600 hover:text-white'
+              } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
             >
               <MdOutlineRateReview
                 size={24}

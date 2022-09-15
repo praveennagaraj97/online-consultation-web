@@ -1,44 +1,25 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import useSWR from 'swr';
-import DoctorInfo from '../../../../components/consultation/doctor-profile/doctor-info';
 import ViewContainer from '../../../../components/container/view-container';
-import DoctorProfileInfoSkeleton from '../../../../components/skeletons/consultation/doctor-profile-info.skeleton';
-import { publicRoutes } from '../../../../routes/api-routes';
-import type { BaseAPiResponse } from '../../../../types/response';
-import type { DoctorEntity } from '../../../../types/response/consultation.response';
 import AppointmentSlotInfo from './appointment-slot-info';
+import SelectedDoctorDetails from './doctor-info';
+import PatientProfiles from './patient-profiles';
 
 const ReviewBookingView: FC = () => {
   const { query } = useRouter();
-
-  const { data, isValidating } = useSWR<BaseAPiResponse<DoctorEntity>>(
-    query?.['doctor'] ? publicRoutes.Doctor + `/${query?.['doctor']}` : ''
-  );
 
   return (
     <ViewContainer ariaDescribedBy="Profile view of doctor">
       <h1 className="text-2xl font-semibold my-7">Review Booking</h1>
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
         <div className="col-span-1 grid grid-cols-1 gap-6">
-          {isValidating ? (
-            <DoctorProfileInfoSkeleton />
-          ) : (
-            <DoctorInfo data={data?.result} />
-          )}
+          <SelectedDoctorDetails />
           <AppointmentSlotInfo />
-          <div className="shadow-lg px-3 py-6 rounded-lg gap-4">
-            <h3 className="font-semibold text-lg  mb-4">Patient Profile</h3>
-            <div className="flex items-center gap-5">
-              <button className="zodiac-border-to-zodiac-bg py-2 px-6">
-                Ellie Williams
-              </button>
-            </div>
-          </div>
+          <PatientProfiles />
         </div>
 
-        <div className="col-span-1 shadow-lg rounded-lg p-8 h-fit">
+        <div className="col-span-1 shadow-lg rounded-lg p-8 border h-min">
           <div className="sm:px-12">
             <div className=" flex justify-end p-1.5 border border-blue-zodiac bg-gray-50 rounded-lg">
               <input

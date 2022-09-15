@@ -161,4 +161,8 @@
   img {
     pointer-events: none;
   }
+
+  .underline-link {
+    @apply text-razzmatazz hover:underline transform transition-all duration-300;
+  }
 }

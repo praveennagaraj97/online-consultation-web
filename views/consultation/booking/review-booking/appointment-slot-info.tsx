@@ -1,22 +1,45 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import AnchorTwist from '../../../../components/animations/anchor-tag-twist';
+import useSWR from 'swr';
+import SelectedSlotInfoSkeleton from '../../../../components/skeletons/consultation/selected-slot-info.skeleton';
+import { publicRoutes } from '../../../../routes/api-routes';
+import { BaseAPiResponse } from '../../../../types/response';
+import { SlotEntity } from '../../../../types/response/consultation.response';
+import { formateDateStringToLocale } from '../../../../utils/date-utils';
 
 const AppointmentSlotInfo: FC = () => {
   const { query } = useRouter();
 
-  console.log(query);
+  const { isValidating, data } = useSWR<BaseAPiResponse<SlotEntity>>(
+    query?.['slot']
+      ? publicRoutes.AppointmentSlotById(query?.['slot'] as string)
+      : ''
+  );
+
+  if (isValidating || !data) {
+    return <SelectedSlotInfoSkeleton />;
+  }
 
   return (
     <div className="shadow-lg px-3 py-4 rounded-lg gap-4 border">
       <h3 className="font-semibold text-lg  mb-4">Appointment Date & Time</h3>
       <div className="flex items-center flex-wrap gap-3">
-        <button className="zodiac-border-to-zodiac-bg py-2 px-6 rounded-md">
-          09:00 AM, 30<small>th</small> July 2021
-        </button>
+        <div className="border border-blue-zodiac/20 rounded-md py-2 px-6">
+          <span className="uppercase">
+            {formateDateStringToLocale(data?.result.start, {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            })}
+          </span>
+          ,{' '}
+          {formateDateStringToLocale(data?.result.start, {
+            dateStyle: 'full',
+          })}
+        </div>
 
         <div className="font-semibold text-razzmatazz">
-          <AnchorTwist href={''}>Change Date & Time</AnchorTwist>
+          <button className="underline-link">Change Date & Time</button>
         </div>
       </div>
     </div>

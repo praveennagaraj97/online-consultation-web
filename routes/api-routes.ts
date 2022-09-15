@@ -24,6 +24,8 @@ export const publicRoutes = {
 
   AppointmentSlot: (doctorId: string) =>
     `/api/v1/appointment_slots/${doctorId}`,
+
+  AppointmentSlotById: (id: string) => `/api/v1/appointment_slots/slot/${id}`,
 };
 
 export const privateRoutes = {

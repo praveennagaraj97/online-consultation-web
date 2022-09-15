@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FC, Fragment, ReactNode, useState } from 'react';
 import { SlotEntity } from '../../../types/response/consultation.response';
 import TimeSlotAccordian from './slot-accordian';
@@ -12,6 +13,8 @@ const AppointmentTimeSlotsPicker: FC<AppointmentTimeSlotsPickerProps> = ({
   slots,
   datePicker,
 }) => {
+  const { query } = useRouter();
+
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('');
 
   return (
@@ -39,7 +42,13 @@ const AppointmentTimeSlotsPicker: FC<AppointmentTimeSlotsPickerProps> = ({
             timeSlot="evening"
             slots={slots}
           />
-          <Link href={'/consultation/book-appointment/review-booking'} passHref>
+          <Link
+            href={{
+              pathname: '/consultation/book-appointment/review-booking',
+              query: { ...query, slot: selectedTimeSlot },
+            }}
+            passHref
+          >
             <button
               disabled={!selectedTimeSlot}
               className="py-2 px-6 razzmatazz-to-transparent rounded-lg block mx-auto mt-6"
