@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 import useSWR from 'swr';
 import DoctorInfo from '../../../../components/consultation/doctor-profile/doctor-info';
 import DoctorProfileInfoSkeleton from '../../../../components/skeletons/consultation/doctor-profile-info.skeleton';
 import { publicRoutes } from '../../../../routes/api-routes';
-import { BaseAPiResponse } from '../../../../types/response';
-import { DoctorEntity } from '../../../../types/response/consultation.response';
+import type { BaseAPiResponse } from '../../../../types/response';
+import type { DoctorEntity } from '../../../../types/response/consultation.response';
 
 const SelectedDoctorDetails: FC = () => {
   const { query } = useRouter();

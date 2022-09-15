@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import AppointmentTimeSlotsPicker from '../../../../../components/consultation/appointment-time-slot-picker';
@@ -18,6 +19,7 @@ const DoctorAvailabilitySlots: FC<DoctorAvailabilitySlotsProps> = ({
   nextAvailableSlotDate,
 }) => {
   const [selectedDate, setSelectedDate] = useState<string>('');
+  const { query, push } = useRouter();
 
   const { isValidating, data } = useSWR<BaseAPiResponse<SlotEntity[]>>(
     doctorId && selectedDate && nextAvailableSlotDate
@@ -28,18 +30,35 @@ const DoctorAvailabilitySlots: FC<DoctorAvailabilitySlotsProps> = ({
       : ''
   );
 
-  useEffect(() => {
-    if (nextAvailableSlotDate) {
-      setSelectedDate(nextAvailableSlotDate);
-    }
-  }, [nextAvailableSlotDate]);
+  const { isValidating: selectedSlotValidating, data: selectedSlotData } =
+    useSWR<BaseAPiResponse<SlotEntity>>(
+      query?.['slot']
+        ? publicRoutes.AppointmentSlotById(query?.['slot'] as string)
+        : ''
+    );
 
-  if (isValidating || !doctorId) {
+  // Set the previous selected slot or by default to next available date.
+  useEffect(() => {
+    if (nextAvailableSlotDate && !selectedSlotData) {
+      setSelectedDate(nextAvailableSlotDate);
+    } else if (selectedSlotData) {
+      setSelectedDate(selectedSlotData.result.start);
+    }
+  }, [nextAvailableSlotDate, selectedSlotData]);
+
+  if (isValidating || !doctorId || selectedSlotValidating) {
     return <AppointmentTimeSlotPickerSkeleton />;
   }
 
   return (
     <AppointmentTimeSlotsPicker
+      defaultSelectedSlot={(query?.['slot'] as string) || ''}
+      onProceed={(slot) => {
+        push({
+          pathname: '/consultation/book-appointment/review-booking',
+          query: { ...query, slot },
+        });
+      }}
       slots={data?.result || []}
       datePicker={
         <SlotDatePicker

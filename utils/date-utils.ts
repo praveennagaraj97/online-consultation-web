@@ -151,7 +151,7 @@ export function formateDateToISO8601(dateStr?: string, date?: Date): string {
   }
 
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-    .toISOString()
+    ?.toISOString()
     .split('T')[0];
 }
 

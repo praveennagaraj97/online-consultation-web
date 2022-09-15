@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { FC, Fragment, ReactNode, useState } from 'react';
 import { SlotEntity } from '../../../types/response/consultation.response';
 import TimeSlotAccordian from './slot-accordian';
@@ -7,15 +5,19 @@ import TimeSlotAccordian from './slot-accordian';
 interface AppointmentTimeSlotsPickerProps {
   slots: SlotEntity[];
   datePicker: ReactNode;
+  onProceed: (slot: string) => void;
+  defaultSelectedSlot?: string;
 }
 
 const AppointmentTimeSlotsPicker: FC<AppointmentTimeSlotsPickerProps> = ({
   slots,
   datePicker,
+  onProceed,
+  defaultSelectedSlot,
 }) => {
-  const { query } = useRouter();
-
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>(
+    defaultSelectedSlot || ''
+  );
 
   return (
     <div className="shadow-lg px-3 py-6 rounded-lg border">
@@ -42,20 +44,16 @@ const AppointmentTimeSlotsPicker: FC<AppointmentTimeSlotsPickerProps> = ({
             timeSlot="evening"
             slots={slots}
           />
-          <Link
-            href={{
-              pathname: '/consultation/book-appointment/review-booking',
-              query: { ...query, slot: selectedTimeSlot },
+
+          <button
+            onClick={() => {
+              onProceed(selectedTimeSlot);
             }}
-            passHref
+            disabled={!selectedTimeSlot}
+            className="py-2 px-6 razzmatazz-to-transparent rounded-lg block mx-auto mt-6"
           >
-            <button
-              disabled={!selectedTimeSlot}
-              className="py-2 px-6 razzmatazz-to-transparent rounded-lg block mx-auto mt-6"
-            >
-              Proceed
-            </button>
-          </Link>
+            Proceed
+          </button>
         </Fragment>
       )}
     </div>

@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import useSWR from 'swr';
-import SelectedSlotInfoSkeleton from '../../../../components/skeletons/consultation/selected-slot-info.skeleton';
-import { publicRoutes } from '../../../../routes/api-routes';
-import { BaseAPiResponse } from '../../../../types/response';
-import { SlotEntity } from '../../../../types/response/consultation.response';
-import { formateDateStringToLocale } from '../../../../utils/date-utils';
+import SelectedSlotInfoSkeleton from '../../../../../components/skeletons/consultation/selected-slot-info.skeleton';
+import { publicRoutes } from '../../../../../routes/api-routes';
+import type { BaseAPiResponse } from '../../../../../types/response';
+import type { SlotEntity } from '../../../../../types/response/consultation.response';
+import { formateDateStringToLocale } from '../../../../../utils/date-utils';
+import ChangeAppointmentSlot from './change-slot';
 
 const AppointmentSlotInfo: FC = () => {
   const { query } = useRouter();
@@ -37,10 +38,7 @@ const AppointmentSlotInfo: FC = () => {
             dateStyle: 'full',
           })}
         </div>
-
-        <div className="font-semibold text-razzmatazz">
-          <button className="underline-link">Change Date & Time</button>
-        </div>
+        <ChangeAppointmentSlot currentDate={data.result.start} />
       </div>
     </div>
   );

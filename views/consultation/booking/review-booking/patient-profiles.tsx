@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 import useSWR from 'swr';
 import SelectedPatientProfileSkeleton from '../../../../components/skeletons/consultation/selected-patient-profile.skeleton';
 import { useAuthContext } from '../../../../context/auth-context';
 import { privateRoutes } from '../../../../routes/api-routes';
-import { PaginatedBaseAPiResponse } from '../../../../types/response';
-import { RelativeEntity } from '../../../../types/response/user.response';
+import type { PaginatedBaseAPiResponse } from '../../../../types/response';
+import type { RelativeEntity } from '../../../../types/response/user.response';
 
 const PatientProfiles: FC = () => {
   const { user, isLogged } = useAuthContext();
