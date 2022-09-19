@@ -12,6 +12,7 @@ const ConsultationTypeCard: FC<ConsultationTypeCardProps> = ({
   price,
   action_name,
   type,
+  discount,
 }) => {
   return (
     <div className="border rounded-xl shadow-md px-2 py-6">
@@ -30,7 +31,14 @@ const ConsultationTypeCard: FC<ConsultationTypeCardProps> = ({
       <p className="text-center font-semibold my-4">{title}</p>
       <span className="text-center block whitespace-pre">{description}</span>
       <div className="flex justify-around items-center mt-10">
-        <span>₹ {price}</span>
+        <div className="flex space-x-1 items-center">
+          <span>₹ {price - discount}</span>
+          {discount > 0 ? (
+            <span className="line-through opacity-50 text-sm">{price}</span>
+          ) : (
+            ''
+          )}
+        </div>
         <Link
           href={
             type === 'Instant'

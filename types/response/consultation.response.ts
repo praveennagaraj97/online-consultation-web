@@ -9,6 +9,7 @@ export interface ConsultationTypeEntity {
   price: number;
   action_name: string;
   type: ConsultatationType;
+  discount: number;
 }
 
 export interface SpecialityEntity {
@@ -58,4 +59,17 @@ export interface SlotEntity {
   end: string | null;
   is_available: boolean;
   reason?: string;
+}
+
+export interface ConfirmBookingRazorPayEntity {
+  order_id: string;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  name: string;
+  description: string;
+  amount: number;
+  currency: string;
 }

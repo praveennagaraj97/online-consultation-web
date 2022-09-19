@@ -1,8 +1,9 @@
-import { FC, Fragment } from 'react';
+import type { FC } from 'react';
+import { Fragment } from 'react';
 import ConsultationTypeCard from '../../components/consultation/consultation-type-card';
 import SearchHeader from '../../components/container/search-header';
 import ViewContainer from '../../components/container/view-container';
-import { ConsultationTypeEntity } from '../../types/response/consultation.response';
+import type { ConsultationTypeEntity } from '../../types/response/consultation.response';
 
 export interface ConsultationViewProps {
   types: ConsultationTypeEntity[];

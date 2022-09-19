@@ -58,3 +58,24 @@ export function randomString(length: number) {
   }
   return result.toLowerCase();
 }
+
+export function loadScript(src: string, name: string) {
+  return new Promise((resolve, reject) => {
+    if (document.getElementById(name)) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = name;
+    script.src = src;
+    script.async = true;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      reject('Failed to load');
+    };
+    document.body.appendChild(script);
+  });
+}

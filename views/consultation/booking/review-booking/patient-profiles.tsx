@@ -23,7 +23,7 @@ const PatientProfiles: FC = () => {
   return (
     <div className="shadow-lg px-3 py-6 rounded-lg gap-4 border">
       <h3 className="font-semibold text-lg  mb-4">Patient Profile</h3>
-      <div className="flex items-center space-x-5 flex-wrap">
+      <div className="flex items-center gap-4 flex-wrap">
         <Link scroll={false} href={{ query: { ...query, patient: user?.id } }}>
           <a>
             <button
@@ -31,7 +31,7 @@ const PatientProfiles: FC = () => {
                 query?.['patient'] === user?.id
                   ? 'bg-blue-zodiac text-gray-50 cursor-default'
                   : ''
-              } zodiac-border-to-zodiac-bg py-2 px-6 rounded-md my-2`}
+              } zodiac-border-to-zodiac-bg py-2 px-6 rounded-md`}
             >
               {user?.name}
             </button>
@@ -50,7 +50,7 @@ const PatientProfiles: FC = () => {
                     query?.['patient'] === id
                       ? 'bg-blue-zodiac text-gray-50 cursor-default'
                       : ''
-                  } zodiac-border-to-zodiac-bg py-2 px-6 rounded-md my-2`}
+                  } zodiac-border-to-zodiac-bg py-2 px-6 rounded-md`}
                 >
                   {name}
                 </button>
