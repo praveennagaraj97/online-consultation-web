@@ -62,6 +62,7 @@ export interface SlotEntity {
 }
 
 export interface ConfirmBookingRazorPayEntity {
+  appointment_id: string;
   order_id: string;
   prefill: {
     name: string;

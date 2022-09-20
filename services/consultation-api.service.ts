@@ -1,7 +1,11 @@
 import axios from 'axios';
-import { publicRoutes } from '../routes/api-routes';
-import type { PaginatedBaseAPiResponse } from '../types/response';
+import { privateRoutes, publicRoutes } from '../routes/api-routes';
 import type {
+  BaseAPiResponse,
+  PaginatedBaseAPiResponse,
+} from '../types/response';
+import type {
+  ConfirmBookingRazorPayEntity,
   ConsultationTypeEntity,
   SpecialityEntity,
 } from '../types/response/consultation.response';
@@ -24,6 +28,24 @@ class ConsultationAPiService {
       {
         params: { per_page: 50 },
       }
+    );
+  }
+
+  bookScheduledConsultation(slotId: string, relativeId?: string) {
+    const formData = new FormData();
+    formData.append('appointment_slot_id', slotId);
+    if (relativeId) {
+      formData.append('relative_id', relativeId);
+    }
+
+    return this.axiosInstance.post<
+      BaseAPiResponse<ConfirmBookingRazorPayEntity>
+    >(privateRoutes.BookScheduledConsultation, formData);
+  }
+
+  cancelBookingIfPaymentFailsOrCancel(apptId: string) {
+    return this.axiosInstance.delete(
+      privateRoutes.CancelScheduledBooking(apptId)
     );
   }
 }

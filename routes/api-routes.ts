@@ -36,4 +36,10 @@ export const privateRoutes = {
   User: `/api/v1/user`,
 
   Relative: `/api/v1/user/relative`,
+
+  BookScheduledConsultation: `/api/v1/appointment/schedule`,
+
+  // For payment intent cancel only
+  CancelScheduledBooking: (id: string) =>
+    `/api/v1/appointment/schedule/cancel/${id}`,
 };
