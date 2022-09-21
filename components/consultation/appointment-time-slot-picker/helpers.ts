@@ -50,7 +50,7 @@ export function isSlotAvailable(
   slot_release_at?: string,
   reason?: SlotNotAvailableReasons
 ) {
-  if (!isAvailabe && reason == SlotNotAvailableReasons.Confirmed) {
+  if (!isAvailabe && reason != SlotNotAvailableReasons.PaymentProcessing) {
     return false;
   }
 
