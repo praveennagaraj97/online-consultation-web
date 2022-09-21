@@ -1,14 +1,15 @@
+import { SlotNotAvailableReasons } from '../../../constants';
 import type { SlotEntity } from '../../../types/response/consultation.response';
+
+const getTime = (date: Date, hr: number, min: number) => {
+  date.setHours(hr, min);
+  return date;
+};
 
 export function filterSlotsByRange(
   timeSlot: 'morning' | 'afternoon' | 'evening',
   slots: SlotEntity[]
 ) {
-  const getTime = (date: Date, hr: number, min: number) => {
-    date.setHours(hr, min);
-    return date;
-  };
-
   switch (timeSlot) {
     // Filter the slots ranging from 8:00 AM to 11:30 AM
     case 'morning':
@@ -41,4 +42,38 @@ export function filterSlotsByRange(
     default:
       return slots;
   }
+}
+
+export function isSlotAvailable(
+  isAvailabe: boolean,
+  startsAt: string,
+  slot_release_at?: string,
+  reason?: SlotNotAvailableReasons
+) {
+  if (!isAvailabe && reason == SlotNotAvailableReasons.Confirmed) {
+    return false;
+  }
+
+  // If slot time has expired
+  if (new Date() >= new Date(startsAt)) {
+    return false;
+  }
+
+  // Default is available
+  if (isAvailabe) {
+    return true;
+  }
+
+  if (!slot_release_at || !reason) {
+    return true;
+  }
+
+  if (
+    reason == SlotNotAvailableReasons.PaymentProcessing &&
+    new Date(slot_release_at) > new Date()
+  ) {
+    return false;
+  }
+
+  return true;
 }

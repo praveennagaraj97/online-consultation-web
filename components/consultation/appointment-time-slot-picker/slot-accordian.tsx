@@ -2,9 +2,9 @@ import { AnimatePresence, motion, Variant } from 'framer-motion';
 import { FC, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import useHandleClose from '../../../hooks/useHandleClose';
-import { SlotEntity } from '../../../types/response/consultation.response';
+import type { SlotEntity } from '../../../types/response/consultation.response';
 import { formateDateStringToLocale } from '../../../utils/date-utils';
-import { filterSlotsByRange } from './helpers';
+import { filterSlotsByRange, isSlotAvailable } from './helpers';
 
 interface TimeSlotAccordianProps {
   timeSlot: 'morning' | 'afternoon' | 'evening';
@@ -35,8 +35,13 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
 
   useEffect(() => {
     if (
-      filterSlotsByRange('morning', slots).some(
-        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      filterSlotsByRange('morning', slots).some((slot) =>
+        isSlotAvailable(
+          slot.is_available,
+          slot.start,
+          slot.slot_release_at,
+          slot.reason_of_unavailablity
+        )
       )
     ) {
       if (timeSlot === 'morning') {
@@ -45,8 +50,13 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
       return;
     }
     if (
-      filterSlotsByRange('afternoon', slots).some(
-        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      filterSlotsByRange('afternoon', slots).some((slot) =>
+        isSlotAvailable(
+          slot.is_available,
+          slot.start,
+          slot.slot_release_at,
+          slot.reason_of_unavailablity
+        )
       )
     ) {
       if (timeSlot === 'afternoon') {
@@ -55,8 +65,13 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
       return;
     }
     if (
-      filterSlotsByRange('evening', slots).some(
-        (slot) => slot.is_available && new Date() < new Date(slot.start)
+      filterSlotsByRange('evening', slots).some((slot) =>
+        isSlotAvailable(
+          slot.is_available,
+          slot.start,
+          slot.slot_release_at,
+          slot.reason_of_unavailablity
+        )
       )
     ) {
       if (timeSlot === 'evening') {
@@ -107,7 +122,12 @@ const TimeSlotAccordian: FC<TimeSlotAccordianProps> = ({
               return (
                 <button
                   disabled={
-                    !slot.is_available || new Date() >= new Date(slot.start)
+                    !isSlotAvailable(
+                      slot.is_available,
+                      slot.start,
+                      slot.slot_release_at,
+                      slot.reason_of_unavailablity
+                    )
                   }
                   onClick={() => {
                     onTimeSlotSelect(slot.id);

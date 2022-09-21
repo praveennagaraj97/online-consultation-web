@@ -60,3 +60,9 @@ export const RelationshipOptions = [
 
 export const LoadingPlaceholder = '/assets/loading-blur.jpeg';
 export const NotFoundImage = '/assets/img-placeholder.png';
+
+export enum SlotNotAvailableReasons {
+  PaymentProcessing = 'Blocked for payment processing',
+  Confirmed = 'Slot has been booked',
+  Released = '',
+}

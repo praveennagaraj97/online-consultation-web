@@ -45,9 +45,6 @@ const PayNow: FC = () => {
           .cancelBookingIfPaymentFailsOrCancel(data.result.appointment_id)
           .then()
           .catch();
-
-        event.preventDefault();
-        return (event.returnValue = 'Are you sure you want to exit?');
       });
 
       const options = {

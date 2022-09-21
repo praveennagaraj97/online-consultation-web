@@ -1,4 +1,5 @@
 import type { ImageType, PhoneType } from '.';
+import type { SlotNotAvailableReasons } from '../../constants';
 import type { ConsultatationType } from '../globals';
 
 export interface ConsultationTypeEntity {
@@ -58,7 +59,8 @@ export interface SlotEntity {
   start: string;
   end: string | null;
   is_available: boolean;
-  reason?: string;
+  reason_of_unavailablity?: SlotNotAvailableReasons;
+  slot_release_at?: string;
 }
 
 export interface ConfirmBookingRazorPayEntity {
