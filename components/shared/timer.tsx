@@ -8,7 +8,7 @@ const Timer: FC<{
   const [timer, setTime] = useState(sec);
 
   useEffect(() => {
-    let time = 60;
+    let time = sec;
     let tId: any;
     tId = setInterval(() => {
       time -= 1;
@@ -25,7 +25,7 @@ const Timer: FC<{
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sec]);
 
   return <span className={className}>{timer}</span>;
 };

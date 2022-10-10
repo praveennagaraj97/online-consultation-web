@@ -65,7 +65,7 @@ function findAge(date: string) {
 
   switch (true) {
     case ageInYears > 0:
-      return ageInYears + 'Years';
+      return ageInYears + ' Years';
 
     default:
       return 'Unknown';

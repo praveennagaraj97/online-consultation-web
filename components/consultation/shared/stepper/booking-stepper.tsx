@@ -15,7 +15,7 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
         <div className="flex items-center sm:px-6 px-2">
           <div className="flex items-center text-pink-600 relative">
             <Link href={'/consultation/book-appointment/'}>
-              <a>
+              <a className="flex flex-col items-center">
                 <button
                   className={`${
                     step >= 0
@@ -28,12 +28,13 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
                     className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
                   />
                 </button>
+                <small className="mt-0.5">Choose Patient</small>
               </a>
             </Link>
           </div>
 
           <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform `}
+            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform mb-4`}
           />
           <div className="flex items-center text-pink-600 relative">
             <Link
@@ -42,7 +43,10 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
                 query,
               }}
             >
-              <button disabled={step < 1}>
+              <button
+                disabled={step < 1}
+                className="flex flex-col items-center"
+              >
                 <div
                   className={`${
                     step >= 1
@@ -55,12 +59,13 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
                     className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
                   />
                 </div>
+                <small className="mt-0.5">Choose Speciality</small>
               </button>
             </Link>
           </div>
 
           <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform`}
+            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform mb-4`}
           />
 
           <div className="flex items-center text-pink-600 relative">
@@ -71,7 +76,10 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
               }}
               passHref
             >
-              <button disabled={step < 2}>
+              <button
+                disabled={step < 2}
+                className="flex flex-col items-center"
+              >
                 <div
                   className={`${
                     step >= 2
@@ -84,12 +92,13 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
                     className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
                   />
                 </div>
+                <small className="mt-0.5">Choose Doctor</small>
               </button>
             </Link>
           </div>
 
           <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform`}
+            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform mb-4`}
           />
 
           <div className="flex items-center text-pink-600 relative">
@@ -100,7 +109,10 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
               }}
               passHref
             >
-              <button disabled={step < 3}>
+              <button
+                disabled={step < 3}
+                className="flex flex-col items-center"
+              >
                 <div
                   className={`${
                     step >= 3
@@ -113,27 +125,31 @@ const ConsultationBookingStepper: FC<{ step: number }> = ({ step }) => {
                     className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
                   />
                 </div>
+                <small className="mt-0.5">Choose Slot</small>
               </button>
             </Link>
           </div>
 
           <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform`}
+            className={`flex-auto border-t-2 transition duration-500 ease-in-out will-change-transform mb-4 mr-4`}
           />
           <div className="flex items-center text-pink-600 relative">
-            <button
-              disabled={step < 4}
-              className={`${
-                step === 4
-                  ? 'bg-pink-600 text-white'
-                  : 'text-black hover:bg-pink-600 hover:text-white'
-              } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
-            >
-              <MdOutlineRateReview
-                size={24}
-                className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
-              />
-            </button>
+            <div className="flex flex-col items-center">
+              <button
+                disabled={step < 4}
+                className={`${
+                  step === 4
+                    ? 'bg-pink-600 text-white'
+                    : 'text-black hover:bg-pink-600 hover:text-white'
+                } rounded-full transition duration-500 ease-in-out sm:h-12 sm:w-12 h-10 w-10 py-3 border-2 border-pink-600`}
+              >
+                <MdOutlineRateReview
+                  size={24}
+                  className="sm:w-6 sm:h-6 h-4 w-4 mx-auto pb-1"
+                />
+              </button>
+              <small className="mt-0.5">Review</small>
+            </div>
           </div>
         </div>
       </div>
